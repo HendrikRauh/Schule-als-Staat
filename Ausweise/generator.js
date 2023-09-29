@@ -21,6 +21,6 @@ class Database {
 }
 
 // Usage
-const db = new Database('my-database.db');
+const db = new Database('DATA.db');
 db.createPeopleTable();
 db.insertPerson('Hendrik', 'Rauh', 1);
