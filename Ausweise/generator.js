@@ -16,7 +16,7 @@ class Database {
 
     insertPerson(firstName, lastName, colorCode) {
         const id = this.generateMD5Hash(firstName + lastName);
-        this.db.prepare(`INSERT INTO people (id, firstName, lastName, colorCode) VALUES ('${id}', '${firstName}', '${lastName}', ${colorCode})`).run();
+        this.db.prepare(`INSERT OR REPLACE INTO people (id, firstName, lastName, colorCode) VALUES ('${id}', '${firstName}', '${lastName}', ${colorCode})`).run();
     }
 }
 
@@ -24,3 +24,4 @@ class Database {
 const db = new Database('DATA.db');
 db.createPeopleTable();
 db.insertPerson('Hendrik', 'Rauh', 1);
+db.insertPerson('Raffael', 'Wolf', 0);
