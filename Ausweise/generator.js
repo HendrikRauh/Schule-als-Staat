@@ -16,7 +16,7 @@ class Database {
 
     insertPerson(firstName, lastName, colorCode) {
         const id = this.generateMD5Hash(firstName + lastName);
-        this.db.prepare(`INSERT INTO people (id, firstName, lastName, colorCode) VALUES ('', '', '', )`).run();
+        this.db.prepare(`INSERT INTO people (id, firstName, lastName, colorCode) VALUES ('${id}', '${firstName}', '${lastName}', ${colorCode})`).run();
     }
 }
 
