@@ -30,6 +30,13 @@ class Database {
     const person = stmt.get(firstName);
     return person;
   }
+
+  getAllPeople() {
+    const stmt = this.db.prepare("SELECT * FROM people");
+    const people = stmt.all();
+    return people;
+  }
+  
 }
 
 const db = new Database("DATA.db");
