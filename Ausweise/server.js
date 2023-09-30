@@ -1,5 +1,3 @@
-// index.js
-
 const http = require("http");
 const Database = require("./database.js");
 const fs = require("fs");
@@ -11,9 +9,27 @@ const db = new Database("DATA.db");
 const server = http.createServer(async (req, res) => {
   try {
     if (req.url.endsWith(".css")) {
-      // ... existing code ...
+      const cssPath = path.join(__dirname, req.url);
+      fs.readFile(cssPath, "utf8", (err, data) => {
+        if (err) {
+          res.writeHead(404, { "Content-Type": "text/plain" });
+          res.end("Not Found");
+        } else {
+          res.writeHead(200, { "Content-Type": "text/css" });
+          res.end(data);
+        }
+      });
     } else if (req.url.endsWith(".svg")) {
-      // ... existing code ...
+      const svgPath = path.join(__dirname, req.url);
+      fs.readFile(svgPath, "utf8", (err, data) => {
+        if (err) {
+          res.writeHead(404, { "Content-Type": "text/plain" });
+          res.end("Not Found");
+        } else {
+          res.writeHead(200, { "Content-Type": "image/svg+xml" });
+          res.end(data);
+        }
+      });
     } else if (req.url === "/") {
       const people = db.getAllPeople();
       let htmlString = `
@@ -28,8 +44,11 @@ const server = http.createServer(async (req, res) => {
           <body>
       `;
     
-      for (const person of people) {
-        const qrCode = await QRCode.toDataURL(person.id);
+      const qrCodes = await Promise.all(people.map(person => QRCode.toDataURL(person.id)));
+
+      for (let i = 0; i < people.length; i++) {
+        const person = people[i];
+        const qrCode = qrCodes[i];
         htmlString += `
           <div id="ausweis" style="--border-color: ${person.colorCode};">
             <div id="title">Schule als Staat</div>
@@ -39,7 +58,7 @@ const server = http.createServer(async (req, res) => {
                 <div id="firstName">${person.firstName}</div>
                 <div id="lastName">${person.lastName}</div>
               </div>
-              <img id="qr" src="" alt="QR-ID"></img>
+              <img id="qr" src="${qrCode}" alt="QR-ID"></img>
             </div>
           </div>
         `;
