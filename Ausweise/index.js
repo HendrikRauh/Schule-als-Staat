@@ -29,10 +29,8 @@ const server = http.createServer((req, res) => {
       }
     });
   } else if (req.url === "/") {
-    // Fetch data from your database
-    const data = db.getPerson("Raffael"); // You need to implement this method
+    const data = db.getPerson("Raffael");
 
-    // Generate your HTML string with the data
     const htmlString = `
       <!DOCTYPE html>
       <html lang="en">
@@ -58,7 +56,6 @@ const server = http.createServer((req, res) => {
       </html>
     `;
 
-    // Send the generated HTML to the client
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(htmlString);
   } else {
