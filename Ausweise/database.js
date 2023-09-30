@@ -9,7 +9,6 @@ class Database {
   constructor(databaseName) {
     this.db = new sqlite3(databaseName);
   }
-
   createPeopleTable() {
     this.db
       .prepare(
@@ -17,19 +16,25 @@ class Database {
       )
       .run();
   }
-
   insertPerson(firstName, lastName, className, colorCode) {
     const id = generateMD5Hash(firstName + lastName);
     this.db
       .prepare(
-        `INSERT OR REPLACE INTO people (id, firstName, lastName, className, colorCode) VALUES ('${id}', '${firstName}', '${lastName}', '${className}', ${colorCode})`
+        `INSERT OR REPLACE INTO people (id, firstName, lastName, className, colorCode) VALUES (?, ?, ?, ?, ?)`
       )
-      .run();
+      .run(id, firstName, lastName, className, colorCode);
+  }
+
+  getPerson(firstName) {
+    const stmt = this.db.prepare("SELECT * FROM people WHERE firstName = ?");
+    const person = stmt.get(firstName);
+    return person;
   }
 }
-if (require.main === module) {
-  const db = new Database("DATA.db");
-  db.createPeopleTable();
-  db.insertPerson("Hendrik", "Rauh", "J1", 1);
-  db.insertPerson("Raffael", "Wolf", "J1", 0);
-}
+
+const db = new Database("DATA.db");
+db.createPeopleTable();
+db.insertPerson("Hendrik", "Rauh", "J1", 1);
+db.insertPerson("Raffael", "Wolf", "J1", 0);
+
+module.exports = Database;
