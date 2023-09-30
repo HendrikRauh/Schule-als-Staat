@@ -46,7 +46,7 @@ const server = http.createServer(async (req, res) => {
     for (const person of people) {
       const qrCode = await QRCode.toDataURL(person.id);
       htmlString += `
-      <div id="ausweis" style="border-color: ${person.colorCode};">
+      <div id="ausweis" style="--border-color: ${person.colorCode};">
         <div id="title">Schule als Staat</div>
         <div id="content">
           <div id="left">

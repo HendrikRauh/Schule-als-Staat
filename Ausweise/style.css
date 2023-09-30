@@ -2,22 +2,30 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.border {
-  border: 1mm solid;
-  box-sizing: border-box;
-}
-
 #ausweis {
+  position: relative;
   background-color: rgb(201, 201, 201);
   width: 86mm;
   height: 54mm;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  /* padding: 2.5mm; */
   margin: 5mm;
   border: 1mm solid transparent;
+  border-color: transparent;
+  box-sizing: border-box;
+}
 
+#ausweis::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: 1mm solid;
+  box-sizing: border-box;
+  border-color: var(--border-color);
 }
 
 #ausweis > * {
