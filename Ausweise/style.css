@@ -20,15 +20,14 @@ body {
 }
 
 #title {
-  background-color: rgb(95, 142, 127);
   color: rgb(0, 0, 0);
-  font-size: 5mm;
+  font-size: 7.5mm;
   text-align: center;
   margin-bottom: 2.5mm;
+  text-decoration: underline;
 }
 
 #left {
-  background-color: rgb(128, 128, 128);
   width: 48mm;
   color: rgb(0, 0, 0);
   font-size: 5mm;
@@ -38,12 +37,10 @@ body {
 }
 
 #lastName {
-  background-color: royalblue;
   margin-top: 2.5mm; 
 }
 
 #firstName {
-  background-color: blueviolet;
   margin-top: 2.5mm; 
 }
 
