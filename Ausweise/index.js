@@ -46,18 +46,18 @@ const server = http.createServer(async (req, res) => {
     for (const person of people) {
       const qrCode = await QRCode.toDataURL(person.id);
       htmlString += `
-        <div id="ausweis">
-          <div id="title">Schule als Staat</div>
-          <div id="content">
-            <div id="left">
-              <img id="logo" src="mbg-logo-building-only.svg" alt="MBG-LOGO"/>
-              <div id="firstName">${person.firstName}</div>
-              <div id="lastName">${person.lastName}</div>
-            </div>
-            <img id="qr" src="${qrCode}" alt="QR-ID"></img>
+      <div id="ausweis" style="border-color: ${person.colorCode};">
+        <div id="title">Schule als Staat</div>
+        <div id="content">
+          <div id="left">
+            <img id="logo" src="mbg-logo-building-only.svg" alt="MBG-LOGO"/>
+            <div id="firstName">${person.firstName}</div>
+            <div id="lastName">${person.lastName}</div>
           </div>
+          <img id="qr" src="${qrCode}" alt="QR-ID"></img>
         </div>
-      `;
+      </div>
+    `;
     }
   
     htmlString += `

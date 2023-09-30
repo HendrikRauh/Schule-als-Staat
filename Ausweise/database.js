@@ -41,7 +41,7 @@ class Database {
 
 const db = new Database("DATA.db");
 db.createPeopleTable();
-db.insertPerson("Hendrik", "Rauh", "J1", 1);
-db.insertPerson("Raffael", "Wolf", "J1", 0);
+db.insertPerson("Hendrik", "Rauh", "J1", "red");
+db.insertPerson("Raffael", "Wolf", "J1", "");
 
 module.exports = Database;
