@@ -1,5 +1,5 @@
 const sqlite3 = require('better-sqlite3');
-const crypto = require('crypto');
+const generateMD5Hash = require('./hash');
 
 class Database {
     constructor(databaseName) {
@@ -10,12 +10,8 @@ class Database {
         this.db.prepare('CREATE TABLE IF NOT EXISTS people (id TEXT PRIMARY KEY, firstName TEXT, lastName TEXT, className TEXT, colorCode INTEGER)').run();
     }
 
-    generateMD5Hash(input) {
-        return crypto.createHash('md5').update(input).digest('hex');
-    }
-
     insertPerson(firstName, lastName, className, colorCode) {
-        const id = this.generateMD5Hash(firstName + lastName);
+        const id = generateMD5Hash(firstName + lastName);
         this.db.prepare(`INSERT OR REPLACE INTO people (id, firstName, lastName, className, colorCode) VALUES ('${id}', '${firstName}', '${lastName}', '${className}', ${colorCode})`).run();
     }
 }
