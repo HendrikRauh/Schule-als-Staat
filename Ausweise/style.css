@@ -16,6 +16,24 @@ body {
   box-sizing: border-box;
 }
 
+.legende {
+  border: black 1mm dashed;
+  font-size: 5mm;
+  text-align: right;
+  width: max-content;
+  position: absolute;
+  right: 5mm;
+  top: 5mm;
+  padding: 2.5mm;
+}
+
+.legende-title {
+  font-weight: bold;
+  font-size: 7mm;
+  margin-bottom: 1mm;
+  text-decoration: underline;
+}
+
 #ausweis::before {
   content: "";
   position: absolute;

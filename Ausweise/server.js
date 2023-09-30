@@ -42,6 +42,14 @@ const server = http.createServer(async (req, res) => {
             <link rel="stylesheet" href="style.css"/>
           </head>
           <body>
+          <div class="legende">
+            <div class="legende-title">Mögliche Farbcodes</div>
+            <div class="legende-content">
+            <div class="legende-color" style="color: green;">PROJEKTLEITUNG</div>
+            <div class="legende-color" style="color: blue;">PRESSE / FOTOGRAF</div>
+            <div class="legende-color" style="color: red;">SCHULSANITÄTSDIENST</div>
+            </div>
+          </div>
       `;
     
       const qrCodes = await Promise.all(people.map(person => QRCode.toDataURL(person.id)));
