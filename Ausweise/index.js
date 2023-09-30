@@ -29,9 +29,8 @@ const server = http.createServer((req, res) => {
       }
     });
   } else if (req.url === "/") {
-    const data = db.getPerson("Raffael");
-
-    const htmlString = `
+    const people = db.getAllPeople();
+    let htmlString = `
       <!DOCTYPE html>
       <html lang="en">
         <head>
@@ -41,21 +40,29 @@ const server = http.createServer((req, res) => {
           <link rel="stylesheet" href="style.css"/>
         </head>
         <body>
-          <div id="ausweis">
-            <div id="title">Schule als Staat</div>
-            <div id="content">
-              <div id="left">
-                <img id="logo" src="mbg-logo-building-only.svg" alt="MBG-LOGO"/>
-                <div id="firstName">${data.firstName}</div>
-                <div id="lastName">${data.lastName}</div>
-              </div>
-              <img id="qr" alt="QR-ID"></img>
+    `;
+  
+    for (const person of people) {
+      htmlString += `
+        <div id="ausweis">
+          <div id="title">Schule als Staat</div>
+          <div id="content">
+            <div id="left">
+              <img id="logo" src="mbg-logo-building-only.svg" alt="MBG-LOGO"/>
+              <div id="firstName">${person.firstName}</div>
+              <div id="lastName">${person.lastName}</div>
             </div>
+            <img id="qr" alt="QR-ID"></img>
           </div>
+        </div>
+      `;
+    }
+  
+    htmlString += `
         </body>
       </html>
     `;
-
+  
     res.writeHead(200, { "Content-Type": "text/html" });
     res.end(htmlString);
   } else {
