@@ -2,10 +2,11 @@ const http = require("http");
 const Database = require("./database.js");
 const fs = require("fs");
 const path = require("path");
+const QRCode = require("qrcode");
 
 const db = new Database("DATA.db");
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   if (req.url.endsWith(".css")) {
     const cssPath = path.join(__dirname, req.url);
     fs.readFile(cssPath, "utf8", (err, data) => {
@@ -43,6 +44,7 @@ const server = http.createServer((req, res) => {
     `;
   
     for (const person of people) {
+      const qrCode = await QRCode.toDataURL(person.id);
       htmlString += `
         <div id="ausweis">
           <div id="title">Schule als Staat</div>
@@ -52,7 +54,7 @@ const server = http.createServer((req, res) => {
               <div id="firstName">${person.firstName}</div>
               <div id="lastName">${person.lastName}</div>
             </div>
-            <img id="qr" alt="QR-ID"></img>
+            <img id="qr" src="${qrCode}" alt="QR-ID"></img>
           </div>
         </div>
       `;
