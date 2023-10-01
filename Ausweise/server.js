@@ -23,7 +23,7 @@ const server = http.createServer(async (req, res) => {
           res.end(data);
         }
       });
-    } 
+    }
     // Handling SVG files
     else if (req.url.endsWith(".svg")) {
       const svgPath = path.join(__dirname, req.url);
@@ -36,7 +36,7 @@ const server = http.createServer(async (req, res) => {
           res.end(data);
         }
       });
-    } 
+    }
     // Handling root URL
     else if (req.url === "/") {
       const people = db.getAllPeople();
@@ -52,8 +52,21 @@ const server = http.createServer(async (req, res) => {
           <body>
           <div id="container">
       `;
-      
-      const qrCodes = await Promise.all(people.map(person => QRCode.toString(person.id, { type: 'svg' })));
+
+      const qrCodes = await Promise.all(
+        people.map((person) =>
+          QRCode.toString(person.id, {
+            type: "svg",
+            color: {
+              dark: "#000000", // Black modules
+              light: "#0000", // Transparent background
+            },
+            margin: 0, // No padding
+            errorCorrectionLevel: "M", // Medium error correction level
+          })
+        )
+      );
+
       for (let i = 0; i < people.length; i++) {
         const person = people[i];
         const qrCode = qrCodes[i];
@@ -71,16 +84,16 @@ const server = http.createServer(async (req, res) => {
           </div>
         `;
       }
-    
+
       htmlString += `
               </div>
             </body>
           </html>
       `;
-    
+
       res.writeHead(200, { "Content-Type": "text/html" });
       res.end(htmlString);
-    } 
+    }
     // Handling other URLs
     else {
       res.writeHead(404, { "Content-Type": "text/plain" });
@@ -89,7 +102,9 @@ const server = http.createServer(async (req, res) => {
   } catch (error) {
     console.error(error);
     res.writeHead(500, { "Content-Type": "text/plain" });
-    res.end("An error occurred. Please check the server logs for more details.");
+    res.end(
+      "An error occurred. Please check the server logs for more details."
+    );
   }
 });
 
