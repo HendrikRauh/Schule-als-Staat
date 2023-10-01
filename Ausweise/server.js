@@ -42,18 +42,10 @@ const server = http.createServer(async (req, res) => {
             <link rel="stylesheet" href="style.css"/>
           </head>
           <body>
-          <div class="legende">
-            <div class="legende-title">Mögliche Farbcodes</div>
-            <div class="legende-content">
-            <div class="legende-color" style="color: green;">PROJEKTLEITUNG</div>
-            <div class="legende-color" style="color: blue;">PRESSE / FOTOGRAF</div>
-            <div class="legende-color" style="color: red;">SCHULSANITÄTSDIENST</div>
-            </div>
-          </div>
+          <div class="container">
       `;
     
-      const qrCodes = await Promise.all(people.map(person => QRCode.toDataURL(person.id)));
-
+      const qrCodes = await Promise.all(people.map(person => QRCode.toString(person.id, { type: 'svg' })));
       for (let i = 0; i < people.length; i++) {
         const person = people[i];
         const qrCode = qrCodes[i];
@@ -66,13 +58,14 @@ const server = http.createServer(async (req, res) => {
                 <div id="firstName">${person.firstName}</div>
                 <div id="lastName">${person.lastName}</div>
               </div>
-              <img id="qr" src="${qrCode}" alt="QR-ID"></img>
+              <div id="qr">${qrCode}</div>
             </div>
           </div>
         `;
       }
     
       htmlString += `
+              </div>
             </body>
           </html>
       `;

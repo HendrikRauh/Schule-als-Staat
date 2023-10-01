@@ -2,36 +2,24 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
 #ausweis {
   position: relative;
-  background-color: rgb(201, 201, 201);
+  background-color: aliceblue;
   width: 86mm;
   height: 54mm;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 5mm;
-  border: 1mm solid transparent;
-  border-color: transparent;
+  margin: 0.5mm;
+  border: 1mm solid transparent; /* only for spacing the colored border */
   box-sizing: border-box;
-}
-
-.legende {
-  border: black 1mm dashed;
-  font-size: 5mm;
-  text-align: right;
-  width: max-content;
-  position: absolute;
-  right: 5mm;
-  top: 5mm;
-  padding: 2.5mm;
-}
-
-.legende-title {
-  font-weight: bold;
-  font-size: 7mm;
-  margin-bottom: 1mm;
-  text-decoration: underline;
 }
 
 #ausweis::before {
@@ -41,9 +29,8 @@ body {
   right: 0;
   bottom: 0;
   left: 0;
-  border: 1mm solid;
+  border: 1mm solid var(--border-color);
   box-sizing: border-box;
-  border-color: var(--border-color);
 }
 
 #ausweis > * {
@@ -76,16 +63,17 @@ body {
 
 #lastName {
   margin-top: 2mm; 
-  background-color: #eee;
 }
 
 #firstName {
   margin-top: 3mm; 
-  background-color: #eee;
 }
 
 #qr {
   width: 30mm;
   height: 30mm;
-  background-color: #eee;
+}
+
+#qr > svg > path {
+  fill: none;
 }
