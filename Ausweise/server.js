@@ -1,13 +1,17 @@
+// Importing required modules
 const http = require("http");
 const Database = require("./database.js");
 const fs = require("fs");
 const path = require("path");
 const QRCode = require("qrcode");
 
+// Initializing database
 const db = new Database("DATA.db");
 
+// Creating server
 const server = http.createServer(async (req, res) => {
   try {
+    // Handling CSS files
     if (req.url.endsWith(".css")) {
       const cssPath = path.join(__dirname, req.url);
       fs.readFile(cssPath, "utf8", (err, data) => {
@@ -19,7 +23,9 @@ const server = http.createServer(async (req, res) => {
           res.end(data);
         }
       });
-    } else if (req.url.endsWith(".svg")) {
+    } 
+    // Handling SVG files
+    else if (req.url.endsWith(".svg")) {
       const svgPath = path.join(__dirname, req.url);
       fs.readFile(svgPath, "utf8", (err, data) => {
         if (err) {
@@ -30,7 +36,9 @@ const server = http.createServer(async (req, res) => {
           res.end(data);
         }
       });
-    } else if (req.url === "/") {
+    } 
+    // Handling root URL
+    else if (req.url === "/") {
       const people = db.getAllPeople();
       let htmlString = `
         <!DOCTYPE html>
@@ -42,23 +50,23 @@ const server = http.createServer(async (req, res) => {
             <link rel="stylesheet" href="style.css"/>
           </head>
           <body>
-          <div class="container">
+          <div id="container">
       `;
-    
+      
       const qrCodes = await Promise.all(people.map(person => QRCode.toString(person.id, { type: 'svg' })));
       for (let i = 0; i < people.length; i++) {
         const person = people[i];
         const qrCode = qrCodes[i];
         htmlString += `
-          <div id="ausweis" style="--border-color: ${person.colorCode};">
+          <div id="idCard" style="--border-color: ${person.colorCode};">
             <div id="title">Schule als Staat</div>
             <div id="content">
-              <div id="left">
+              <div id="leftSection">
                 <img id="logo" src="mbg-logo-building-only.svg" alt="MBG-LOGO"/>
                 <div id="firstName">${person.firstName}</div>
                 <div id="lastName">${person.lastName}</div>
               </div>
-              <div id="qr">${qrCode}</div>
+              <div id="qrCode">${qrCode}</div>
             </div>
           </div>
         `;
@@ -72,7 +80,9 @@ const server = http.createServer(async (req, res) => {
     
       res.writeHead(200, { "Content-Type": "text/html" });
       res.end(htmlString);
-    } else {
+    } 
+    // Handling other URLs
+    else {
       res.writeHead(404, { "Content-Type": "text/plain" });
       res.end("404 - Not Found");
     }
@@ -83,6 +93,7 @@ const server = http.createServer(async (req, res) => {
   }
 });
 
+// Starting server
 server.listen(3000, () => {
   console.log("ID-Card on port 3000!");
 });

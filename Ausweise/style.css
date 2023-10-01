@@ -1,42 +1,55 @@
+/* Define color variables */
+:root {
+  --font-color: rgb(0, 0, 0);
+  --background-color: aliceblue;
+  --border-color: var(--border-color); /* This color is dynamically set in the HTML */
+}
+
+/* Body */
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
-.container {
+/* Container for ID cards */
+#container {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
   align-items: flex-start;
 }
 
-#ausweis {
+/* Individual ID card */
+#idCard {
   position: relative;
-  background-color: aliceblue;
-  width: 86mm;
-  height: 54mm;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 0.5mm;
-  border: 1mm solid transparent; /* only for spacing the colored border */
   box-sizing: border-box;
+  width: 86mm;
+  height: 54mm;
+  margin: 0.5mm;
+  border: 1mm solid transparent; /* spacing for colored border */
+  background-color: var(--background-color);
 }
 
-#ausweis::before {
-  content: "";
+/* ID card border color */
+#idCard::before {
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  border: 1mm solid var(--border-color);
   box-sizing: border-box;
+  border: 1mm solid var(--border-color);
+  content: "";
 }
 
-#ausweis > * {
+/* ID card content padding */
+#idCard > * {
   padding: 2.5mm;
 }
 
+/* ID card content layout */
 #content {
   display: flex;
   flex-direction: row;
@@ -44,36 +57,42 @@ body {
   align-items: flex-end;
 }
 
+/* ID card title */
 #title {
-  color: rgb(0, 0, 0);
+  color: var(--font-color);
   font-size: 7.5mm;
   text-align: center;
-  margin-bottom: 2.5mm;
   text-decoration: underline;
+  margin-bottom: 2.5mm;
 }
 
-#left {
-  width: 48mm;
-  color: rgb(0, 0, 0);
-  font-size: 5mm;
-  text-transform: uppercase;
+/* ID card left section */
+#leftSection {
   display: flex;
   flex-direction: column;
+  width: 48mm;
+  font-size: 5mm;
+  text-transform: uppercase;
+  color: var(--font-color);
 }
 
-#lastName {
-  margin-top: 2mm; 
-}
-
+/* ID card first name */
 #firstName {
   margin-top: 3mm; 
 }
 
-#qr {
+/* ID card last name */
+#lastName {
+  margin-top: 2mm; 
+}
+
+/* ID card QR code */
+#qrCode {
   width: 30mm;
   height: 30mm;
 }
 
-#qr > svg > path {
+/* QR code SVG path */
+#qrCode > svg > path {
   fill: none;
 }
