@@ -94,5 +94,5 @@ body {
 
 /* QR code SVG path */
 #qrCode > svg > path {
-  fill: none;
+  stroke: black;
 }

@@ -58,7 +58,6 @@ const server = http.createServer(async (req, res) => {
           QRCode.toString(person.id, {
             type: "svg",
             color: {
-              dark: "#000000", // Black modules
               light: "#0000", // Transparent background
             },
             margin: 0, // No padding
