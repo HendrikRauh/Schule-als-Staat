@@ -61,7 +61,7 @@ const server = http.createServer(async (req, res) => {
               light: "#0000", // Transparent background
             },
             margin: 0, // No padding
-            errorCorrectionLevel: "M", // Medium error correction level
+            errorCorrectionLevel: "Q",
           })
         )
       );
