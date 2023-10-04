@@ -2,7 +2,7 @@
 
 ## Reporting a Vulnerability
 
-Please report security vulnerabilities as a issue here on github with the tag "security".
+Please report security vulnerabilities to `H.Rauh@outlook.com`
 
 ## Disclosure Policy
 
