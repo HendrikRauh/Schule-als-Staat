@@ -13,3 +13,6 @@
 - SQL
   - Anlegen von Tabellen
 
+## Einheitlicher Codestyle
+
+- Aufstellen von Regel zum Coden ([siehe](/.github/CODE_OF_CONDUCT.md))
