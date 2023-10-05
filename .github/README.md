@@ -2,7 +2,7 @@
 
 ## Description
 
-"Schule als Staat" is a unique school project where the school is transformed into a "state" inhabited by students and teachers for a certain period of time. This project provides an interactive environment for students and teachers to engage deeply with the concepts of politics and economics.
+"Schule als Staat" is a school project where the school is transformed into a "state" inhabited by students and teachers for a certain period of time. This project provides an interactive environment for students and teachers to engage deeply with the concepts of politics and economics.
 
 For the project, students simulate a state structure which they develop themselves. Through this role-playing exercise, students learn more about forms of government, constitution, political decisions, and economics. They also practice their social-communicative and methodological skills.
 
