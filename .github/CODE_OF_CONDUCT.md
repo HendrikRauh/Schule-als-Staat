@@ -2,14 +2,14 @@
 
 ## Codestyle
 
-| **What?**   | **How?**                 |
-| ----------- | ------------------------ |
-| Indentation | 4 Spaces                 |
-| List        | Use `-` as bullet-points |
-| Language    | English                  |
-| `{`         | same line                |
-| `}`         | new line                 |
-| after `;`   | new line                 |
+| **What?**   | **How?**                     |
+| ----------- | ---------------------------- |
+| Indentation | 4 Spaces                     |
+| List        | Use `-` as bullet-points     |
+| Language    | English (watch the spelling) |
+| `{`         | same line                    |
+| `}`         | new line                     |
+| after `;`   | new line                     |
 
 ## Our Pledge
 
