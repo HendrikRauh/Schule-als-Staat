@@ -4,7 +4,6 @@
 
 Please provide a brief summary of the changes made in this PR.
 
-
 ## Type of change
 
 - [ ] Bug fix (non-breaking change which fixes an issue)
