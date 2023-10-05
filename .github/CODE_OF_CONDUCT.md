@@ -10,6 +10,7 @@
 | `{`         | same line                    |
 | `}`         | new line                     |
 | after `;`   | new line                     |
+| path        | use relative paths           |
 
 ## Our Pledge
 
