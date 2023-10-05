@@ -1,18 +1,19 @@
-# Notizen für GFS
+# GFS Project Overview
 
-## Aufgabenmanagement
+This document provides an overview of the key components of our project.
 
-- Clickup
+## Task Management
 
-## Generation von Ausweisen
+For task management, we utilized Clickup. This tool helped us to organize our tasks, assign them to team members, and track our progress.
 
-[Siehe Code](/Ausweise/)
+## ID Generation
 
-## Datenbanken
+One of the main features of our project was the generation of identification cards. The code for this feature can be found in the [idCards folder](/idCards/).
 
-- SQL
-  - Anlegen von Tabellen
+## Database Management
 
-## Einheitlicher Codestyle
+We used SQL for our database management. This involved creating tables to store and manage our data.
 
-- Aufstellen von Regel zum Coden ([siehe](/.github/CODE_OF_CONDUCT.md))
+## Code Style Consistency
+
+To ensure consistency in our code, we established a set of coding rules. These rules can be found in our [Code of Conduct](/.github/CODE_OF_CONDUCT.md). This helped us to maintain a clean and readable codebase, making it easier for team members to understand and contribute to the code.
