@@ -10,7 +10,7 @@ The project involves several stages including preparation, implementation, and p
 
 ## Task Management
 
-For task management, we utilized Clickup. This tool helped us to organize our tasks, assign them to team members, and track our progress.
+For task management, we utilized [Clickup](https://clickup.com/). This tool helped us to organize our tasks, assign them to team members, and track our progress.
 
 ## ID Generation
 
