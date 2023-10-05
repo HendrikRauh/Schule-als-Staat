@@ -1,7 +1,7 @@
 /* Define color variables */
 :root {
   --font-color: rgb(0, 0, 0);
-  --background-color: aliceblue;
+  --background-color: orange;
   --border-color: var( --border-color ); /* This color is dynamically set in the HTML */
 }
 
