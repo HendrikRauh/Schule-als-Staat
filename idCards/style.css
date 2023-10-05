@@ -25,10 +25,10 @@ body {
   flex-direction: column;
   justify-content: space-between;
   box-sizing: border-box;
-  width: 88mm;
-  height: 56mm;
+  width: 86mm;
+  height: 54mm;
   margin: 0.5mm;
-  padding: 1mm;
+  padding: 0.75mm;
   background-color: var(--background-color);
 }
 
