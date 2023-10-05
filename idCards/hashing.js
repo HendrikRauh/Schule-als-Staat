@@ -1,6 +1,6 @@
 /*
- * This file provides a function to generate an MD5 hash from a string using the crypto library.
- */
+* This file contains a function to generate an MD5 hash from a string.
+*/
 
 const crypto = require('crypto');
 

@@ -1,15 +1,16 @@
-// Importing required modules
-const sqlite3 = require("better-sqlite3");
-const generateMD5Hash = require("./hashing"); // Importing the function from hashing.js
+/*
+* This file defines a Database class with methods for creating a people table, 
+* inserting a person into the table, getting a person by first name, and getting all people from the table.
+*/
 
-// Database class
+const sqlite3 = require("better-sqlite3");
+const generateMD5Hash = require("./hashing");
+
 class Database {
-  // Constructor to initialize database
   constructor(databaseName) {
     this.db = new sqlite3(databaseName);
   }
 
-  // Function to create people table
   createPeopleTable() {
     this.db
       .prepare(
@@ -18,7 +19,6 @@ class Database {
       .run();
   }
 
-  // Function to insert person into the table
   insertPerson(firstName, lastName, className, colorCode) {
     const id = generateMD5Hash(firstName + lastName);
     this.db
@@ -28,14 +28,12 @@ class Database {
       .run(id, firstName, lastName, className, colorCode);
   }
 
-  // Function to get a person by first name
   getPerson(firstName) {
     const stmt = this.db.prepare("SELECT * FROM people WHERE firstName = ?");
     const person = stmt.get(firstName);
     return person;
   }
 
-  // Function to get all people from the table
   getAllPeople() {
     const stmt = this.db.prepare("SELECT * FROM people");
     const people = stmt.all();
@@ -43,5 +41,4 @@ class Database {
   }
 }
 
-// Exporting Database class
 module.exports = Database;
