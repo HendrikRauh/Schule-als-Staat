@@ -23,3 +23,7 @@ In this project, we adhere to a specific coding style to ensure consistency and 
 - **Commenting:** Add comments to your code where necessary. This helps others understand the purpose and functionality of your code.
 
 - **Spacing:** Include spaces between different parts of your code to improve readability. This includes between functions, classes, and blocks of code within functions.
+
+- **Trailing New Line:** Ensure that each file ends with a trailing new line. This helps with version control systems like Git and improves code readability.
+
+- **Project Structure:** Organize related files into separate folders for each project (e.g., idCards, forms, etc.). This helps keep the codebase clean and easy to navigate.
