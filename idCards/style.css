@@ -2,6 +2,7 @@
 :root {
   --font-color: rgb(0, 0, 0);
   --border-color: var( --border-color ); /* This color is dynamically set in the HTML */
+  --background-color: rgb(222, 222, 222);
 }
 
 /* Body */
