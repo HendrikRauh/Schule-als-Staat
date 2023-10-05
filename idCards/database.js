@@ -1,11 +1,6 @@
 // Importing required modules
 const sqlite3 = require("better-sqlite3");
-const { createHash } = require("crypto");
-
-// Function to generate MD5 hash
-function generateMD5Hash(input) {
-  return createHash("md5").update(input).digest("hex");
-}
+const generateMD5Hash = require("./hashing"); // Importing the function from hashing.js
 
 // Database class
 class Database {

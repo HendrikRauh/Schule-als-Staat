@@ -11,15 +11,13 @@ Output: true
 In this example, '13d7eba0d91233d0d89448fe7158a9d6' is the MD5 hash of 'Hendrik-MBG-Rauh-MBG-J1'.
 */
 
-const crypto = require('crypto');
+const generateMD5Hash = require('./hashing');
 
 function isValidIdCard(idCardString) {
   const [firstName, surname, className, hash] = idCardString.split(',');
 
   // Generate the md5 hash of the information
-  const md5sum = crypto.createHash('md5');
-  md5sum.update(`${firstName}-MBG-${surname}-MBG-${className}`);
-  const expectedHash = md5sum.digest('hex');
+  const expectedHash = generateMD5Hash(`${firstName}-MBG-${surname}-MBG-${className}`);
 
   // Compare the expected hash with the provided hash
   return expectedHash === hash;
