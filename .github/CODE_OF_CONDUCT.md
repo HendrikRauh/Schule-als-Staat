@@ -27,3 +27,13 @@ In this project, we adhere to a specific coding style to ensure consistency and 
 - **Trailing New Line:** Ensure that each file ends with a trailing new line. This helps with version control systems like Git and improves code readability.
 
 - **Project Structure:** Organize related files into separate folders for each project (e.g., idCards, forms, etc.). This helps keep the codebase clean and easy to navigate.
+
+- **File Description Comments:** Each code file should start with a comment block that describes the purpose and functionality of the file. This comment block should be formatted as follows:
+
+```javascript
+/*
+* This file contains a function that does something.
+* The function takes in a string and returns a modified string.
+* The modification process involves several steps, each explained in the function.
+*/
+```
