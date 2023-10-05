@@ -1,6 +1,6 @@
-# GFS Project Overview
+# Project Overview
 
-This document provides an overview of the key components of our project.
+This document provides an overview of the key components of our project that we will need to present later.
 
 ## Task Management
 
