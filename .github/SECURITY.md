@@ -1,18 +1,13 @@
-# Security Policy
+# Security Guidelines
 
-## Reporting a Vulnerability
+## Reporting Issues
 
-Please report security vulnerabilities to `H.Rauh@outlook.com`
+If you find any issues or vulnerabilities in the code, please report them directly to the team. You can send an email to `H.Rauh@outlook.com`.
 
-## Disclosure Policy
+## Handling Reported Issues
 
-After receiving a report, we will work to understand the impact and work towards a fix. We ask that you give us 45 days from the report to communicate with you on our progress. After the 60 days or a fix has been made broadly available, you are welcome to publicly disclose the vulnerability.
+When an issue is reported, we'll work together as a team to understand the problem and find a solution. We'll keep each other updated on the progress and aim to resolve the issue as quickly as possible.
 
-## Security Update Policy
+## Updates and Patches
 
-We release patches for security vulnerabilities. Depending on the severity of the vulnerability, these may be released as a minor version update or as a patch version update.
-
-## Known Vulnerabilities
-
-There are no known vulnerabilities at this time.
-
+We'll release updates or patches to fix any reported vulnerabilities. The type of release (minor update or patch) will depend on the severity of the issue.

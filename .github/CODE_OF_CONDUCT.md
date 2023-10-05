@@ -1,26 +1,25 @@
-# Contributor Covenant Code of Conduct
+# Code Style Guidelines
 
-## Codestyle
+In this project, we adhere to a specific coding style to ensure consistency and readability. Here are the key points:
 
-| **What?**         | **How?**                     |
-| ----------------- | ---------------------------- |
-| Indentation       | 4 Spaces                     |
-| List              | Use `-` as bullet-points     |
-| Language          | English (watch the spelling) |
-| `{`               | same line                    |
-| `}`               | new line                     |
-| after `;`         | new line                     |
-| path              | use relative paths           |
-| git commitmessage | use a describtive message    |
+- **Indentation:** Use **4 spaces** for each level of indentation.
 
-## Our Pledge
+- **Lists:** Use `-` for bullet points in markdown files.
 
-We as members, contributors, and leaders pledge to make participation in our
-community a harassment-free experience for everyone, regardless of age, body
-size, visible or invisible disability, ethnicity, sex characteristics, gender
-identity and expression, level of experience, education, socio-economic status,
-nationality, personal appearance, race, religion, or sexual identity
-and orientation.
+- **Language:** All code and comments should be **written in English**. Please **pay close attention to spelling and grammar**.
 
-We pledge to act and interact in ways that contribute to an open, welcoming,
-diverse, inclusive, and healthy community.
+- **Braces (`{` and `}`):** Place the opening brace (`{`) on the **same line as the statement** that requires it. Start a **new line for the closing brace (`}`)**.
+
+- **Semicolons (`;`):** Start a **new line after each semicolon (`;`)**. Avoid multiple statements per line.
+
+- **Paths:** Use **relative paths** whenever possible. This makes the code more portable and easier to manage.
+
+- **Git Commit Messages:** Write a **descriptive message** for each commit. It should briefly describe the changes made and the reason for them.
+
+- **Variable Naming:** Use **camelCase** for variable names. This means starting with a lowercase letter and capitalizing the first letter of each subsequent concatenated word.
+
+- **Descriptive Naming:** Use **descriptive names** for variables, functions, classes, etc. The name should reflect the purpose or functionality of the element it represents. **Avoid using abbreviations or single-letter names**.
+
+- **Commenting:** Add comments to your code where necessary. This helps others understand the purpose and functionality of your code.
+
+- **Spacing:** Include spaces between different parts of your code to improve readability. This includes between functions, classes, and blocks of code within functions.
