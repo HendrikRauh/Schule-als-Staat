@@ -1,5 +1,16 @@
 # Contributor Covenant Code of Conduct
 
+## Codestyle
+
+| **What?**   | **How?**                 |
+| ----------- | ------------------------ |
+| Indentation | 4 Spaces                 |
+| List        | Use `-` as bullet-points |
+| Language    | English                  |
+| `{`         | same line                |
+| `}`         | new line                 |
+| after `;`   | new line                 |
+
 ## Our Pledge
 
 We as members, contributors, and leaders pledge to make participation in our
