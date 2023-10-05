@@ -2,7 +2,9 @@
 :root {
   --font-color: rgb(0, 0, 0);
   --background-color: aliceblue;
-  --border-color: var(--border-color); /* This color is dynamically set in the HTML */
+  --border-color: var(
+    --border-color
+  ); /* This color is dynamically set in the HTML */
 }
 
 /* Body */
@@ -28,17 +30,17 @@ body {
   width: 86mm;
   height: 54mm;
   margin: 0.5mm;
-  border: 1mm solid transparent; /* spacing for colored border */
   background-color: var(--background-color);
 }
 
 /* ID card border color */
 #idCard::before {
+  --outerBorder: 1mm;
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  top: var(--outerBorder);
+  left: var(--outerBorder);
+  bottom: var(--outerBorder);
+  right: var(--outerBorder);
   box-sizing: border-box;
   border: 1mm solid var(--border-color);
   content: "";
@@ -78,12 +80,12 @@ body {
 
 /* ID card first name */
 #firstName {
-  margin-top: 3mm; 
+  margin-top: 3mm;
 }
 
 /* ID card last name */
 #lastName {
-  margin-top: 2mm; 
+  margin-top: 2mm;
 }
 
 /* ID card QR code */
