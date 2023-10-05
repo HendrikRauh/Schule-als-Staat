@@ -2,9 +2,7 @@
 :root {
   --font-color: rgb(0, 0, 0);
   --background-color: aliceblue;
-  --border-color: var(
-    --border-color
-  ); /* This color is dynamically set in the HTML */
+  --border-color: var( --border-color ); /* This color is dynamically set in the HTML */
 }
 
 /* Body */
@@ -30,6 +28,7 @@ body {
   width: 86mm;
   height: 54mm;
   margin: 0.5mm;
+  padding: 1mm;
   background-color: var(--background-color);
 }
 
