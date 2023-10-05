@@ -2,25 +2,33 @@
 
 ## Codestyle
 
-| **What?**         | **How?**                     |
-| ----------------- | ---------------------------- |
-| Indentation       | 4 Spaces                     |
-| List              | Use `-` as bullet-points     |
-| Language          | English (watch the spelling) |
-| `{`               | same line                    |
-| `}`               | new line                     |
-| after `;`         | new line                     |
-| path              | use relative paths           |
-| git commitmessage | use a describtive message    |
+We follow a specific coding style in this project. Here are the key points:
+
+- **Indentation:** Use 4 spaces for each level of indentation.
+- **List:** Use `-` for bullet points.
+- **Language:** Write in English. Please pay attention to spelling.
+- **Braces (`{` and `}`):** Place the opening brace (`{`) on the same line as the statement that requires it. Start a new line for the closing brace (`}`).
+- **After `;`:** Start a new line after each semicolon (`;`).
+- **Path:** Use relative paths.
+- **Git commit message:** Write a descriptive message for each commit.
 
 ## Our Pledge
 
-We as members, contributors, and leaders pledge to make participation in our
-community a harassment-free experience for everyone, regardless of age, body
-size, visible or invisible disability, ethnicity, sex characteristics, gender
-identity and expression, level of experience, education, socio-economic status,
-nationality, personal appearance, race, religion, or sexual identity
-and orientation.
+We, as members, contributors, and leaders, pledge to make participation in our community a harassment-free experience for everyone, regardless of:
 
-We pledge to act and interact in ways that contribute to an open, welcoming,
-diverse, inclusive, and healthy community.
+- Age
+- Body size
+- Visible or invisible disability
+- Ethnicity
+- Sex characteristics
+- Gender identity and expression
+- Level of experience
+- Education
+- Socio-economic status
+- Nationality
+- Personal appearance
+- Race
+- Religion
+- Sexual identity and orientation
+
+We pledge to act and interact in ways that contribute to an open, welcoming, diverse, inclusive, and healthy community.
