@@ -19,3 +19,7 @@ In this project, we adhere to a specific coding style to ensure consistency and 
 - **Variable Naming:** Use **camelCase** for variable names. This means starting with a lowercase letter and capitalizing the first letter of each subsequent concatenated word.
 
 - **Descriptive Naming:** Use **descriptive names** for variables, functions, classes, etc. The name should reflect the purpose or functionality of the element it represents. **Avoid using abbreviations or single-letter names**.
+
+- **Commenting:** Add comments to your code where necessary. This helps others understand the purpose and functionality of your code.
+
+- **Spacing:** Include spaces between different parts of your code to improve readability. This includes between functions, classes, and blocks of code within functions.
