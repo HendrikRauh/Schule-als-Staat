@@ -1,25 +1,33 @@
 # Schule als Staat
 
-## Description
+"Schule als Staat" is a school project that turns the school into a "state" inhabited by students and teachers. This interactive project allows students to simulate a state structure and learn about politics, economics and decision-making.
 
-"Schule als Staat" is a school project where the school is transformed into a "state" inhabited by students and teachers for a certain period of time. This project provides an interactive environment for students and teachers to engage deeply with the concepts of politics and economics.
+## Task management
 
-For the project, students simulate a state structure which they develop themselves. Through this role-playing exercise, students learn more about forms of government, constitution, political decisions, and economics. They also practice their social-communicative and methodological skills.
+For task management we use [Clickup](https://clickup.com/). This tool helps us to organise our tasks, assign them to team members and track our progress.
 
-The project involves several stages including preparation, implementation, and post-processing. Throughout these stages, students work on a constitution, develop an economic system, found parties and institutions, and elect a government. Reflection and learning from the experiences collectively form an important part of the project.
+## ID card generation
 
-## Task Management
-
-For task management, we utilized [Clickup](https://clickup.com/). This tool helped us to organize our tasks, assign them to team members, and track our progress.
-
-## ID Generation
-
-One of the main features of our project was the generation of identification cards. The code for this feature can be found in the [idCards folder](/idCards/).
+One of the first features of our project is the generation of identification cards. The code for this feature can be found in the [idCards folder](/idCards/).
 
 ## Database Management
 
-We used SQL for our database management. This involved creating tables to store and manage our data.
+We use SQL to manage our database. This involves creating tables to store and manage our data.
 
 ## Code Style Consistency
 
-To ensure consistency in our code, we established a set of coding rules. These rules can be found in our [Code of Conduct](/.github/CODE_OF_CONDUCT.md). This helped us to maintain a clean and readable codebase, making it easier for team members to understand and contribute to the code.
+To ensure consistency in our code, we have established a set of coding rules. These rules can be found in our [Code of Conduct](/.github/CODE_OF_CONDUCT.md). This helps us maintain a clean and readable codebase, making it easier for team members to understand and contribute to the code.
+
+## Surveys
+
+We use [Microsoft Forms](https://forms.office.com/) to handle high traffic surveys and data visualisation. This tool allows us to create surveys and polls, collect responses in real time, and display automatic charts to visualise the data.
+
+## Software Architecture
+
+### Backend
+
+The backend of our application is built using [Node.js](https://nodejs.org/). Node.js is a JavaScript runtime based on Chrome's V8 JavaScript engine. It allows us to build scalable network applications and perform asynchronous operations, making it ideal for the needs of our project.
+
+### Frontend
+
+The frontend of our application is built using JavaScript. JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification. It is a language that is also characterised as dynamic, weakly typed, prototype-based and multi-paradigm. It allows us to create interactive web pages and is an essential part of web applications.
