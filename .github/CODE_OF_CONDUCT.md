@@ -11,6 +11,8 @@ We follow a specific coding style in this project. Here are the key points:
 - **After `;`:** Start a new line after each semicolon (`;`).
 - **Path:** Use relative paths.
 - **Git commit message:** Write a descriptive message for each commit.
+- **Variable Naming:** Use camelCase for variable names. This means starting with a lowercase letter and capitalizing the first letter of each subsequent concatenated word.
+- **Descriptive Naming:** Use descriptive names for variables, functions, classes, etc. The name should reflect the purpose or functionality of the element it represents.
 
 ## Our Pledge
 
