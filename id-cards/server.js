@@ -74,7 +74,7 @@ const server = http.createServer(async (req, res) => {
             <div id="title">Schule als Staat</div>
             <div id="content">
               <div id="leftSection">
-                <img id="logo" src="mbgLogoBuilding.svg" alt="Logo of the MBG"/>
+                <img id="logo" src="mbg-logo-building.svg" alt="Logo of the MBG"/>
                 <div id="firstName">${person.firstName}</div>
                 <div id="lastName">${person.lastName}</div>
               </div>
