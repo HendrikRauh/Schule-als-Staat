@@ -8,7 +8,7 @@ For task management we use [Clickup](https://clickup.com/). This tool helps us t
 
 ## ID card generation
 
-One of the first features of our project is the generation of identification cards. The code for this feature can be found in the [idCards folder](/idCards/).
+One of the first features of our project is the generation of identification cards. The code for this feature can be found in the [id-cards folder](/id-cards/).
 
 ## Database Management
 
