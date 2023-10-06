@@ -1,0 +1,76 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj": {}
+  },
+  "projects": {
+    "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj",
+        "projectName": "schule-als-staat-qr-scanner",
+        "projectPath": "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj",
+        "packagesPath": "C:\\Users\\HRauh\\.nuget\\packages\\",
+        "outputPath": "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\obj\\",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\HRauh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net472"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net472": {
+            "projectReferences": {}
+          }
+        }
+      },
+      "frameworks": {
+        "net472": {
+          "dependencies": {
+            "Emgu.CV": {
+              "target": "Package",
+              "version": "[4.8.0.5324, )"
+            },
+            "Emgu.CV.Bitmap": {
+              "target": "Package",
+              "version": "[4.8.0.5324, )"
+            },
+            "Emgu.CV.runtime.windows": {
+              "target": "Package",
+              "version": "[4.8.0.5324, )"
+            },
+            "ZXing.Net": {
+              "target": "Package",
+              "version": "[0.16.9, )"
+            }
+          }
+        }
+      },
+      "runtimes": {
+        "win": {
+          "#import": []
+        },
+        "win-arm64": {
+          "#import": []
+        },
+        "win-x64": {
+          "#import": []
+        },
+        "win-x86": {
+          "#import": []
+        }
+      }
+    }
+  }
+}
