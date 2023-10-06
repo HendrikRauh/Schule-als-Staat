@@ -33,6 +33,8 @@ In this project, we adhere to a specific coding style to ensure consistency and 
 
 - **Variable Naming:** Use **camelCase** for variable names. This means starting with a lowercase letter and capitalizing the first letter of each subsequent concatenated word.
 
+- **File Naming:** usw kebab-case for file names. This means all lowercase letters and the words are joined with a dash (`-`).
+
 ## Project Management
 
 - **Git Commit Messages:** Write a **descriptive message** for each commit. It should briefly describe the changes made and the reason for them.
