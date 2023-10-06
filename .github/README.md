@@ -22,6 +22,10 @@ To ensure consistency in our code, we have established a set of coding rules. Th
 
 We use [Microsoft Forms](https://forms.office.com/) to handle high traffic surveys and data visualisation. This tool allows us to create surveys and polls, collect responses in real time, and display automatic charts to visualise the data.
 
+## ID Card Scanning
+
+For scanning of the identification cards, we use a WPF application built with the .NET Framework in C#. This allows us to efficiently scan and process the ID cards generated for the project.
+
 ## Software Architecture
 
 ### Backend
