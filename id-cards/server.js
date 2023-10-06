@@ -10,11 +10,37 @@ const db = new Database("DATA.db");
 
 // Creating server
 const server = http.createServer(async (req, res) => {
+  // ---------------------------------
+  // prevent path traversal
+  // ---------------------------------
+  
+  // prevent null byte attack
+  if (req.url.indexOf("/0") !== -1) {
+    res.writeHead(403, { "Content-Type": "text/plain" });
+    res.end("Access denied");
+    return;
+  }
+  // prevent access of parent folder
+  if (!/^[a-z0-9-/]+[\.]?[a-z0-9]*$/.test(req.url)) {
+    res.writeHead(403, { "Content-Type": "text/plain" });
+    res.end("Access denied");
+    return;
+  }
+  const safeInput = path.normalize(req.url).replace(/^(\.\.(\/|\\|$))+/, "");
+  const pathString = path.join(__dirname, safeInput);
+  if (pathString.indexOf(__dirname) !== 0) {
+    res.writeHead(403, { "Content-Type": "text/plain" });
+    res.end("Access denied");
+    return;
+  }
+
+  // ---------------------------------
+  // Handle requests
+  // ---------------------------------
   try {
     // Handling CSS files
-    if (req.url.endsWith(".css")) {
-      const cssPath = path.join(__dirname, req.url);
-      fs.readFile(cssPath, "utf8", (err, data) => {
+    if (pathString.endsWith(".css")) {
+      fs.readFile(pathString, "utf8", (err, data) => {
         if (err) {
           res.writeHead(404, { "Content-Type": "text/plain" });
           res.end("Not Found");
@@ -25,9 +51,8 @@ const server = http.createServer(async (req, res) => {
       });
     }
     // Handling SVG files
-    else if (req.url.endsWith(".svg")) {
-      const svgPath = path.join(__dirname, req.url);
-      fs.readFile(svgPath, "utf8", (err, data) => {
+    else if (pathString.endsWith(".svg")) {
+      fs.readFile(pathString, "utf8", (err, data) => {
         if (err) {
           res.writeHead(404, { "Content-Type": "text/plain" });
           res.end("Not Found");
@@ -38,7 +63,7 @@ const server = http.createServer(async (req, res) => {
       });
     }
     // Handling root URL
-    else if (req.url === "/") {
+    else if (pathString === "/") {
       const people = db.getAllPeople();
       let htmlString = `
         <!DOCTYPE html>
