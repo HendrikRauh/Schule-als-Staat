@@ -6,3 +6,4 @@ Backup
 *.key
 .vs
 .vscode
+*.cache
