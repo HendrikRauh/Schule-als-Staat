@@ -31,11 +31,11 @@ In this project, we adhere to a specific coding style to ensure consistency and 
 
 - **Descriptive Naming:** Use **descriptive names** for variables, functions, classes, etc. The name should reflect the purpose or functionality of the element it represents. **Avoid using abbreviations or single-letter names**.
 
-- **Variable and Function Naming:** Use **camelCase** for variable and function names. This means starting with a lowercase letter and capitalizing the first letter of each subsequent concatenated word. For example, ˋmyVariableNameˋ, ˋcalculateSumˋ.
+- **Variable and Function Naming:** Use **camelCase** for variable and function names. This means starting with a lowercase letter and capitalizing the first letter of each subsequent concatenated word. For example, `myVariableName`, `calculateSum`.
 
-- **Class Naming:** Use **PascalCase** for class names, so start with capital letter and then capitalize the first letter of each subsequent concatenated word. For example, ˋMyClassNameˋ.
+- **Class Naming:** Use **PascalCase** for class names, so start with capital letter and then capitalize the first letter of each subsequent concatenated word. For example, `MyClassName`.
 
-- **File Naming:** Use **kebab-case** for file names. This means all lowercase letters and the words are joined with a dash (ˋ-ˋ). For example, ˋmy-file-name.jsˋ.
+- **File Naming:** Use **kebab-case** for file names. This means all lowercase letters and the words are joined with a dash (`-`). For example, `my-file-name.js`.
 
 ## Project Management
 
