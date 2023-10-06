@@ -1,0 +1,15 @@
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\bin\Debug\sas-qr-scanner.exe.config
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\bin\Debug\sas-qr-scanner.exe
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\bin\Debug\sas-qr-scanner.pdb
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\sas-qr-scanner.csproj.AssemblyReference.cache
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\MainWindow.g.cs
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\App.g.cs
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\sas-qr-scanner_MarkupCompile.cache
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\sas-qr-scanner_MarkupCompile.lref
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\MainWindow.baml
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\sas-qr-scanner.g.resources
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\sas_qr_scanner.Properties.Resources.resources
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\sas-qr-scanner.csproj.GenerateResource.cache
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\sas-qr-scanner.csproj.CoreCompileInputs.cache
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\sas-qr-scanner.exe
+C:\NAS\Programmieren\Github\Schule-als-Staat\windows-app\sas-qr-scanner\obj\Debug\sas-qr-scanner.pdb
