@@ -5,6 +5,9 @@
 
 const sqlite3 = require("better-sqlite3");
 const generateMD5Hash = require("./hashing");
+const fs = require('fs');
+
+const salt = fs.readFileSync('salt.key', 'utf8').trim();
 
 class Database {
   constructor(databaseName) {
@@ -20,7 +23,7 @@ class Database {
   }
 
   insertPerson(firstName, lastName, className, colorCode) {
-    const id = generateMD5Hash(firstName + lastName);
+    const id = generateMD5Hash(`${firstName}${salt}${lastName}${salt}${className}`);
     this.db
       .prepare(
         `INSERT OR REPLACE INTO people (id, firstName, lastName, className, colorCode) VALUES (?, ?, ?, ?, ?)`

@@ -80,7 +80,7 @@ const server = http.createServer(async (req, res) => {
 
       const qrCodes = await Promise.all(
         people.map((person) =>
-          QRCode.toString(person.id, {
+          QRCode.toString(`${person.firstName},${person.lastName},${person.className},${person.id}`, {
             type: "svg",
             color: {
               light: "#0000", // Transparent background
