@@ -7,3 +7,6 @@ Backup
 .vs
 .vscode
 *.cache
+qr-scanner/schule-als-staat-qr-scanner/bin
+qr-scanner/schule-als-staat-qr-scanner/obj
+!qr-scanner/schule-als-staat-qr-scanner/bin/Debug/*.exe
