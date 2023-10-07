@@ -10,10 +10,10 @@
             <Viewbox DockPanel.Dock="Top" MaxHeight="400">
                 <StackPanel>
                     <Viewbox MaxHeight="300">
-                        <TextBlock Name="TextCurrentTime" Foreground="White" HorizontalAlignment="Center" TextAlignment="Center" FontWeight="Bold" Text="xx.xx.xx"/>
+                        <TextBlock Name="TextCurrentTime" Foreground="White" HorizontalAlignment="Center" TextAlignment="Center" FontWeight="Bold"/>
                     </Viewbox>
                     <Viewbox MaxHeight="100">
-                        <TextBlock Name="TextCurrentDate" Foreground="White" HorizontalAlignment="Center" TextAlignment="Center" FontWeight="Bold" Text="xx. xxxxxxxxx xxxx"/>
+                        <TextBlock Name="TextCurrentDate" Foreground="White" HorizontalAlignment="Center" TextAlignment="Center" FontWeight="Bold"/>
                     </Viewbox>
                 </StackPanel>
             </Viewbox>
