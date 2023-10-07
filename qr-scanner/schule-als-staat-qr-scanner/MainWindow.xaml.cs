@@ -13,6 +13,8 @@ using Emgu.CV.CvEnum;
 using System.Media;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace schule_als_staat_qr_scanner
 {
@@ -25,7 +27,7 @@ namespace schule_als_staat_qr_scanner
         private readonly SoundPlayer soundPlayerClear;
         private DateTime lastScanTime = DateTime.MinValue;
         private string lastQrCode;
-
+        private readonly string salt = Encoding.UTF8.GetString(Properties.Resources.salt);
         public MainWindow()
         {
             InitializeComponent();
@@ -42,6 +44,8 @@ namespace schule_als_staat_qr_scanner
             soundPlayerOk = new SoundPlayer(Properties.Resources.sound_ok);
             soundPlayerError = new SoundPlayer(Properties.Resources.sound_error);
             soundPlayerClear = new SoundPlayer(Properties.Resources.sound_bing);
+
+            salt = Encoding.UTF8.GetString(Properties.Resources.salt);
         }
 
         private async void Timer_Tick(object sender, ElapsedEventArgs e)
@@ -118,9 +122,38 @@ namespace schule_als_staat_qr_scanner
             return result == null ? null : result.Text;
         }
 
-        private bool IsCodeValid(string qrcode)
+        private bool IsCodeValid(string idCardString)
         {
-            return qrcode == "5d5f984317bc1ab7be36442206faa716";
+            string[] parts = idCardString.Split(',');
+            if (parts.Length != 4)
+            {
+                return false;
+            }
+
+            string firstName = parts[0];
+            string surname = parts[1];
+            string className = parts[2];
+            string hash = parts[3];
+
+            string expectedHash = GenerateMD5Hash($"{firstName}{salt}{surname}{salt}{className}");
+
+            return expectedHash == hash;
+        }
+
+        private string GenerateMD5Hash(string input)
+        {
+            using (MD5 md5 = MD5.Create())
+            {
+                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString().ToLower();
+            }
         }
 
         private Task PlaySoundAsync(SoundPlayer soundPlayer)
