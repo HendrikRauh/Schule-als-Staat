@@ -4,6 +4,7 @@ const Database = require("./database.js");
 const fs = require("fs");
 const path = require("path");
 const QRCode = require("qrcode");
+const HtmlBuilder = require("./html-builder.js");
 
 // Initializing database
 const db = new Database("DATA.db");
@@ -61,18 +62,6 @@ const server = http.createServer(async (req, res) => {
     // Handling root URL
     else if (req.url === "/") {
       const people = db.getAllPeople();
-      let htmlString = `
-        <!DOCTYPE html>
-        <html lang="en">
-          <head>
-            <meta charset="UTF-8"/>
-            <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-            <title>Ausweisgenerator</title>
-            <link rel="stylesheet" href="style.css"/>
-          </head>
-          <body>
-          <div id="container">
-      `;
 
       const qrCodes = await Promise.all(
         people.map((person) =>
@@ -89,33 +78,15 @@ const server = http.createServer(async (req, res) => {
           )
         )
       );
-
-      for (let i = 0; i < people.length; i++) {
-        const person = people[i];
-        const qrCode = qrCodes[i];
-        htmlString += `
-          <div id="idCard" style="--border-color: ${person.colorCode};">
-            <div id="title">Schule als Staat</div>
-            <div id="content">
-              <div id="leftSection">
-                <img id="logo" src="mbg-logo-building.svg" alt="Logo of the MBG"/>
-                <div id="firstName">${person.firstName}</div>
-                <div id="lastName">${person.lastName}</div>
-              </div>
-              <div id="qrCode">${qrCode}</div>
-            </div>
-          </div>
-        `;
-      }
-
-      htmlString += `
-              </div>
-            </body>
-          </html>
-      `;
+      const html = HtmlBuilder.html(
+        HtmlBuilder.head("Ausweisgenerator", ["style.css"]),
+        HtmlBuilder.body(
+          HtmlBuilder.idCardsContainer(HtmlBuilder.allIdCards(people, qrCodes))
+        )
+      );
 
       res.writeHead(200, { "Content-Type": "text/html" });
-      res.end(htmlString);
+      res.end(html);
     }
     // Handling other URLs
     else {
