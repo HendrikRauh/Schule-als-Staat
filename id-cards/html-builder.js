@@ -2,12 +2,12 @@
  * This file defines a HtmlBuilder class that can be used to build the html for the website with the id cards
  * 
  * usage:
- * const html = HtmlBuilder.html(
- *   head(["style.css"]),
- *   body(
- *     idCardsContainer(allIdCards(persons, qrCodes))
- *   )
- * );
+    const html = HtmlBuilder.html(
+        HtmlBuilder.head("Ausweisgenerator", ["style.css"]),
+        HtmlBuilder.body(
+          HtmlBuilder.idCardsContainer(HtmlBuilder.allIdCards(people, qrCodes))
+        )
+      );
  */
 class HtmlBuilder {
   static html(head, body) {
@@ -42,14 +42,14 @@ class HtmlBuilder {
   static idCardsContainer(idCards) {
     return `
     <div id="container">
-      ${content}
+      ${idCards}
     </div>`;
   }
 
-  static allIdCards(persons, qrCodes) {
+  static allIdCards(people, qrCodes) {
     let idCards = "";
-    persons.forEach((person, index) => {
-      idCards += idCard(person, qrCodes[index]);
+    people.forEach((person, index) => {
+      idCards += HtmlBuilder.idCard(person, qrCodes[index]);
     });
     return idCards;
   }
