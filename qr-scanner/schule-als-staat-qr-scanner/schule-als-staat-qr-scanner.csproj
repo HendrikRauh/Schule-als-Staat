@@ -117,7 +117,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="Resources\salt.key" />
-    <None Include="Resources\sound_bing.wav" />
     <None Include="Resources\sound_error.wav" />
     <None Include="Resources\sound_ok.wav" />
   </ItemGroup>

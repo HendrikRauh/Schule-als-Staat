@@ -73,15 +73,6 @@ namespace schule_als_staat_qr_scanner.Properties {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream sound_bing {
-            get {
-                return ResourceManager.GetStream("sound_bing", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.IO.UnmanagedMemoryStream ähnlich wie System.IO.MemoryStream.
-        /// </summary>
         internal static System.IO.UnmanagedMemoryStream sound_error {
             get {
                 return ResourceManager.GetStream("sound_error", resourceCulture);

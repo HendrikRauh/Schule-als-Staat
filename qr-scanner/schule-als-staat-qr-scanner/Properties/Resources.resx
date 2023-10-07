@@ -121,9 +121,6 @@
   <data name="salt" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\salt.key;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="sound_bing" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sound_bing.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
   <data name="sound_error" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sound_error.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
