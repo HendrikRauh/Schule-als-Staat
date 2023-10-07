@@ -13,7 +13,7 @@ const server = http.createServer(async (req, res) => {
   // ---------------------------------
   // prevent path traversal
   // ---------------------------------
-  
+
   // prevent null byte attack
   if (req.url.indexOf("/0") !== -1) {
     res.writeHead(403, { "Content-Type": "text/plain" });
@@ -38,26 +38,22 @@ const server = http.createServer(async (req, res) => {
   // Handle requests
   // ---------------------------------
   try {
-    // Handling CSS files
-    if (pathString.endsWith(".css")) {
+    // Handling CSS and SVG files
+    const isCss = pathString.endsWith(".css");
+    const isSvg = pathString.endsWith(".svg");
+    if (isCss || isSvg) {
       fs.readFile(pathString, "utf8", (err, data) => {
         if (err) {
           res.writeHead(404, { "Content-Type": "text/plain" });
-          res.end("Not Found");
+          res.end("Not found");
         } else {
-          res.writeHead(200, { "Content-Type": "text/css" });
-          res.end(data);
-        }
-      });
-    }
-    // Handling SVG files
-    else if (pathString.endsWith(".svg")) {
-      fs.readFile(pathString, "utf8", (err, data) => {
-        if (err) {
-          res.writeHead(404, { "Content-Type": "text/plain" });
-          res.end("Not Found");
-        } else {
-          res.writeHead(200, { "Content-Type": "image/svg+xml" });
+          let contentType = "";
+          if (isCss) {
+            contentType = "text/css";
+          } else if (isSvg) {
+            contentType = "image/svg+xml";
+          }
+          res.writeHead(200, { "Content-Type": contentType });
           res.end(data);
         }
       });
@@ -80,14 +76,17 @@ const server = http.createServer(async (req, res) => {
 
       const qrCodes = await Promise.all(
         people.map((person) =>
-          QRCode.toString(`${person.firstName},${person.lastName},${person.className},${person.id}`, {
-            type: "svg",
-            color: {
-              light: "#0000", // Transparent background
-            },
-            margin: 0, // No padding
-            errorCorrectionLevel: "Q",
-          })
+          QRCode.toString(
+            `${person.firstName},${person.lastName},${person.className},${person.id}`,
+            {
+              type: "svg",
+              color: {
+                light: "#0000", // Transparent background
+              },
+              margin: 0, // No padding
+              errorCorrectionLevel: "Q",
+            }
+          )
         )
       );
 
