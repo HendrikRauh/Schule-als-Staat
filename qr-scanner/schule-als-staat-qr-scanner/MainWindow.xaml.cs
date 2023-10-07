@@ -77,7 +77,9 @@ namespace schule_als_staat_qr_scanner
 
                     await Dispatcher.InvokeAsync(() =>
                     {
-                        TextData.Text = qrcode;
+                        string[] parts = qrcode.Split(',');
+                        string name = parts[0] + " " + parts[1];
+                        TextData.Text = name;
                         TextDataTime.Text = $"Scanned on {DateTime.Now.ToLongDateString()} at {DateTime.Now.ToLongTimeString()}";
                         if (IsCodeValid(qrcode))
                         {
