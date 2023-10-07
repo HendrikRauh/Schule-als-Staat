@@ -32,7 +32,7 @@ namespace schule_als_staat_qr_scanner
             InitializeComponent();
 
             int cameraFps = 30;
-            capture = new VideoCapture(1);
+            capture = new VideoCapture(0);
             timer = new Timer()
             {
                 Interval = 1000 / cameraFps,
