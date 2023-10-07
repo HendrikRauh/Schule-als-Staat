@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Drawing;
+using System.Windows.Input;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Timers;
@@ -15,6 +16,8 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Security.Cryptography;
 using System.Text;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace schule_als_staat_qr_scanner
 {
@@ -27,9 +30,17 @@ namespace schule_als_staat_qr_scanner
         private DateTime lastScanTime = DateTime.MinValue;
         private string lastQrCode;
         private readonly string salt = Encoding.UTF8.GetString(Properties.Resources.salt);
+        private bool isFullScreen = false;
+        private const int WH_KEYBOARD_LL = 13;
+        private const int WM_KEYDOWN = 0x0100;
+        private static LowLevelKeyboardProc _proc = HookCallback;
+        private static IntPtr _hookID = IntPtr.Zero;
+
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Closing += MainWindow_Closing;
 
             int cameraFps = 30;
             capture = new VideoCapture(0);
@@ -77,20 +88,42 @@ namespace schule_als_staat_qr_scanner
 
                     await Dispatcher.InvokeAsync(() =>
                     {
-                        string[] parts = qrcode.Split(',');
-                        string name = parts[0] + " " + parts[1];
-                        TextData.Text = name;
-                        TextDataTime.Text = $"Scanned on {DateTime.Now.ToLongDateString()} at {DateTime.Now.ToLongTimeString()}";
+
                         if (IsCodeValid(qrcode))
                         {
                             this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
                             PlaySoundAsync(soundPlayerOk);
+                            string[] parts = qrcode.Split(',');
+                            if (parts.Length >= 2)
+                            {
+                                string name = parts[0] + " " + parts[1];
+                                TextData.Text = name;
+                                TextDataTime.Text = $"Scanned on {DateTime.Now.ToLongDateString()} at {DateTime.Now.ToLongTimeString()}";
+                            }
                         }
                         else
                         {
                             this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#450c0f");
                             PlaySoundAsync(soundPlayerError);
+                            if (qrcode.Contains("$esam öffne dich"))
+                            {
+                                if (!isFullScreen)
+                                {
+                                    _hookID = SetHook(_proc);
+                                    this.WindowStyle = WindowStyle.None;
+                                    this.WindowState = WindowState.Maximized;
+                                    isFullScreen = true;
+                                }
+                                else
+                                {
+                                    UnhookWindowsHookEx(_hookID);
+                                    this.WindowStyle = WindowStyle.SingleBorderWindow;
+                                    this.WindowState = WindowState.Normal;
+                                    isFullScreen = false;
+                                }
+                            }
                         }
+
                     });
                 }
                 else
@@ -137,7 +170,6 @@ namespace schule_als_staat_qr_scanner
             string hash = parts[3];
 
             string expectedHash = GenerateMD5Hash($"{firstName}{salt}{surname}{salt}{className}");
-
             return expectedHash == hash;
         }
 
@@ -164,5 +196,58 @@ namespace schule_als_staat_qr_scanner
                 soundPlayer.PlaySync();
             });
         }
+
+        private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (isFullScreen)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                capture.Dispose();
+                timer.Dispose();
+                soundPlayerOk.Dispose();
+                soundPlayerError.Dispose();
+                UnhookWindowsHookEx(_hookID);
+            }
+        }
+
+        private static IntPtr SetHook(LowLevelKeyboardProc proc)
+        {
+            using (Process curProcess = Process.GetCurrentProcess())
+            using (ProcessModule curModule = curProcess.MainModule)
+            {
+                return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
+            }
+        }
+
+        private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+
+        private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
+        {
+            if (nCode >= 0 && wParam == (IntPtr)WM_KEYDOWN)
+            {
+                int vkCode = Marshal.ReadInt32(lParam);
+                if (vkCode == (int)KeyInterop.VirtualKeyFromKey(Key.LWin) || vkCode == (int)KeyInterop.VirtualKeyFromKey(Key.RWin))
+                {
+                    return (IntPtr)1; // Handled.
+                }
+            }
+            return CallNextHookEx(_hookID, nCode, wParam, lParam);
+        }
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr GetModuleHandle(string lpModuleName);
     }
 }
