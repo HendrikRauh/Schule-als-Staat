@@ -24,7 +24,6 @@ namespace schule_als_staat_qr_scanner
         private readonly Timer timer;
         private readonly SoundPlayer soundPlayerOk;
         private readonly SoundPlayer soundPlayerError;
-        private readonly SoundPlayer soundPlayerClear;
         private DateTime lastScanTime = DateTime.MinValue;
         private string lastQrCode;
         private readonly string salt = Encoding.UTF8.GetString(Properties.Resources.salt);
@@ -33,7 +32,7 @@ namespace schule_als_staat_qr_scanner
             InitializeComponent();
 
             int cameraFps = 30;
-            capture = new VideoCapture(0);
+            capture = new VideoCapture(1);
             timer = new Timer()
             {
                 Interval = 1000 / cameraFps,
@@ -43,7 +42,6 @@ namespace schule_als_staat_qr_scanner
 
             soundPlayerOk = new SoundPlayer(Properties.Resources.sound_ok);
             soundPlayerError = new SoundPlayer(Properties.Resources.sound_error);
-            soundPlayerClear = new SoundPlayer(Properties.Resources.sound_bing);
 
             salt = Encoding.UTF8.GetString(Properties.Resources.salt);
         }
@@ -65,6 +63,8 @@ namespace schule_als_staat_qr_scanner
             await Dispatcher.InvokeAsync(() =>
             {
                 ImageCamera.Source = BitmapFrame.Create(memoryStream);
+                TextCurrentTime.Text = DateTime.Now.ToLongTimeString();
+                TextCurrentDate.Text = DateTime.Now.ToLongDateString();
             });
 
             string qrcode = await Task.Run(() => FindQrCodeInImage(bitmap));
@@ -77,8 +77,8 @@ namespace schule_als_staat_qr_scanner
 
                     await Dispatcher.InvokeAsync(() =>
                     {
-                        TextContent.Text = qrcode;
-                        TextTime.Text = $"Scanned on {DateTime.Now.ToLongDateString()} at {DateTime.Now.ToLongTimeString()}";
+                        TextData.Text = qrcode;
+                        TextDataTime.Text = $"Scanned on {DateTime.Now.ToLongDateString()} at {DateTime.Now.ToLongTimeString()}";
                         if (IsCodeValid(qrcode))
                         {
                             this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
@@ -107,7 +107,6 @@ namespace schule_als_staat_qr_scanner
                         {
                             this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#303133");
                         });
-                        // await PlaySoundAsync(soundPlayerClear);
                     }
                 }
             }
