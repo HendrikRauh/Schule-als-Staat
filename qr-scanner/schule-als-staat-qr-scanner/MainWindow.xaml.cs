@@ -23,10 +23,19 @@ namespace schule_als_staat_qr_scanner
 {
     public partial class MainWindow : Window
     {
+        private readonly System.Windows.Media.Brush colorOk = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
+        private readonly System.Windows.Media.Brush colorError = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#450c0f");
+        private readonly System.Windows.Media.Brush colorMaintenance = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#5c4a00");
+        private readonly System.Windows.Media.Brush colorNormal = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#303133");
+        private const int cameraFps = 30;
         private VideoCapture capture;
-        private readonly Timer timer;
-        private readonly SoundPlayer soundPlayerOk;
-        private readonly SoundPlayer soundPlayerError;
+        private readonly Timer timer = new Timer()
+        {
+            Interval = 1000 / cameraFps,
+            Enabled = true
+        };
+        private readonly SoundPlayer soundPlayerOk = new SoundPlayer(Properties.Resources.sound_ok);
+        private readonly SoundPlayer soundPlayerError = new SoundPlayer(Properties.Resources.sound_error);
         private DateTime lastScanTime = DateTime.MinValue;
         private string lastQrCode;
         private readonly string salt = Encoding.UTF8.GetString(Properties.Resources.salt);
@@ -36,30 +45,21 @@ namespace schule_als_staat_qr_scanner
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
         private int cameraIndex = 0;
-        private readonly SoundPlayer soundPlayerMisc;
-
+        private readonly SoundPlayer soundPlayerMaintenance = new SoundPlayer(Properties.Resources.sound_maintenance);
 
         public MainWindow()
         {
             InitializeComponent();
-
+            InitializeComponents();
             this.Closing += MainWindow_Closing;
-
-            int cameraFps = 30;
-            capture = new VideoCapture(cameraIndex);
-            timer = new Timer()
-            {
-                Interval = 1000 / cameraFps,
-                Enabled = true
-            };
-            timer.Elapsed += Timer_Tick;
-
-            soundPlayerOk = new SoundPlayer(Properties.Resources.sound_ok);
-            soundPlayerError = new SoundPlayer(Properties.Resources.sound_error);
-            soundPlayerMisc = new SoundPlayer(Properties.Resources.sound_misc);
-
-            salt = Encoding.UTF8.GetString(Properties.Resources.salt);
             this.KeyDown += MainWindow_KeyDown;
+        }
+
+        private void InitializeComponents()
+        {
+            capture = new VideoCapture(cameraIndex);
+
+            timer.Elapsed += Timer_Tick;
         }
 
         private async void Timer_Tick(object sender, ElapsedEventArgs e)
@@ -91,13 +91,11 @@ namespace schule_als_staat_qr_scanner
                     lastQrCode = qrcode;
                     lastScanTime = DateTime.Now;
 
-                    await Dispatcher.InvokeAsync(() =>
+                    await Dispatcher.InvokeAsync(async () =>
                     {
-
                         if (IsCodeValid(qrcode))
                         {
-                            PlaySoundAsync(soundPlayerOk);
-                            this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
+                            await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
                             string[] parts = qrcode.Split(',');
                             if (parts.Length >= 2)
                             {
@@ -108,34 +106,15 @@ namespace schule_als_staat_qr_scanner
                         }
                         else
                         {
-                            if (qrcode.Contains("$esam öffne dich"))
+                            if (qrcode.Contains("§esam öffne dich"))
                             {
-                                // Play the sound and change the background color
-                                PlaySoundAsync(soundPlayerMisc);
-                                this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#5c4a00"); // Yellow
-                                if (!isFullScreen)
-                                {
-                                    _hookID = SetHook(_proc);
-                                    this.WindowStyle = WindowStyle.None;
-                                    this.WindowState = WindowState.Maximized;
-                                    isFullScreen = true;
-                                }
-                                else
-                                {
-                                    UnhookWindowsHookEx(_hookID);
-                                    this.WindowStyle = WindowStyle.SingleBorderWindow;
-                                    this.WindowState = WindowState.Normal;
-                                    isFullScreen = false;
-                                }
-
+                                ToggleFullScreen();
                             }
                             else
                             {
-                                PlaySoundAsync(soundPlayerError);
-                                this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#450c0f");
+                                await PlaySoundAndChangeBackground(soundPlayerError, colorError);
                             }
                         }
-
                     });
                 }
                 else
@@ -150,9 +129,9 @@ namespace schule_als_staat_qr_scanner
                     if (lastQrCode != null)
                     {
                         lastQrCode = null;
-                        await Dispatcher.InvokeAsync(() =>
+                        await Dispatcher.InvokeAsync(async () =>
                         {
-                            this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#303133");
+                            await PlaySoundAndChangeBackground(null, colorNormal);
                         });
                     }
                 }
@@ -167,7 +146,6 @@ namespace schule_als_staat_qr_scanner
 
             return result == null ? null : result.Text;
         }
-
         private bool IsCodeValid(string idCardString)
         {
             string[] parts = idCardString.Split(',');
@@ -201,14 +179,6 @@ namespace schule_als_staat_qr_scanner
             }
         }
 
-        private Task PlaySoundAsync(SoundPlayer soundPlayer)
-        {
-            return Task.Run(() =>
-            {
-                soundPlayer.PlaySync();
-            });
-        }
-
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (isFullScreen)
@@ -217,12 +187,32 @@ namespace schule_als_staat_qr_scanner
             }
             else
             {
-                capture.Dispose();
-                timer.Dispose();
-                soundPlayerOk.Dispose();
-                soundPlayerError.Dispose();
-                UnhookWindowsHookEx(_hookID);
+                DisposeResources();
             }
+        }
+
+        private async Task PlaySoundAndChangeBackground(SoundPlayer soundPlayer, System.Windows.Media.Brush color)
+        {
+            if (soundPlayer != null)
+            {
+                soundPlayer.Play();
+            }
+            if (color != null)
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    Background = color;
+                });
+            }
+        }
+
+        private void DisposeResources()
+        {
+            capture.Dispose();
+            timer.Dispose();
+            soundPlayerOk.Dispose();
+            soundPlayerError.Dispose();
+            UnhookWindowsHookEx(_hookID);
         }
 
         private static IntPtr SetHook(LowLevelKeyboardProc proc)
@@ -238,53 +228,63 @@ namespace schule_als_staat_qr_scanner
         {
             if (e.Key == Key.C && !isFullScreen)
             {
-
-                // Play the sound and change the background color
-                await PlaySoundAsync(soundPlayerMisc);
-                this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#5c4a00"); // New Yellow
-                // Stop the timer
-                timer.Stop();
-
-                // Dispose the current capture
-                capture.Dispose();
-
-                // Add a delay to give the camera time to release its resources
-                await Task.Delay(1000); // 1 second delay
-
-                // Increment the camera index
-                cameraIndex++;
-
-                // Try to create a new VideoCapture with the new index
-                try
-                {
-                    capture = new VideoCapture(cameraIndex);
-                    var frame = capture.QueryFrame();
-                    if (frame == null)
-                    {
-                        throw new Exception("No frame");
-                    }
-                }
-                catch (Exception)
-                {
-                    // If it fails, reset the index to 0
-                    cameraIndex = 0;
-                    capture = new VideoCapture(cameraIndex);
-                }
-
-                // Restart the timer
-                timer.Start();
-
-                // Set the background color back to normal after the camera switch
-                this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#303133"); // Normal color
+                await SwitchCamera();
             }
             if (e.Key == Key.F && !isFullScreen)
+            {
+                ToggleFullScreen();
+            }
+        }
+
+        private async Task SwitchCamera()
+        {
+            await PlaySoundAndChangeBackground(soundPlayerMaintenance, colorMaintenance);
+            timer.Stop();
+
+            capture.Dispose();
+
+            await Task.Delay(1000);
+
+            cameraIndex++;
+
+            try
+            {
+                capture = new VideoCapture(cameraIndex);
+                var frame = capture.QueryFrame();
+                if (frame == null)
+                {
+                    throw new Exception("No frame");
+                }
+            }
+            catch (Exception)
+            {
+                cameraIndex = 0;
+                capture = new VideoCapture(cameraIndex);
+            }
+
+            timer.Start();
+            await PlaySoundAndChangeBackground(null, colorNormal);
+        }
+
+        private async void ToggleFullScreen()
+        {
+            await PlaySoundAndChangeBackground(soundPlayerMaintenance, colorMaintenance);
+            if (!isFullScreen)
             {
                 _hookID = SetHook(_proc);
                 this.WindowStyle = WindowStyle.None;
                 this.WindowState = WindowState.Maximized;
                 isFullScreen = true;
             }
+            else
+            {
+                UnhookWindowsHookEx(_hookID);
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.WindowState = WindowState.Normal;
+                isFullScreen = false;
+            }
         }
+
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
@@ -294,7 +294,7 @@ namespace schule_als_staat_qr_scanner
                 int vkCode = Marshal.ReadInt32(lParam);
                 if (vkCode == (int)KeyInterop.VirtualKeyFromKey(Key.LWin) || vkCode == (int)KeyInterop.VirtualKeyFromKey(Key.RWin))
                 {
-                    return (IntPtr)1; // Handled.
+                    return (IntPtr)1;
                 }
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
@@ -302,7 +302,6 @@ namespace schule_als_staat_qr_scanner
 
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
-
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
         private static extern bool UnhookWindowsHookEx(IntPtr hhk);

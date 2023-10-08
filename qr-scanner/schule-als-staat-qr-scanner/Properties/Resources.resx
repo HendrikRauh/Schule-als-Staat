@@ -124,8 +124,8 @@
   <data name="sound_error" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sound_error.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="sound_misc" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\sound_misc.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  <data name="sound_maintenance" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\sound_maintenance.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="sound_ok" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sound_ok.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

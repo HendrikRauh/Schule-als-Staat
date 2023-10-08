@@ -171,6 +171,7 @@
     <Content Include="cvextern.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\sound_maintenance.wav" />
     <None Include="Resources\sound_misc.wav" />
     <Resource Include="sas-logo.ico" />
     <None Include="Resources\salt.key" />
