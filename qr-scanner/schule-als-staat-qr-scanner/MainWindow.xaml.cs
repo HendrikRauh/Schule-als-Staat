@@ -19,51 +19,57 @@ using System.Windows.Media.Imaging;
 using ZXing;
 using ZXing.Common;
 
-
 namespace schule_als_staat_qr_scanner
 {
     public partial class MainWindow : Window
     {
+        // DLL Imports for keyboard hook and module handling
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
-        
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
-        
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern bool UnhookWindowsHookEx(IntPtr hhk);
-        
+
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
-        
+
+        // Constants for keyboard hook and camera settings
         private const int WH_KEYBOARD_LL = 13;
         private const int WM_KEYDOWN = 0x0100;
         private const int cameraFps = 30;
-        
+        private int cameraIndex = 0;
+
+        // Sound Players for different states
         private readonly SoundPlayer soundPlayerError = new SoundPlayer(Properties.Resources.sound_error);
         private readonly SoundPlayer soundPlayerMaintenance = new SoundPlayer(Properties.Resources.sound_maintenance);
         private readonly SoundPlayer soundPlayerOk = new SoundPlayer(Properties.Resources.sound_ok);
-        
+
+        // Colors for different states
         private readonly System.Windows.Media.Brush colorError = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#450c0f");
         private readonly System.Windows.Media.Brush colorMaintenance = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#5c4a00");
         private readonly System.Windows.Media.Brush colorNormal = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#303133");
         private readonly System.Windows.Media.Brush colorOk = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
-        
-        private readonly Timer timer = new Timer()
-        {
-            Interval = 1000 / cameraFps,
-            Enabled = true
-        };
-        
+
+        // Timer controlling the camera frame rate
+        private readonly Timer timer = new Timer() { Interval = 1000 / cameraFps, Enabled = true };
+
+        // Salt for Hashing in the QR Code validation
         private readonly string salt = Encoding.UTF8.GetString(Properties.Resources.salt);
-        
+
+        // Keyboard hook delegate
+        private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+
+        // Keyboard hook variables
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
-        
+
+        // Variables for application state and QR code scanning
         private DateTime lastScanTime = DateTime.MinValue;
         private VideoCapture capture;
         private bool isFullScreen = false;
-        private int cameraIndex = 0;
         private string lastQrCode;
 
         public MainWindow()
@@ -74,13 +80,14 @@ namespace schule_als_staat_qr_scanner
             this.KeyDown += MainWindow_KeyDown;
         }
 
+        // Initialize camera and timer
         private void InitializeComponents()
         {
             capture = new VideoCapture(cameraIndex);
-
             timer.Elapsed += Timer_Tick;
         }
 
+        // Timer Tick event handling
         private async void Timer_Tick(object sender, ElapsedEventArgs e)
         {
             var frame = capture.QueryFrame();
@@ -125,12 +132,13 @@ namespace schule_als_staat_qr_scanner
                         }
                         else
                         {
-                            if (qrcode.Contains("§esam öffne dich"))
+                            if (qrcode.Contains("$esam öffne dich"))
                             {
                                 ToggleFullScreen();
                             }
                             else
                             {
+                                Console.WriteLine($"Invalid QR Code: {qrcode}");
                                 await PlaySoundAndChangeBackground(soundPlayerError, colorError);
                             }
                         }
@@ -157,6 +165,7 @@ namespace schule_als_staat_qr_scanner
             }
         }
 
+        // QR Code scanning and validation methods
         private string FindQrCodeInImage(Bitmap bitmap)
         {
             var luminanceSource = new BitmapLuminanceSource(bitmap);
@@ -165,6 +174,7 @@ namespace schule_als_staat_qr_scanner
 
             return result == null ? null : result.Text;
         }
+
         private bool IsCodeValid(string idCardString)
         {
             string[] parts = idCardString.Split(',');
@@ -198,6 +208,7 @@ namespace schule_als_staat_qr_scanner
             }
         }
 
+        // Window event handlers
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (isFullScreen)
@@ -207,39 +218,6 @@ namespace schule_als_staat_qr_scanner
             else
             {
                 DisposeResources();
-            }
-        }
-
-        private async Task PlaySoundAndChangeBackground(SoundPlayer soundPlayer, System.Windows.Media.Brush color)
-        {
-            if (soundPlayer != null)
-            {
-                soundPlayer.Play();
-            }
-            if (color != null)
-            {
-                await Dispatcher.InvokeAsync(() =>
-                {
-                    Background = color;
-                });
-            }
-        }
-
-        private void DisposeResources()
-        {
-            capture.Dispose();
-            timer.Dispose();
-            soundPlayerOk.Dispose();
-            soundPlayerError.Dispose();
-            UnhookWindowsHookEx(_hookID);
-        }
-
-        private static IntPtr SetHook(LowLevelKeyboardProc proc)
-        {
-            using (Process curProcess = Process.GetCurrentProcess())
-            using (ProcessModule curModule = curProcess.MainModule)
-            {
-                return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
             }
         }
 
@@ -255,6 +233,33 @@ namespace schule_als_staat_qr_scanner
             }
         }
 
+        // Methods for sound playback and background color change
+        private async Task PlaySoundAndChangeBackground(SoundPlayer soundPlayer, System.Windows.Media.Brush color)
+        {
+            if (soundPlayer != null)
+            {
+                soundPlayer.Play();
+            }
+            if (color != null)
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    Background = color;
+                });
+            }
+        }
+
+        // Methods for sound playback and background color change
+        private void DisposeResources()
+        {
+            capture.Dispose();
+            timer.Dispose();
+            soundPlayerOk.Dispose();
+            soundPlayerError.Dispose();
+            UnhookWindowsHookEx(_hookID);
+        }
+
+        // Switch camera source
         private async Task SwitchCamera()
         {
             await PlaySoundAndChangeBackground(soundPlayerMaintenance, colorMaintenance);
@@ -285,6 +290,7 @@ namespace schule_als_staat_qr_scanner
             await PlaySoundAndChangeBackground(null, colorNormal);
         }
 
+        // Toggle full screen mode
         private async void ToggleFullScreen()
         {
             await PlaySoundAndChangeBackground(soundPlayerMaintenance, colorMaintenance);
@@ -304,7 +310,15 @@ namespace schule_als_staat_qr_scanner
             }
         }
 
-        private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
+        // Keyboard hook methods
+        private static IntPtr SetHook(LowLevelKeyboardProc proc)
+        {
+            using (Process curProcess = Process.GetCurrentProcess())
+            using (ProcessModule curModule = curProcess.MainModule)
+            {
+                return SetWindowsHookEx(WH_KEYBOARD_LL, proc, GetModuleHandle(curModule.ModuleName), 0);
+            }
+        }
 
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
         {
