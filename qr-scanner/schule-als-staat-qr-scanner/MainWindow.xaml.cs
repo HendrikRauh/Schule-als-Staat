@@ -277,6 +277,13 @@ namespace schule_als_staat_qr_scanner
                 // Set the background color back to normal after the camera switch
                 this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#303133"); // Normal color
             }
+            if (e.Key == Key.F && !isFullScreen)
+            {
+                _hookID = SetHook(_proc);
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
+                isFullScreen = true;
+            }
         }
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
