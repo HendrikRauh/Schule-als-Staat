@@ -11,7 +11,6 @@
     <ErrorReportUrlHistory />
     <FallbackCulture>de-DE</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>
-    <PublishSingleFile>true</PublishSingleFile>
     <EnableSecurityDebugging>false</EnableSecurityDebugging>
   </PropertyGroup>
 </Project>
