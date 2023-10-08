@@ -1,51 +1,70 @@
-﻿using System;
-using System.Windows;
+﻿using Emgu.CV;
+using Emgu.CV.CvEnum;
+using Emgu.CV.Structure;
+using System;
+using System.Diagnostics;
 using System.Drawing;
-using System.Windows.Input;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Media;
+using System.Runtime.InteropServices;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
 using System.Timers;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ZXing;
 using ZXing.Common;
-using Emgu.CV;
-using Emgu.CV.Structure;
-using Emgu.CV.CvEnum;
-using System.Media;
-using System.Threading.Tasks;
-using System.Windows.Media;
-using System.Security.Cryptography;
-using System.Text;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
+
 
 namespace schule_als_staat_qr_scanner
 {
     public partial class MainWindow : Window
     {
-        private readonly System.Windows.Media.Brush colorOk = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
+        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr GetModuleHandle(string lpModuleName);
+        
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
+        
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
+        
+        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
+        private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
+        
+        private const int WH_KEYBOARD_LL = 13;
+        private const int WM_KEYDOWN = 0x0100;
+        private const int cameraFps = 30;
+        
+        private readonly SoundPlayer soundPlayerError = new SoundPlayer(Properties.Resources.sound_error);
+        private readonly SoundPlayer soundPlayerMaintenance = new SoundPlayer(Properties.Resources.sound_maintenance);
+        private readonly SoundPlayer soundPlayerOk = new SoundPlayer(Properties.Resources.sound_ok);
+        
         private readonly System.Windows.Media.Brush colorError = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#450c0f");
         private readonly System.Windows.Media.Brush colorMaintenance = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#5c4a00");
         private readonly System.Windows.Media.Brush colorNormal = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#303133");
-        private const int cameraFps = 30;
-        private VideoCapture capture;
+        private readonly System.Windows.Media.Brush colorOk = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
+        
         private readonly Timer timer = new Timer()
         {
             Interval = 1000 / cameraFps,
             Enabled = true
         };
-        private readonly SoundPlayer soundPlayerOk = new SoundPlayer(Properties.Resources.sound_ok);
-        private readonly SoundPlayer soundPlayerError = new SoundPlayer(Properties.Resources.sound_error);
-        private DateTime lastScanTime = DateTime.MinValue;
-        private string lastQrCode;
+        
         private readonly string salt = Encoding.UTF8.GetString(Properties.Resources.salt);
-        private bool isFullScreen = false;
-        private const int WH_KEYBOARD_LL = 13;
-        private const int WM_KEYDOWN = 0x0100;
+        
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
+        
+        private DateTime lastScanTime = DateTime.MinValue;
+        private VideoCapture capture;
+        private bool isFullScreen = false;
         private int cameraIndex = 0;
-        private readonly SoundPlayer soundPlayerMaintenance = new SoundPlayer(Properties.Resources.sound_maintenance);
+        private string lastQrCode;
 
         public MainWindow()
         {
@@ -299,17 +318,5 @@ namespace schule_als_staat_qr_scanner
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
         }
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr SetWindowsHookEx(int idHook, LowLevelKeyboardProc lpfn, IntPtr hMod, uint dwThreadId);
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool UnhookWindowsHookEx(IntPtr hhk);
-
-        [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
-
-        [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        private static extern IntPtr GetModuleHandle(string lpModuleName);
     }
 }
