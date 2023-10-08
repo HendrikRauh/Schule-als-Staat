@@ -23,7 +23,7 @@ namespace schule_als_staat_qr_scanner
 {
     public partial class MainWindow : Window
     {
-        private readonly VideoCapture capture;
+        private VideoCapture capture;
         private readonly Timer timer;
         private readonly SoundPlayer soundPlayerOk;
         private readonly SoundPlayer soundPlayerError;
@@ -35,6 +35,8 @@ namespace schule_als_staat_qr_scanner
         private const int WM_KEYDOWN = 0x0100;
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
+        private int cameraIndex = 0;
+
 
         public MainWindow()
         {
@@ -43,7 +45,7 @@ namespace schule_als_staat_qr_scanner
             this.Closing += MainWindow_Closing;
 
             int cameraFps = 30;
-            capture = new VideoCapture(0);
+            capture = new VideoCapture(cameraIndex);
             timer = new Timer()
             {
                 Interval = 1000 / cameraFps,
@@ -55,6 +57,7 @@ namespace schule_als_staat_qr_scanner
             soundPlayerError = new SoundPlayer(Properties.Resources.sound_error);
 
             salt = Encoding.UTF8.GetString(Properties.Resources.salt);
+            this.KeyDown += MainWindow_KeyDown;
         }
 
         private async void Timer_Tick(object sender, ElapsedEventArgs e)
@@ -222,6 +225,43 @@ namespace schule_als_staat_qr_scanner
             }
         }
 
+        private async void MainWindow_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.C && !isFullScreen)
+            {
+                // Stop the timer
+                timer.Stop();
+        
+                // Dispose the current capture
+                capture.Dispose();
+        
+                // Add a delay to give the camera time to release its resources
+                await Task.Delay(1000); // 1 second delay
+        
+                // Increment the camera index
+                cameraIndex++;
+        
+                // Try to create a new VideoCapture with the new index
+                try
+                {
+                    capture = new VideoCapture(cameraIndex);
+                    var frame = capture.QueryFrame();
+                    if (frame == null)
+                    {
+                        throw new Exception("No frame");
+                    }
+                }
+                catch (Exception)
+                {
+                    // If it fails, reset the index to 0
+                    cameraIndex = 0;
+                    capture = new VideoCapture(cameraIndex);
+                }
+        
+                // Restart the timer
+                timer.Start();
+            }
+        }
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
 
         private static IntPtr HookCallback(int nCode, IntPtr wParam, IntPtr lParam)
