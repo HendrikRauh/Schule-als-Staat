@@ -36,6 +36,7 @@ namespace schule_als_staat_qr_scanner
         private static LowLevelKeyboardProc _proc = HookCallback;
         private static IntPtr _hookID = IntPtr.Zero;
         private int cameraIndex = 0;
+        private readonly SoundPlayer soundPlayerMisc;
 
 
         public MainWindow()
@@ -55,6 +56,7 @@ namespace schule_als_staat_qr_scanner
 
             soundPlayerOk = new SoundPlayer(Properties.Resources.sound_ok);
             soundPlayerError = new SoundPlayer(Properties.Resources.sound_error);
+            soundPlayerMisc = new SoundPlayer(Properties.Resources.sound_misc);
 
             salt = Encoding.UTF8.GetString(Properties.Resources.salt);
             this.KeyDown += MainWindow_KeyDown;
@@ -94,8 +96,8 @@ namespace schule_als_staat_qr_scanner
 
                         if (IsCodeValid(qrcode))
                         {
-                            this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
                             PlaySoundAsync(soundPlayerOk);
+                            this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
                             string[] parts = qrcode.Split(',');
                             if (parts.Length >= 2)
                             {
@@ -106,10 +108,11 @@ namespace schule_als_staat_qr_scanner
                         }
                         else
                         {
-                            this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#450c0f");
-                            PlaySoundAsync(soundPlayerError);
                             if (qrcode.Contains("$esam öffne dich"))
                             {
+                                // Play the sound and change the background color
+                                PlaySoundAsync(soundPlayerMisc);
+                                this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#5c4a00"); // Yellow
                                 if (!isFullScreen)
                                 {
                                     _hookID = SetHook(_proc);
@@ -124,6 +127,12 @@ namespace schule_als_staat_qr_scanner
                                     this.WindowState = WindowState.Normal;
                                     isFullScreen = false;
                                 }
+
+                            }
+                            else
+                            {
+                                PlaySoundAsync(soundPlayerError);
+                                this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#450c0f");
                             }
                         }
 
@@ -229,18 +238,22 @@ namespace schule_als_staat_qr_scanner
         {
             if (e.Key == Key.C && !isFullScreen)
             {
+
+                // Play the sound and change the background color
+                await PlaySoundAsync(soundPlayerMisc);
+                this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#5c4a00"); // New Yellow
                 // Stop the timer
                 timer.Stop();
-        
+
                 // Dispose the current capture
                 capture.Dispose();
-        
+
                 // Add a delay to give the camera time to release its resources
                 await Task.Delay(1000); // 1 second delay
-        
+
                 // Increment the camera index
                 cameraIndex++;
-        
+
                 // Try to create a new VideoCapture with the new index
                 try
                 {
@@ -257,9 +270,12 @@ namespace schule_als_staat_qr_scanner
                     cameraIndex = 0;
                     capture = new VideoCapture(cameraIndex);
                 }
-        
+
                 // Restart the timer
                 timer.Start();
+
+                // Set the background color back to normal after the camera switch
+                this.Background = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#303133"); // Normal color
             }
         }
         private delegate IntPtr LowLevelKeyboardProc(int nCode, IntPtr wParam, IntPtr lParam);
