@@ -227,10 +227,6 @@ namespace schule_als_staat_qr_scanner
             {
                 await SwitchCamera();
             }
-            if (e.Key == Key.F && !isFullScreen)
-            {
-                ToggleFullScreen();
-            }
         }
 
         // Methods for sound playback and background color change
