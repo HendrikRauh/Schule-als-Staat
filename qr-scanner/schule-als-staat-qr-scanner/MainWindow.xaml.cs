@@ -127,7 +127,7 @@ namespace schule_als_staat_qr_scanner
                             {
                                 string name = parts[0] + " " + parts[1];
                                 TextData.Text = name;
-                                TextDataTime.Text = $"Scanned on {DateTime.Now.ToLongDateString()} at {DateTime.Now.ToLongTimeString()}";
+                                TextDataTime.Text = $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToLongTimeString()}";
                             }
                         }
                         else
