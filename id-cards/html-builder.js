@@ -9,6 +9,9 @@
         )
       );
  */
+
+const getColor = require("./get-color-border.js");
+
 class HtmlBuilder {
   static html(head, body) {
     return `
@@ -56,7 +59,7 @@ class HtmlBuilder {
 
   static idCard(person, qrCode) {
     return `
-      <div id="idCard" style="--border-color: ${person.colorCode};">
+      <div id="idCard" style="--border-color: ${getColor(person.colorCode)};">
         <div id="title">Schule als Staat</div>
         <div id="content">
           <div id="leftSection">
