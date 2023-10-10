@@ -4,7 +4,7 @@
  */
 
 const sqlite3 = require("better-sqlite3");
-const generateMD5Hash = require("./id-cards/hashing");
+const generateHash = require("./id-cards/hashing");
 const fs = require("fs");
 
 const salt = fs.readFileSync("salt.key", "utf8").trim();
@@ -23,7 +23,7 @@ class Database {
     }
 
     insertPerson(firstName, lastName, className, colorCode) {
-        const id = generateMD5Hash(
+        const id = generateHash(
             `${firstName}${salt}${lastName}${salt}${className}`
         );
         this.db
