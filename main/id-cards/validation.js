@@ -5,14 +5,14 @@
  */
 
 const fs = require("fs");
-const generateMD5Hash = require("./hashing");
+const generateHash = require("./hashing");
 
 const salt = fs.readFileSync("../salt.key", "utf8").trim();
 
 function isValidIdCard(idCardString) {
     const [firstName, surname, className, hash] = idCardString.split(",");
 
-    const expectedHash = generateMD5Hash(
+    const expectedHash = generateHash(
         `${firstName}${salt}${surname}${salt}${className}`
     );
 
