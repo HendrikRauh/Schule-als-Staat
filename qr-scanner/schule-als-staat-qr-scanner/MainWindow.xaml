@@ -29,5 +29,14 @@
                 </StackPanel>
             </Viewbox>
         </DockPanel>
+        <Border Name="Overlay" Background="#EE006D8F" CornerRadius="0,10,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="300" Padding="10" Margin="0,0,0,0">
+            <Viewbox>
+                <StackPanel>
+                    <TextBlock Text="[C]: Change Camera" Foreground="#20ABD5" FontSize="12" Margin="0"/>
+                    <TextBlock Text="[B]: Black (no image)" Foreground="#20ABD5" FontSize="12" Margin="0"/>
+                    <TextBlock Text='Scan "$esam öffne dich": Fullscreen' Foreground="#20ABD5" FontSize="12" Margin="0"/>
+                </StackPanel>
+            </Viewbox>
+        </Border>
     </Grid>
 </Window>
