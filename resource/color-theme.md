@@ -26,3 +26,13 @@
 ![Forest Green](https://via.placeholder.com/15/009402/000000?text=+)     | `#009402` | Border-ORGA     |
 
 [Colors visualized](https://coolors.co/000000-ffffff-dedede-8734a8-d60000-009402)
+
+## Website
+
+| Color                                                            | Hex Code  | Use Case   |
+| ---------------------------------------------------------------- | --------- | ---------- |
+![Jet](https://via.placeholder.com/15/303133/000000?text=+)            | `#303133` | Background                |
+| ![White](https://via.placeholder.com/15/FFFFFF/000000?text=+)    | `#FFFFFF` | Text       |
+![Cerulean](https://via.placeholder.com/15/006D8F/000000?text=+)     | `#006D8F` | Primary     |
+
+[Colors visualized](https://coolors.co/303133-ffffff-006d8f)
