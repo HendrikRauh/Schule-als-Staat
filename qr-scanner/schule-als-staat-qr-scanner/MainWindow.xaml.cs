@@ -90,85 +90,79 @@ namespace schule_als_staat_qr_scanner
         // Timer Tick event handling
         private async void Timer_Tick(object sender, ElapsedEventArgs e)
         {
-            try
+            var frame = capture.QueryFrame();
+            if (frame == null)
             {
-                var frame = capture.QueryFrame();
-                if (frame == null)
-                {
-                    return;
-                }
-                var flippedFrame = new Mat();
-                CvInvoke.Flip(frame, flippedFrame, FlipType.Horizontal);
-                var bitmap = flippedFrame.ToImage<Bgr, byte>().ToBitmap();
-                var memoryStream = new MemoryStream();
-                bitmap.Save(memoryStream, ImageFormat.Bmp);
+                return;
+            }
+            var flippedFrame = new Mat();
+            CvInvoke.Flip(frame, flippedFrame, FlipType.Horizontal);
+            var bitmap = flippedFrame.ToImage<Bgr, byte>().ToBitmap();
+            var memoryStream = new MemoryStream();
+            bitmap.Save(memoryStream, ImageFormat.Bmp);
 
-                await Dispatcher.InvokeAsync(() =>
-                {
-                    ImageCamera.Source = BitmapFrame.Create(memoryStream);
-                    TextCurrentTime.Text = DateTime.Now.ToLongTimeString();
-                    TextCurrentDate.Text = DateTime.Now.ToLongDateString();
-                });
+            await Dispatcher.InvokeAsync(() =>
+            {
+                ImageCamera.Source = BitmapFrame.Create(memoryStream);
+                TextCurrentTime.Text = DateTime.Now.ToLongTimeString();
+                TextCurrentDate.Text = DateTime.Now.ToLongDateString();
+            });
 
-                string qrcode = await Task.Run(() => FindQrCodeInImage(bitmap));
-                if (!string.IsNullOrEmpty(qrcode))
+            string qrcode = await Task.Run(() => FindQrCodeInImage(bitmap));
+            if (!string.IsNullOrEmpty(qrcode))
+            {
+                if (qrcode != lastQrCode)
                 {
-                    if (qrcode != lastQrCode)
+                    lastQrCode = qrcode;
+                    lastScanTime = DateTime.Now;
+
+                    await Dispatcher.InvokeAsync(async () =>
                     {
-                        lastQrCode = qrcode;
-                        lastScanTime = DateTime.Now;
-
-                        await Dispatcher.InvokeAsync(async () =>
+                        if (IsCodeValid(qrcode))
                         {
-                            if (IsCodeValid(qrcode))
+                            await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
+                            string[] parts = qrcode.Split(',');
+                            if (parts.Length >= 2)
                             {
-                                await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
-                                string[] parts = qrcode.Split(',');
-                                if (parts.Length >= 2)
-                                {
-                                    string name = parts[0] + " " + parts[1];
-                                    TextData.Text = name;
-                                    TextDataTime.Text = $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToLongTimeString()}";
-                                }
+                                string name = parts[0] + " " + parts[1];
+                                TextData.Text = name;
+                                TextDataTime.Text = $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToLongTimeString()}";
+                            }
+                        }
+                        else
+                        {
+                            if (qrcode.Contains("$esam öffne dich"))
+                            {
+                                ToggleFullScreen();
                             }
                             else
                             {
-                                if (qrcode.Contains("$esam öffne dich"))
-                                {
-                                    ToggleFullScreen();
-                                }
-                                else
-                                {
-                                    Console.WriteLine($"Invalid QR Code: {qrcode}");
-                                    await PlaySoundAndChangeBackground(soundPlayerError, colorError);
-                                }
+                                Console.WriteLine($"Invalid QR Code: {qrcode}");
+                                await PlaySoundAndChangeBackground(soundPlayerError, colorError);
                             }
-                        });
-                    }
-                    else
-                    {
-                        lastScanTime = DateTime.Now;
-                    }
+                        }
+                    });
                 }
                 else
                 {
-                    if (DateTime.Now - lastScanTime > TimeSpan.FromSeconds(3))
+                    lastScanTime = DateTime.Now;
+                }
+            }
+            else
+            {
+                if (DateTime.Now - lastScanTime > TimeSpan.FromSeconds(3))
+                {
+                    if (lastQrCode != null)
                     {
-                        if (lastQrCode != null)
+                        lastQrCode = null;
+                        await Dispatcher.InvokeAsync(async () =>
                         {
-                            lastQrCode = null;
-                            await Dispatcher.InvokeAsync(async () =>
-                            {
-                                await PlaySoundAndChangeBackground(null, colorNormal);
-                            });
-                        }
+                            await PlaySoundAndChangeBackground(null, colorNormal);
+                        });
                     }
                 }
             }
-            catch {
-                TextCurrentDate.Text = "Error";
-                TextCurrentTime.Text = DateTime.Now.ToLongTimeString();
-            }
+
         }
 
         // QR Code scanning and validation methods
