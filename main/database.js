@@ -23,9 +23,7 @@ class Database {
     }
 
     insertPerson(firstName, lastName, className, colorCode) {
-        const id = generateHash(
-            `${firstName}${salt}${lastName}${salt}${className}`
-        );
+        const id = generateHash(`${firstName}${salt}${lastName}${salt}${className}`);
         this.db
             .prepare(
                 `INSERT OR REPLACE INTO people (id, firstName, lastName, className, colorCode) VALUES (?, ?, ?, ?, ?)`
@@ -34,9 +32,7 @@ class Database {
     }
 
     getPerson(firstName) {
-        const stmt = this.db.prepare(
-            "SELECT * FROM people WHERE firstName = ?"
-        );
+        const stmt = this.db.prepare("SELECT * FROM people WHERE firstName = ?");
         const person = stmt.get(firstName);
         return person;
     }

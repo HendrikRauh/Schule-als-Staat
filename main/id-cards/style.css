@@ -1,103 +1,101 @@
 /* Define color variables */
 :root {
-  --font-color: rgb(0, 0, 0);
-  --border-color: var(
-    --border-color
-  ); /* This color is dynamically set in the HTML */
-  --background-color: rgb(222, 222, 222);
+    --font-color: rgb(0, 0, 0);
+    --border-color: var(--border-color); /* This color is dynamically set in the HTML */
+    --background-color: rgb(222, 222, 222);
 }
 
 /* Body */
 body {
-  font-family: Arial, Helvetica, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* Container for ID cards */
 #container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
 }
 
 /* Individual ID card */
 #idCard {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  box-sizing: border-box;
-  width: 86mm;
-  height: 54mm;
-  margin: 0.5mm;
-  padding: 0.75mm;
-  background-color: var(--background-color);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 86mm;
+    height: 54mm;
+    margin: 0.5mm;
+    padding: 0.75mm;
+    background-color: var(--background-color);
 }
 
 /* ID card border color */
 #idCard::before {
-  --outerBorder: 1mm;
-  position: absolute;
-  top: var(--outerBorder);
-  left: var(--outerBorder);
-  bottom: var(--outerBorder);
-  right: var(--outerBorder);
-  box-sizing: border-box;
-  border: 1mm solid var(--border-color);
-  content: "";
+    --outerBorder: 1mm;
+    position: absolute;
+    top: var(--outerBorder);
+    left: var(--outerBorder);
+    bottom: var(--outerBorder);
+    right: var(--outerBorder);
+    box-sizing: border-box;
+    border: 1mm solid var(--border-color);
+    content: "";
 }
 
 /* ID card content padding */
 #idCard > * {
-  padding: 2.5mm;
+    padding: 2.5mm;
 }
 
 /* ID card content layout */
 #content {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: stretch;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: stretch;
 }
 
 /* ID card title */
 #title {
-  color: var(--font-color);
-  font-size: 7.5mm;
-  text-align: center;
-  text-decoration: underline;
-  margin-bottom: 2.5mm;
+    color: var(--font-color);
+    font-size: 7.5mm;
+    text-align: center;
+    text-decoration: underline;
+    margin-bottom: 2.5mm;
 }
 
 /* ID card left section */
 #leftSection {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 48mm;
-  font-size: 5mm;
-  line-height: 80%;
-  text-transform: uppercase;
-  color: var(--font-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 48mm;
+    font-size: 5mm;
+    line-height: 80%;
+    text-transform: uppercase;
+    color: var(--font-color);
 }
 
 /* ID card first name */
 #firstName {
-  margin-top: 3mm;
+    margin-top: 3mm;
 }
 
 /* ID card last name */
 #lastName {
-  margin-top: 2mm;
+    margin-top: 2mm;
 }
 
 /* ID card QR code */
 #qrCode {
-  width: 30mm;
-  height: 30mm;
+    width: 30mm;
+    height: 30mm;
 }
 
 /* QR code SVG path */
 #qrCode > svg > path {
-  stroke: black;
+    stroke: black;
 }
