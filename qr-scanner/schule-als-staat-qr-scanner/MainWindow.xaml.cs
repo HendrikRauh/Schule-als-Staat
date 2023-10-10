@@ -188,25 +188,26 @@ namespace schule_als_staat_qr_scanner
             string className = parts[2];
             string hash = parts[3];
 
-            string expectedHash = GenerateMD5Hash($"{firstName}{salt}{surname}{salt}{className}");
+            string expectedHash = GenerateSHA256Hash($"{firstName}{salt}{surname}{salt}{className}");
             return expectedHash == hash;
         }
 
-        private string GenerateMD5Hash(string input)
-        {
-            using (MD5 md5 = MD5.Create())
-            {
-                byte[] inputBytes = Encoding.ASCII.GetBytes(input);
-                byte[] hashBytes = md5.ComputeHash(inputBytes);
 
-                StringBuilder sb = new StringBuilder();
-                for (int i = 0; i < hashBytes.Length; i++)
+        public string GenerateSHA256Hash(string input)
+        {
+            using (SHA256 sha256 = SHA256.Create())
+            {
+                byte[] bytes = Encoding.UTF8.GetBytes(input);
+                byte[] hash = sha256.ComputeHash(bytes);
+                StringBuilder result = new StringBuilder();
+                for (int i = 0; i < hash.Length; i++)
                 {
-                    sb.Append(hashBytes[i].ToString("X2"));
+                    result.Append(hash[i].ToString("x2"));
                 }
-                return sb.ToString().ToLower();
+                return result.ToString();
             }
         }
+
 
         // Window event handlers
         private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
