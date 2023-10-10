@@ -1,6 +1,6 @@
 /*
-* This file generates a database, creates a table in it, and populates the table with initial data.
-*/
+ * This file generates a database, creates a table in it, and populates the table with initial data.
+ */
 
 const Database = require("./database.js");
 
