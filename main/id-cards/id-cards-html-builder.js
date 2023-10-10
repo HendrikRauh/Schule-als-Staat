@@ -4,6 +4,7 @@
  */
 
 const BaseHtmlBuilder = require("../base-html-builder");
+const getColor = require("./get-color-border");
 
 class IdCardsHtmlBuilder extends BaseHtmlBuilder {
     static idCardsContainer(idCards) {
@@ -23,7 +24,7 @@ class IdCardsHtmlBuilder extends BaseHtmlBuilder {
 
     static idCard(person, qrCode) {
         return `
-            <div id="idCard" style="--border-color: ${person.colorCode};">
+            <div id="idCard" style="--border-color: ${getColor(person.colorCode)};">
                 <div id="title">Schule als Staat</div>
                 <div id="content">
                 <div id="leftSection">
