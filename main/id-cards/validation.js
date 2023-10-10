@@ -12,9 +12,7 @@ const salt = fs.readFileSync("../salt.key", "utf8").trim();
 function isValidIdCard(idCardString) {
     const [firstName, surname, className, hash] = idCardString.split(",");
 
-    const expectedHash = generateHash(
-        `${firstName}${salt}${surname}${salt}${className}`
-    );
+    const expectedHash = generateHash(`${firstName}${salt}${surname}${salt}${className}`);
 
     return expectedHash === hash;
 }
