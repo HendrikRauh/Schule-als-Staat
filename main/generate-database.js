@@ -8,9 +8,9 @@ const db = new Database("DATA.db");
 
 db.createPeopleTable();
 
-db.insertPerson("Raffael", "Wolf", "J1", "transparent");
-db.insertPerson("Denis", "Ortlieb", "Lehrer", "green");
-db.insertPerson("Gerald", "Dietze", "Lehrer", "blue");
-db.insertPerson("Hendrik", "Rauh", "J1", "red");
+db.insertPerson("Raffael", "Wolf", "J1", "");
+db.insertPerson("Denis", "Ortlieb", "Lehrer", "LEITUNG");
+db.insertPerson("Hendrik", "Rauh", "J1", "ERSTHELFER");
+db.insertPerson("Alexander", "Becher", "BKZ", "EXTERN");
 
 console.log("Database created and populated successfully.");
