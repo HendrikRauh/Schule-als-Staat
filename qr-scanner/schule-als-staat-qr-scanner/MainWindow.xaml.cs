@@ -72,6 +72,8 @@ namespace schule_als_staat_qr_scanner
         private bool isFullScreen = false;
         private string lastQrCode;
 
+        private bool Error = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -90,79 +92,97 @@ namespace schule_als_staat_qr_scanner
         // Timer Tick event handling
         private async void Timer_Tick(object sender, ElapsedEventArgs e)
         {
-            var frame = capture.QueryFrame();
-            if (frame == null)
+            try
             {
-                return;
-            }
-
-            var flippedFrame = new Mat();
-            CvInvoke.Flip(frame, flippedFrame, FlipType.Horizontal);
-            var bitmap = flippedFrame.ToImage<Bgr, byte>().ToBitmap();
-            var memoryStream = new MemoryStream();
-            bitmap.Save(memoryStream, ImageFormat.Bmp);
-
-            await Dispatcher.InvokeAsync(() =>
-            {
-                ImageCamera.Source = BitmapFrame.Create(memoryStream);
-                TextCurrentTime.Text = DateTime.Now.ToLongTimeString();
-                TextCurrentDate.Text = DateTime.Now.ToLongDateString();
-            });
-
-            string qrcode = await Task.Run(() => FindQrCodeInImage(bitmap));
-            if (!string.IsNullOrEmpty(qrcode))
-            {
-                if (qrcode != lastQrCode)
+                var frame = capture.QueryFrame();
+                if (frame == null)
                 {
-                    lastQrCode = qrcode;
-                    lastScanTime = DateTime.Now;
+                    return;
+                }
+                var flippedFrame = new Mat();
+                CvInvoke.Flip(frame, flippedFrame, FlipType.Horizontal);
+                var bitmap = flippedFrame.ToImage<Bgr, byte>().ToBitmap();
+                var memoryStream = new MemoryStream();
+                bitmap.Save(memoryStream, ImageFormat.Bmp);
 
-                    await Dispatcher.InvokeAsync(async () =>
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    ImageCamera.Source = BitmapFrame.Create(memoryStream);
+                    TextCurrentTime.Text = DateTime.Now.ToLongTimeString();
+                    TextCurrentDate.Text = DateTime.Now.ToLongDateString();
+                });
+
+                string qrcode = await Task.Run(() => FindQrCodeInImage(bitmap));
+                if (!string.IsNullOrEmpty(qrcode))
+                {
+                    if (qrcode != lastQrCode)
                     {
-                        if (IsCodeValid(qrcode))
+                        lastQrCode = qrcode;
+                        lastScanTime = DateTime.Now;
+
+                        await Dispatcher.InvokeAsync(async () =>
                         {
-                            await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
-                            string[] parts = qrcode.Split(',');
-                            if (parts.Length >= 2)
+                            if (IsCodeValid(qrcode))
                             {
-                                string name = parts[0] + " " + parts[1];
-                                TextData.Text = name;
-                                TextDataTime.Text = $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToLongTimeString()}";
-                            }
-                        }
-                        else
-                        {
-                            if (qrcode.Contains("$esam öffne dich"))
-                            {
-                                ToggleFullScreen();
+                                await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
+                                string[] parts = qrcode.Split(',');
+                                if (parts.Length >= 2)
+                                {
+                                    string name = parts[0] + " " + parts[1];
+                                    TextData.Text = name;
+                                    TextDataTime.Text = $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToLongTimeString()}";
+                                }
                             }
                             else
                             {
-                                Console.WriteLine($"Invalid QR Code: {qrcode}");
-                                await PlaySoundAndChangeBackground(soundPlayerError, colorError);
+                                if (qrcode.Contains(" öffne dich"))
+                                {
+                                    ToggleFullScreen();
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"Invalid QR Code: {qrcode}");
+                                    await PlaySoundAndChangeBackground(soundPlayerError, colorError);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
+                    else
+                    {
+                        lastScanTime = DateTime.Now;
+                    }
                 }
                 else
                 {
-                    lastScanTime = DateTime.Now;
-                }
-            }
-            else
-            {
-                if (DateTime.Now - lastScanTime > TimeSpan.FromSeconds(3))
-                {
-                    if (lastQrCode != null)
+                    if (DateTime.Now - lastScanTime > TimeSpan.FromSeconds(3))
                     {
-                        lastQrCode = null;
-                        await Dispatcher.InvokeAsync(async () =>
+                        if (lastQrCode != null)
                         {
-                            await PlaySoundAndChangeBackground(null, colorNormal);
-                        });
+                            lastQrCode = null;
+                            await Dispatcher.InvokeAsync(async () =>
+                            {
+                                await PlaySoundAndChangeBackground(null, colorNormal);
+                            });
+                        }
                     }
                 }
+                Error = false;
             }
+            catch (Emgu.CV.Util.CvException)
+            {
+                Error = true;
+            }
+            Dispatcher.Invoke(() =>
+            {
+                if (Error)
+                {
+                    ErrorCircle.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ErrorCircle.Visibility = Visibility.Hidden;
+                }
+            });
         }
 
         // QR Code scanning and validation methods
@@ -294,15 +314,23 @@ namespace schule_als_staat_qr_scanner
             if (!isFullScreen)
             {
                 _hookID = SetHook(_proc);
+                this.Topmost = true;
+                this.WindowState = WindowState.Normal;
                 this.WindowStyle = WindowStyle.None;
                 this.WindowState = WindowState.Maximized;
+                this.ResizeMode = ResizeMode.NoResize;
+                Overlay.Visibility = Visibility.Hidden;
                 isFullScreen = true;
             }
             else
             {
                 UnhookWindowsHookEx(_hookID);
+
+                this.Topmost = false;
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
                 this.WindowState = WindowState.Normal;
+                this.ResizeMode = ResizeMode.CanResize;
+                Overlay.Visibility = Visibility.Visible;
                 isFullScreen = false;
             }
         }
