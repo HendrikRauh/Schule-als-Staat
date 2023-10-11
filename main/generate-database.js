@@ -4,13 +4,13 @@
 
 const Database = require("./database.js");
 
-const db = new Database("DATA.db");
+const peopleTable = new Database("DATA.db").People;
 
-db.createPeopleTable();
+peopleTable.createPeopleTable();
 
-db.insertPerson("Raffael", "Wolf", "J1", "");
-db.insertPerson("Denis", "Ortlieb", "Lehrer", "LEITUNG");
-db.insertPerson("Hendrik", "Rauh", "J1", "ERSTHELFER");
-db.insertPerson("Alexander", "Becher", "BKZ", "EXTERN");
+peopleTable.insertPerson("Raffael", "Wolf", "J1", "");
+peopleTable.insertPerson("Denis", "Ortlieb", "Lehrer", "LEITUNG");
+peopleTable.insertPerson("Hendrik", "Rauh", "J1", "ERSTHELFER");
+peopleTable.insertPerson("Alexander", "Becher", "BKZ", "EXTERN");
 
 console.log("Database created and populated successfully.");

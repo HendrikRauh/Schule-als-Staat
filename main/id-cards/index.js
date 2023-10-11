@@ -7,10 +7,10 @@ const QRCode = require("qrcode");
 const IdCardsHtmlBuilder = require("./id-cards-html-builder.js");
 
 // Initializing database
-const db = new Database("DATA.db");
+const peopleTable = new Database("DATA.db").People;
 
 module.exports.getHtml = async function () {
-    const people = db.getAllPeople();
+    const people = peopleTable.getAllPeople();
 
     const qrCodes = await Promise.all(
         people.map((person) =>
