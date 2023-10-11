@@ -7,11 +7,11 @@ const allowedPaths = ["/", "/id-cards/"];
 
 // Creating server
 const server = http.createServer(async (req, res) => {
+    console.log("url", req.url);
+
     // ---------------------------------
     // prevent path traversal
     // ---------------------------------
-
-    console.log("url", req.url);
 
     // prevent null byte attack
     if (req.url.indexOf("/0") !== -1) {
