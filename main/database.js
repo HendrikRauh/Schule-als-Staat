@@ -1,6 +1,14 @@
-/*
- * This file defines a Database class with methods for creating a people table,
- * inserting a person into the table, getting a person by first name, and getting all people from the table.
+/**
+ * This file defines a Database class which holds the different tables of the database.
+ * Tables:
+ * - People: contains methods for creating a people table,
+ *           inserting a person into the table,
+ *           getting a person by first name,
+ *           and getting all people from the table.
+ * 
+ * - Attendance: contains methods for createing a attendance table,
+ *               checking an person in and out by their Id,
+ *               and retrieve by Id wheter a person is checked in.
  */
 
 const sqlite3 = require("better-sqlite3");
