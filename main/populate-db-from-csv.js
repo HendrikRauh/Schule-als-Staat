@@ -23,12 +23,12 @@ const Database = require("./database.js");
 const filePath = process.argv[2];
 if (filePath === undefined) {
     console.log("\nError:\nPlease pass the path to the CSV file as an argument.\n");
-    process.exit();
+    process.exit(1);
 }
 const joinedPath = path.join("./", filePath);
 if (!fs.existsSync(joinedPath)) {
     console.log("\nError:\nFile was not found! Make sure that you the path is correct.\n");
-    process.exit();
+    process.exit(1);
 }
 
 readCsv(joinedPath, (people) => {
