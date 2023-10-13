@@ -1,10 +1,10 @@
 /**
- * This file can be called from command line to read the students from a CSV file and insert them into the database.
- * The file name must be passed as an argument to the file.
+ * This file can be called from the command line to read the students from a CSV file and insert them into the database.
+ * The file name must be passed as an argument to the node.js file.
  * 
  * Usage:
  * node populate-db-from-csv.js mbg_schuelerliste.CSV
- *                              ---------------------  file name
+ *                              ---------------------  csv file name
  */
 
 const path = require("path");
