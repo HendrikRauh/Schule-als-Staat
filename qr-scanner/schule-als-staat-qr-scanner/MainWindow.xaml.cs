@@ -131,12 +131,12 @@ namespace schule_als_staat_qr_scanner
                             {
                                 Console.WriteLine($"Checking QR, locally valid: {qrcode}");
                                 string[] parts = qrcode.Split(',');
-                                string currentTime = DateTime.Now.ToString();
+                                Int32 unixTime = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
                                 string id = parts[3];
                                 string url = $"{serverUrl}/attendance/change-attendance.js";
 
 
-                                var payload = new { time = currentTime, id = id };
+                                var payload = new { time = unixTime, id = id };
                                 string jsonPayload = System.Text.Json.JsonSerializer.Serialize(payload);
 
                                 Console.WriteLine($"Sending POST request to {url} with payload {jsonPayload}");
