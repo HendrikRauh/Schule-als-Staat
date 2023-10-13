@@ -135,7 +135,7 @@ namespace schule_als_staat_qr_scanner
                             }
                             else
                             {
-                                if (qrcode.Contains(" öffne dich"))
+                                if (qrcode.Contains("Sesam öffne dich"))
                                 {
                                     ToggleFullScreen();
                                 }
