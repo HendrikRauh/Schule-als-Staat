@@ -1,5 +1,10 @@
 /**
- * This file contains a function that can be used to read the content of a CSV-file which contains the data of the students.
+ * This file contains a function that can be used to read the content of a CSV file
+ * which contains the data of the students.
+ * 
+ * Call readCsvFile with the path of the CSV file and a callback
+ * that will be invoked when the content of the file is read completely.
+ * The list of students is passed to the callback function.
  */
 
 const fs = require("fs");
