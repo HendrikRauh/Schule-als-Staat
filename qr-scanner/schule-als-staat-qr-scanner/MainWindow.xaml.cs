@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Media;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -23,6 +24,10 @@ namespace schule_als_staat_qr_scanner
 {
     public partial class MainWindow : Window
     {
+        // Server related variables
+        private readonly string serverUrl = "http://localhost:3000";
+        HttpClient client = new HttpClient();
+
         // DLL Imports for keyboard hook and module handling
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
@@ -124,18 +129,32 @@ namespace schule_als_staat_qr_scanner
                         {
                             if (IsCodeValid(qrcode))
                             {
-                                await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
+                                Console.WriteLine($"Checking QR, locally valid: {qrcode}");
                                 string[] parts = qrcode.Split(',');
-                                if (parts.Length >= 2)
+                                long unixTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+                                string id = parts[3];
+
+                                bool isValid = await ValidateWithServer(id, unixTime);
+
+                                if (isValid)
                                 {
-                                    string name = parts[0] + " " + parts[1];
-                                    TextData.Text = name;
-                                    TextDataTime.Text = $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToLongTimeString()}";
+                                    await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
+                                    if (parts.Length >= 2)
+                                    {
+                                        string name = parts[0] + " " + parts[1];
+                                        TextData.Text = name;
+                                        TextDataTime.Text = $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToLongTimeString()}";
+                                    }
+                                }
+                                else
+                                {
+                                    await PlaySoundAndChangeBackground(soundPlayerError, colorError);
                                 }
                             }
+
                             else
                             {
-                                if (qrcode.Contains(" öffne dich"))
+                                if (qrcode.Contains("Sesam öffne dich"))
                                 {
                                     ToggleFullScreen();
                                 }
@@ -173,16 +192,16 @@ namespace schule_als_staat_qr_scanner
                 Error = true;
             }
             Dispatcher.Invoke(() =>
-            {
-                if (Error)
-                {
-                    ErrorCircle.Visibility = Visibility.Visible;
-                }
-                else
-                {
-                    ErrorCircle.Visibility = Visibility.Hidden;
-                }
-            });
+                    {
+                        if (Error)
+                        {
+                            ErrorCircle.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            ErrorCircle.Visibility = Visibility.Hidden;
+                        }
+                    });
         }
 
         // QR Code scanning and validation methods
@@ -212,6 +231,41 @@ namespace schule_als_staat_qr_scanner
             return expectedHash == hash;
         }
 
+        private async Task<bool> ValidateWithServer(string id, long unixTime)
+        {
+            string url = $"{serverUrl}/attendance/change-attendance.js";
+            var payload = new { time = unixTime, id = id };
+            string jsonPayload = System.Text.Json.JsonSerializer.Serialize(payload);
+
+            Console.WriteLine($"Sending POST request to {url} with payload {jsonPayload}");
+
+            HttpContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+
+            try
+            {
+                HttpResponseMessage response = await client.PostAsync(url, content);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string responseBody = await response.Content.ReadAsStringAsync();
+                    await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
+                    return true;
+                }
+                else
+                {
+                    Console.WriteLine($"POST request failed with status code: {response.StatusCode}");
+                    await PlaySoundAndChangeBackground(soundPlayerError, colorError);
+                    return false;
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"POST request failed with exception: {ex.Message}");
+                Console.WriteLine($"This might be because the server was not reachable.");
+                await PlaySoundAndChangeBackground(soundPlayerError, colorError);
+                return false;
+            }
+        }
 
         public string GenerateSHA256Hash(string input)
         {
