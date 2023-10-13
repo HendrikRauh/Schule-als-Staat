@@ -24,7 +24,6 @@ if (!fs.existsSync(joinedPath)) {
     process.exit();
 }
 
-
 readCsv(joinedPath, (people) => {
     console.log("inserting people into the database...");
     insertIntoDb(people);
