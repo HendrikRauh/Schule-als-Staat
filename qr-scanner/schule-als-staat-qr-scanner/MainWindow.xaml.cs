@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Media;
+using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
@@ -23,6 +24,10 @@ namespace schule_als_staat_qr_scanner
 {
     public partial class MainWindow : Window
     {
+        // Server related variables
+        private readonly string serverUrl = "http://localhost:3000";
+        HttpClient client = new HttpClient();
+
         // DLL Imports for keyboard hook and module handling
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
@@ -124,13 +129,46 @@ namespace schule_als_staat_qr_scanner
                         {
                             if (IsCodeValid(qrcode))
                             {
-                                await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
+                                Console.WriteLine($"Checking QR, locally valid: {qrcode}");
                                 string[] parts = qrcode.Split(',');
+                                string currentTime = DateTime.Now.ToString();
+                                string id = parts[3];
+                                string url = $"{serverUrl}/attendance/change-attendance.js";
+
+
+                                var payload = new { time = currentTime, id = id };
+                                string jsonPayload = System.Text.Json.JsonSerializer.Serialize(payload);
+
+                                Console.WriteLine($"Sending POST request to {url} with payload {jsonPayload}");
+
+                                HttpContent content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
+                                
+                                try {
+                                HttpResponseMessage response = await client.PostAsync(url, content); ;
+
+                                if (response.IsSuccessStatusCode)
+                                {
+                                    string responseBody = await response.Content.ReadAsStringAsync();
+                                    await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
+                                }
+                                else
+                                {
+                                    Console.WriteLine($"POST request failed with status code: {response.StatusCode}");
+                                    await PlaySoundAndChangeBackground(soundPlayerError, colorError);
+                                }
+
+
                                 if (parts.Length >= 2)
                                 {
                                     string name = parts[0] + " " + parts[1];
                                     TextData.Text = name;
                                     TextDataTime.Text = $"{DateTime.Now.ToShortDateString()} - {DateTime.Now.ToLongTimeString()}";
+                                }}
+                                catch (HttpRequestException ex)
+                                {
+                                    Console.WriteLine($"POST request failed with exception: {ex.Message}");
+                                    Console.WriteLine($"This might be because the server was not reachable.");
+                                    await PlaySoundAndChangeBackground(soundPlayerError, colorError);
                                 }
                             }
                             else
