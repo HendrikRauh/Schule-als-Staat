@@ -1,8 +1,14 @@
 /**
- * This file can be called from the command line to read the students from a CSV file and insert them into the database.
+ * This file can be called from the command line to read the students from a CSV file
+ * and insert them into the database.
  * The file name must be passed as an argument to the node.js file.
  *
- * Usage:
+ * Note:
+ * The students first name, last name and class are taken from the CSV file.
+ * The color code is not included in the CSV file,
+ * thus the color code will be automatically set to an emtpy string (-> transparent border on the id card)
+ *
+ * Usage (from command line):
  * node populate-db-from-csv.js mbg_schuelerliste.CSV
  *                              ---------------------  csv file name
  */
