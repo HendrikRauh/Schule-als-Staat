@@ -12,16 +12,13 @@ body {
 
 /* Container for ID cards */
 #container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
+    font-size: 0; /* remove empty white space between the id cards */
 }
 
 /* Individual ID card */
 #idCard {
     position: relative;
-    display: flex;
+    display: inline-flex;
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
@@ -98,4 +95,11 @@ body {
 /* QR code SVG path */
 #qrCode > svg > path {
     stroke: black;
+}
+
+/* Rules for print layout */
+@media print {
+    div#idCard {
+        break-inside: avoid-page;
+    }
 }
