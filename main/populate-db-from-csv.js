@@ -27,7 +27,7 @@ if (filePath === undefined) {
 }
 const joinedPath = path.join("./", filePath);
 if (!fs.existsSync(joinedPath)) {
-    console.log("\nError:\nFile was not found! Make sure that you the path is correct.\n");
+    console.log("\nError:\nFile was not found! Make sure that the path is correct.\n");
     process.exit(1);
 }
 
