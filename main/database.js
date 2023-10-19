@@ -34,7 +34,7 @@ class TablePeople {
     createPeopleTable() {
         this.db
             .prepare(
-                "CREATE TABLE IF NOT EXISTS people (id TEXT PRIMARY KEY, firstName TEXT, lastName TEXT, className TEXT, colorCode INTEGER)"
+                "CREATE TABLE IF NOT EXISTS people (id TEXT PRIMARY KEY, firstName TEXT, lastName TEXT, className TEXT, colorCode TEXT)"
             )
             .run();
     }
