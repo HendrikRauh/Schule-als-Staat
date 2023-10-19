@@ -78,12 +78,14 @@ body {
 
 /* ID card first name */
 #firstName {
-    margin-top: 3mm;
+    margin-top: 2mm;
 }
 
 /* ID card last name */
 #lastName {
-    margin-top: 2mm;
+    margin-top: 1mm;
+    margin-bottom: -2px;
+    line-height: 100%;
 }
 
 /* ID card QR code */
