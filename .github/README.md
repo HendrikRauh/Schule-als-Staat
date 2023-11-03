@@ -4,7 +4,7 @@
 
 ## Task management
 
-For task management we use [Clickup](https://clickup.com/). This tool helps us to organise our tasks, assign them to team members and track our progress.
+For task management we use [ClickUp](https://clickup.com/). This tool helps us to organise our tasks, assign them to team members and track our progress.
 
 ## ID card generation
 
