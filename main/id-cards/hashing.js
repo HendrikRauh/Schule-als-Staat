@@ -1,5 +1,5 @@
 /*
- * This file contains a function to generate an MD5 hash from a string.
+ * This file contains a function to generate an sha256 hash from a string.
  */
 
 const crypto = require("crypto");
