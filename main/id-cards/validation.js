@@ -1,7 +1,7 @@
 /*
  * This file contains a function that validates an ID card string.
- * The ID card string is a comma-separated string of the first name, surname, class, and an MD5 hash.
- * The MD5 hash is generated from the first name, surname, and class, each separated by a salt.
+ * The ID card string is a comma-separated string of the first name, surname, class, and an sha256 hash.
+ * The sha256 hash is generated from the first name, surname, and class, each separated by a salt.
  */
 
 const fs = require("fs");
