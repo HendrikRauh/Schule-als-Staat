@@ -40,7 +40,8 @@ const server = http.createServer(async (req, res) => {
         // Handling CSS and SVG files
         const isCss = pathString.endsWith(".css");
         const isSvg = pathString.endsWith(".svg");
-        if (isCss || isSvg) {
+        const isIco = pathString.endsWith(".ico");
+        if (isCss || isSvg || isIco) {
             fs.readFile(pathString, "utf8", (err, data) => {
                 if (err) {
                     res.writeHead(404, { "Content-Type": "text/plain" });
@@ -51,6 +52,8 @@ const server = http.createServer(async (req, res) => {
                         contentType = "text/css";
                     } else if (isSvg) {
                         contentType = "image/svg+xml";
+                    } else if(isIco) {
+                        contentType = "image/x-icon";
                     }
                     res.writeHead(200, { "Content-Type": contentType });
                     res.end(data);
