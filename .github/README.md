@@ -4,7 +4,7 @@
 
 ## Task management
 
-For task management we use [ClickUp](https://clickup.com/). This tool helps us to organise our tasks, assign them to team members and track our progress.
+For task management we use [ClickUp](https://clickup.com/). This tool helps us to organize our tasks, assign them to team members and track our progress.
 
 ## ID card generation
 
@@ -20,7 +20,7 @@ To ensure consistency in our code, we have established a set of coding rules. Th
 
 ## Surveys
 
-We use [Microsoft Forms](https://forms.office.com/) to handle high traffic surveys and data visualisation. This tool allows us to create surveys and polls, collect responses in real time, and display automatic charts to visualise the data.
+We use [Microsoft Forms](https://forms.office.com/) to handle high traffic surveys and data visualization. This tool allows us to create surveys and polls, collect responses in real time, and display automatic charts to visualize the data.
 
 ## ID Card Scanning
 
