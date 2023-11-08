@@ -34,4 +34,4 @@ The backend of our application is built using [Node.js](https://nodejs.org/). No
 
 ### Frontend
 
-The frontend of our application is built using JavaScript. JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification. It is a language that is also characterised as dynamic, weakly typed, prototype-based and multi-paradigm. It allows us to create interactive web pages and is an essential part of web applications.
+The frontend of our application is built using JavaScript. JavaScript is a high-level, interpreted programming language that conforms to the ECMAScript specification. It is a language that is also characterized as dynamic, weakly typed, prototype-based and multi-paradigm. It allows us to create interactive web pages and is an essential part of web applications.
