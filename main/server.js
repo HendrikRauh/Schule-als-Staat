@@ -4,7 +4,7 @@ const fs = require("fs");
 const path = require("path");
 
 // remember to escape backslashes in paths
-const allowedPaths = ["\\", "\\id-cards\\"];
+const allowedPaths = ["", "id-cards\\"];
 
 // Creating server
 const server = http.createServer(async (req, res) => {
@@ -25,27 +25,26 @@ const server = http.createServer(async (req, res) => {
         res.end("Access denied");
         return;
     }
-    const safeInput = path.normalize(req.url).replace(/^(\.\.(\/|\\|$))+/, "");
-    const pathString = path.join(__dirname, safeInput);
+    const safeUrl = path.normalize(req.url).replace(/^(\.\.(\/|\\|$))+/, "").substring(1);
+    const pathString = path.join(__dirname, safeUrl);
     if (pathString.indexOf(__dirname) !== 0) {
         res.writeHead(403, { "Content-Type": "text/plain" });
         res.end("Access denied");
         return;
     }
 
-    console.log("safeInput", safeInput);
-    console.log("pathString", pathString);
+    console.log(`safeUrl: '${safeUrl}'`);
 
     // ---------------------------------
     // Handle requests
     // ---------------------------------
     try {
         // Handling .css, .svg and .ico files
-        const isCss = pathString.endsWith(".css");
-        const isSvg = pathString.endsWith(".svg");
-        const isIco = pathString.endsWith(".ico");
+        const isCss = safeUrl.endsWith(".css");
+        const isIco = safeUrl.endsWith(".ico");
+        const isSvg = safeUrl.endsWith(".svg");
         if (isCss || isSvg || isIco) {
-            fs.readFile(pathString, (err, data) => {
+            fs.readFile(safeUrl, (err, data) => {
                 if (err) {
                     res.writeHead(404, { "Content-Type": "text/plain" });
                     res.end("Not found");
@@ -64,8 +63,8 @@ const server = http.createServer(async (req, res) => {
             });
         }
         // Handling URLs that are listed in allowedPaths
-        else if (allowedPaths.includes(safeInput)) {
-            const index = require("." + safeInput + "index");
+        else if (allowedPaths.includes(safeUrl)) {
+            const index = require(".\\" + safeUrl + "index");
             const html = await index.getHtml();
 
             res.writeHead(200, { "Content-Type": "text/html" });
