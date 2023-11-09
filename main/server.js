@@ -37,7 +37,7 @@ const server = http.createServer(async (req, res) => {
     // Handle requests
     // ---------------------------------
     try {
-        // Handling CSS and SVG files
+        // Handling .css, .svg and .ico files
         const isCss = pathString.endsWith(".css");
         const isSvg = pathString.endsWith(".svg");
         const isIco = pathString.endsWith(".ico");
@@ -60,9 +60,9 @@ const server = http.createServer(async (req, res) => {
                 }
             });
         }
-        // Handling URLs that are listed in possiblePaths
-        else if (allowedPaths.includes(req.url)) {
-            const index = require("." + req.url + "index");
+        // Handling URLs that are listed in allowedPaths
+        else if (allowedPaths.includes(safeInput)) {
+            const index = require("." + safeInput + "index");
             const html = await index.getHtml();
 
             res.writeHead(200, { "Content-Type": "text/html" });
