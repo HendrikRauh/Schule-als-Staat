@@ -10,6 +10,10 @@
  */
 
 class BaseHtmlBuilder {
+    static getFaviconPath() {
+        return "favicon.ico";
+    }
+
     static html(head, body) {
         return `
             <!DOCTYPE html>
@@ -25,7 +29,7 @@ class BaseHtmlBuilder {
                 <meta charset="UTF-8"/>
                 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                 <title>${title}</title>
-                <link rel="icon" type="image/x-icon" href="favicon.ico">
+                <link rel="icon" type="image/x-icon" href="${this.getFaviconPath()}">
                 `;
 
         for (const styleSheet of styleSheets) {

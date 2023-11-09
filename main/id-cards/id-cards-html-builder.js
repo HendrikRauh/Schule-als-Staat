@@ -7,6 +7,10 @@ const BaseHtmlBuilder = require("../base-html-builder");
 const getColor = require("./get-color-border");
 
 class IdCardsHtmlBuilder extends BaseHtmlBuilder {
+    static getFaviconPath() {
+        return "../favicon.ico";
+    }
+
     static idCardsContainer(idCards) {
         return `
             <div id="container">
