@@ -6,6 +6,13 @@ const path = require("path");
 // remember to escape backslashes in paths
 const allowedPaths = ["", "id-cards\\"];
 
+// allowed file type + MIME type
+const allowedFileTypes = new Map([
+    [".css", "text/css"],
+    [".svg", "image/svg+xml"],
+    [".ico", "image/x-icon"],
+]);
+
 // Creating server
 const server = http.createServer(async (req, res) => {
 
@@ -14,7 +21,7 @@ const server = http.createServer(async (req, res) => {
         res.writeHead(403, { "Content-Type": "text/plain" });
         res.end("Access denied");
         return;
-    } 
+    }
 
     const safeUrl = result.safeUrl;
     console.log(`safeUrl: '${safeUrl}'`);
@@ -23,24 +30,17 @@ const server = http.createServer(async (req, res) => {
     // Handle requests
     // ---------------------------------
     try {
-        // Handling .css, .svg and .ico files
-        const isCss = safeUrl.endsWith(".css");
-        const isIco = safeUrl.endsWith(".ico");
-        const isSvg = safeUrl.endsWith(".svg");
-        if (isCss || isSvg || isIco) {
+        // Handling resource files that are specified in allowedFileTypes
+        const key = [...allowedFileTypes.keys()].find((fileType) => {
+            return safeUrl.endsWith(fileType);
+        });
+        if (key) {
             fs.readFile(safeUrl, (err, data) => {
                 if (err) {
                     res.writeHead(404, { "Content-Type": "text/plain" });
                     res.end("Not found");
                 } else {
-                    let contentType = "";
-                    if (isCss) {
-                        contentType = "text/css";
-                    } else if (isSvg) {
-                        contentType = "image/svg+xml";
-                    } else if (isIco) {
-                        contentType = "image/x-icon";
-                    }
+                    const contentType = allowedFileTypes.get(key)
                     res.writeHead(200, { "Content-Type": contentType });
                     res.end(data);
                 }
@@ -77,7 +77,7 @@ function checkUrl(url) {
     let resultNotSafe = {
         isUrlSafe: false,
         safeUrl: null
-    }
+    };
 
     // prevent null byte attack
     if (url.indexOf("/0") !== -1) {
