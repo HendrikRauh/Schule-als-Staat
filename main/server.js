@@ -3,11 +3,11 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const allowedPaths = ["/", "/id-cards/"];
+// remember to escape backslashes in paths
+const allowedPaths = ["\\", "\\id-cards\\"];
 
 // Creating server
 const server = http.createServer(async (req, res) => {
-    console.log("url", req.url);
 
     // ---------------------------------
     // prevent path traversal
@@ -33,6 +33,9 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
+    console.log("safeInput", safeInput);
+    console.log("pathString", pathString);
+
     // ---------------------------------
     // Handle requests
     // ---------------------------------
@@ -42,7 +45,7 @@ const server = http.createServer(async (req, res) => {
         const isSvg = pathString.endsWith(".svg");
         const isIco = pathString.endsWith(".ico");
         if (isCss || isSvg || isIco) {
-            fs.readFile(pathString, "utf8", (err, data) => {
+            fs.readFile(pathString, (err, data) => {
                 if (err) {
                     res.writeHead(404, { "Content-Type": "text/plain" });
                     res.end("Not found");
@@ -53,7 +56,7 @@ const server = http.createServer(async (req, res) => {
                     } else if (isSvg) {
                         contentType = "image/svg+xml";
                     } else if(isIco) {
-                        contentType = "image/vnd.microsoft.icon";
+                        contentType = "image/x-icon";
                     }
                     res.writeHead(200, { "Content-Type": contentType });
                     res.end(data);
