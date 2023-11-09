@@ -3,7 +3,7 @@
 "Schule als Staat" is a school project that turns the school into a "state" inhabited by students and teachers. This interactive project allows students to simulate a state structure and learn about politics, economics and decision-making.
 
 ## Libraries that are used in this project
-- [better-splite3](https://github.com/WiseLibs/better-sqlite3), a fast and simple library for SQLite3 in Node.js
+- [better-sqlite3](https://github.com/WiseLibs/better-sqlite3), a fast and simple library for SQLite3 in Node.js
 - [fast-csv](https://github.com/C2FO/fast-csv), a library for parsing and formatting CSV-files or any other delimited value file in Node.js
 - [node-qrcode](https://github.com/soldair/node-qrcode), a library for generating QR codes
 
