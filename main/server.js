@@ -53,7 +53,7 @@ const server = http.createServer(async (req, res) => {
                     } else if (isSvg) {
                         contentType = "image/svg+xml";
                     } else if(isIco) {
-                        contentType = "image/x-icon";
+                        contentType = "image/vnd.microsoft.icon";
                     }
                     res.writeHead(200, { "Content-Type": contentType });
                     res.end(data);
