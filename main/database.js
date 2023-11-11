@@ -55,7 +55,8 @@ class TablePeople {
      * @param {string} firstName - The first name of the person that should be inserted in the table
      * @param {string} lastName - The last name of the person
      * @param {string} className - The class that the person belongs to
-     * @param {string} colorCode - The person's group which is represented by a colored border on the id card; one of the values: `ORGA`, `MEDICAL`, `EXTERNAL`; can be empty
+     * @param {string} colorCode - The person's role which will be represented by a colored border on the id card;
+     *                             one of the values: `LEITUNG`, `ERSTHELFER`, `EXTERN`; can be empty
      */
     insertPerson(firstName, lastName, className, colorCode) {
         const id = generateHash(`${firstName}${salt}${lastName}${salt}${className}`);
