@@ -1,16 +1,6 @@
 /**
- * This file defines a BaseHtmlBuilder class that can be used to build the head and body of an html website.
- * This class can be extended to add more templates for building html.
- *
- * usage:
- * const html = BaseHtmlBuilder.html(
- *     BaseHtmlBuilder.head("Ausweisgenerator", ["style.css"]),
- *     BaseHtmlBuilder.body("<p>Some HTML</p>")
- * );
- */
-
-/**
- * This class can be used to build a basic HTML string.
+ * This class can be used to build the HTML of a website.
+ * Extend this class to add more templates for building HTML.
  *
  * Usage:
  * ```
