@@ -2,6 +2,7 @@
 const http = require("http");
 const fs = require("fs");
 const path = require("path");
+const queryString = require("querystring");
 
 // remember to escape backslashes in paths
 const allowedPaths = ["", "id-cards\\"];
@@ -13,9 +14,11 @@ const allowedFileTypes = new Map([
     [".ico", "image/x-icon"],
 ]);
 
+// JavaScript files that are APIs and are allowed to be reached from outside
+const validApiList = ["attendance\\change-attendance"];
+
 // Creating server
 const server = http.createServer(async (req, res) => {
-
     let result = checkUrl(req.url);
     if (!result.isUrlSafe) {
         res.writeHead(403, { "Content-Type": "text/plain" });
@@ -30,34 +33,10 @@ const server = http.createServer(async (req, res) => {
     // Handle requests
     // ---------------------------------
     try {
-        // Handling resource files that are specified in allowedFileTypes
-        const key = [...allowedFileTypes.keys()].find((fileType) => {
-            return safeUrl.endsWith(fileType);
-        });
-        if (key) {
-            fs.readFile(safeUrl, (err, data) => {
-                if (err) {
-                    res.writeHead(404, { "Content-Type": "text/plain" });
-                    res.end("Not found");
-                } else {
-                    const contentType = allowedFileTypes.get(key)
-                    res.writeHead(200, { "Content-Type": contentType });
-                    res.end(data);
-                }
-            });
-        }
-        // Handling URLs that are listed in allowedPaths
-        else if (allowedPaths.includes(safeUrl)) {
-            const index = require(".\\" + safeUrl + "index");
-            const html = await index.getHtml();
-
-            res.writeHead(200, { "Content-Type": "text/html" });
-            res.end(html);
-        }
-        // Handling other URLs
-        else {
-            res.writeHead(404, { "Content-Type": "text/plain" });
-            res.end("404 - Not Found");
+        if (req.method === "POST") {
+            handlePostRequests(safeUrl, req, res);
+        } else {
+            handleGetRequests(safeUrl, req, res);
         }
     } catch (error) {
         console.error(error);
@@ -71,12 +50,67 @@ server.listen(3000, () => {
     console.log("Server on port 3000!");
 });
 
+async function handleGetRequests(safeUrl, res) {
+    // Handling resource files that are specified in allowedFileTypes
+    const key = [...allowedFileTypes.keys()].find((fileType) => {
+        return safeUrl.endsWith(fileType);
+    });
+    if (key) {
+        fs.readFile(safeUrl, (err, data) => {
+            if (err) {
+                res.writeHead(404, { "Content-Type": "text/plain" });
+                res.end("Not found");
+            } else {
+                const contentType = allowedFileTypes.get(key);
+                res.writeHead(200, { "Content-Type": contentType });
+                res.end(data);
+            }
+        });
+    }
+    // Handling URLs that are listed in allowedPaths
+    else if (allowedPaths.includes(safeUrl)) {
+        const index = require(".\\" + safeUrl + "index");
+        const html = await index.getHtml();
+
+        res.writeHead(200, { "Content-Type": "text/html" });
+        res.end(html);
+    }
+    // Handling other URLs
+    else {
+        res.writeHead(404, { "Content-Type": "text/plain" });
+        res.end("404 - Not Found");
+    }
+}
+
+function handlePostRequests(safeUrl, req, res) {
+    let body = "";
+    req.on("data", (data) => {
+        body += data;
+        console.log("partial body:", body);
+    });
+    req.on("end", () => {
+        console.log("body:", body);
+        const post = queryString.parse(body);
+        console.log("post:", post);
+
+        if (validApiList.contains(safeUrl)) {
+            const method = require("./" + safeUrl);
+            const result = JSON.stringify({ result: method() });
+            res.writeHead(200, "application/json");
+            res.end(result);
+        } else {
+            res.writeHead(404, { "Content-Type": "text/plain" });
+            res.end("404 - The requested URL was not found");
+        }
+    });
+}
+
 function checkUrl(url) {
     // prevent path traversal
 
     let resultNotSafe = {
         isUrlSafe: false,
-        safeUrl: null
+        safeUrl: null,
     };
 
     // prevent null byte attack
@@ -96,6 +130,6 @@ function checkUrl(url) {
 
     return {
         isUrlSafe: true,
-        safeUrl: safeUrl.substring(1) // remove leading slash
+        safeUrl: safeUrl.substring(1), // remove leading slash
     };
 }
