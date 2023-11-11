@@ -9,6 +9,11 @@ const generateHash = require("./hashing");
 
 const salt = fs.readFileSync("../salt.key", "utf8").trim();
 
+/**
+ * This methods checks if a id matches the first name, last name and class name.
+ * @param {string} idCardString - a string containing the first name, last name, class name and id, each separated by a comma without whitespace
+ * @returns a boolean whether the id is valid for the data
+ */
 function isValidIdCard(idCardString) {
     const [firstName, surname, className, hash] = idCardString.split(",");
 
