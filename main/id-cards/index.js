@@ -1,7 +1,3 @@
-/**
- * This file creates and fills the html for the id cards with data
- */
-
 const Database = require("./../database.js");
 const QRCode = require("qrcode");
 const IdCardsHtmlBuilder = require("./id-cards-html-builder.js");
@@ -9,6 +5,10 @@ const IdCardsHtmlBuilder = require("./id-cards-html-builder.js");
 // Initializing database
 const peopleTable = new Database("DATA.db").People;
 
+/**
+ * This function creates and fills the HTML with data for the id cards website by using the {@link IdCardsHtmlBuilder}.
+ * @returns A function that builds the HTML for the id cards website
+ */
 module.exports.getHtml = async function () {
     const people = peopleTable.getAllPeople();
 
