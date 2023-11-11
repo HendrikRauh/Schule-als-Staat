@@ -106,8 +106,8 @@ class TableAttendance {
         this.db = database;
         this.checkOutDefaultValue = 0;
 
-        this.#keyPrimary = "id";
         this.#tableName = "attendance";
+        this.#keyPrimary = "id";
         this.#keyPersonId = "personId";
         this.#keyCheckIn = "checkIn";
         this.#keyCheckOut = "checkOut";
