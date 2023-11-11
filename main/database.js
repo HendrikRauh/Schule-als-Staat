@@ -5,7 +5,7 @@
  *           inserting a person into the table,
  *           getting a person by first name,
  *           and getting all people from the table.
- * 
+ *
  * - Attendance: contains methods for createing a attendance table,
  *               checking an person in and out by their Id,
  *               and retrieve by Id wheter a person is checked in.
@@ -94,6 +94,16 @@ class TableAttendance {
             .run();
     }
 
+    getLatestCheckInTime(personId) {
+        return this.db
+            .prepare(
+                `SELECT MAX(${this.#keyCheckIn})
+            FROM ${this.#tableName}
+            WHERE ${this.#keyPersonId} = ?`
+            )
+            .run(personId);
+    }
+
     checkInPerson(personId, timestamp) {
         this.db
             .prepare(
@@ -109,13 +119,9 @@ class TableAttendance {
             .prepare(
                 `UPDATE ${this.#tableName}
                 SET ${this.#keyCheckOut} = ?
-                WHERE ${this.#keyCheckIn} = (
-                    SELECT MAX(${this.#keyCheckIn})
-                    FROM ${this.#tableName}
-                    WHERE ${this.#keyPersonId} = ?
-                )`
+                WHERE ${this.#keyCheckIn} = ?`
             )
-            .run(timestamp, personId);
+            .run(timestamp, this.getLatestCheckInTime(personId));
     }
 
     isPersonCheckedIn(personId) {
@@ -123,14 +129,26 @@ class TableAttendance {
             .prepare(
                 `SELECT ${this.#keyCheckOut}
                 FROM ${this.#tableName}
-                WHERE ${this.#keyCheckIn} = (
-                    SELECT MAX(${this.#keyCheckIn})
-                    FROM ${this.#tableName}
-                    WHERE ${this.#keyPersonId} = ?
-                )`
+                WHERE ${this.#keyCheckIn} = ?`
             )
-            .get(personId);
+            .get(this.getLatestCheckInTime(personId));
         return checkOutTimeStamp === this.checkOutDefaultValue;
+    }
+
+    getLastAttendanceDuration(personId) {
+        if (this.isPersonCheckedIn(personId)) {
+            return -1;
+        }
+
+        const timestamps = this.db
+            .prepare(
+                `SELECT ${this.#keyCheckIn}, ${this.#keyCheckOut}
+                FROM ${this.#tableName}
+                WHERE ${this.#keyPersonId} = ? AND ${this.#keyCheckIn} = ?`
+            )
+            .get(personId, this.getLatestCheckInTime(personId));
+
+        return timestamps.checkOut - timestamps.checkIn;
     }
 }
 
