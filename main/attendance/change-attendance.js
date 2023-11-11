@@ -11,7 +11,7 @@ const attendanceTable = Database("DATA.db").Attendance;
 function changeAttendance(id, timestamp) {
     if (attendanceTable.isPersonCheckedIn(id)) {
         attendanceTable.checkOutPerson(id, timestamp);
-        return attendanceTable.getLastAttendanceDuration(id);
+        return attendanceTable.getLatestAttendanceDuration(id);
     } else {
         attendanceTable.checkInPerson(id, timestamp);
         return -1;

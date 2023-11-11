@@ -135,7 +135,7 @@ class TableAttendance {
         return checkOutTimeStamp === this.checkOutDefaultValue;
     }
 
-    getLastAttendanceDuration(personId) {
+    getLatestAttendanceDuration(personId) {
         if (this.isPersonCheckedIn(personId)) {
             return -1;
         }
