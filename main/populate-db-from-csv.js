@@ -1,8 +1,8 @@
 /**
- * This file can be called from the command line to read the students from a CSV file
+ * This file can be called from the command line to read a list of people from a CSV file
  * and insert them into the database.
  * The file name must be passed as an argument to the node.js file.
- * If the id is already present in the database the student will NOT be inserted a second time.
+ * If the id is already present in the database the person will NOT be inserted a second time.
  *
  * Note:
  * The student's first name, last name and class are taken from the CSV file.
@@ -11,7 +11,7 @@
  *
  * Usage (command line):
  * node populate-db-from-csv.js mbg_schuelerliste.CSV
- *                              ---------------------  csv file name
+ *                              ^-------------------^ your csv file name
  */
 
 const fs = require("fs");
