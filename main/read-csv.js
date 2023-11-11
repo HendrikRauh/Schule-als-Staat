@@ -1,18 +1,17 @@
 /**
  * This file contains a function that can be used to read the content of a CSV file
- * which contains the data of the students.
- * 
- * Call readCsvFile with the path of the CSV file and a callback
- * that will be invoked when the content of the file is read completely.
- * The list of students is passed to the callback function.
+ * which contains the data of the people.
+ *
+ * Call readCsvFile with the path to the CSV file and a callback
+ * which will be invoked when the content of the file is read completely.
+ * The list of people is passed to the callback.
  */
 
 const fs = require("fs");
 const csv = require("fast-csv");
 
-
 /**
- * This function reads the content of a CSV file and parses it to a list of people 
+ * This function reads the content of a CSV file and parses it to a list of people
  * @param {string} filePath - The path to your CSV file
  * @param {readCsvFinishedCallback} onFinished - A callback that is invoked when the content of the file is read and processed completely
  */
