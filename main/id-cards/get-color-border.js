@@ -2,7 +2,6 @@
  * This function returns the color that is used to mark the specified role
  * @param {string} role - The role of the person; the role is represented on the id card as colored border
  * @returns the HEX color of the role
- * test
  */
 function getColor(role) {
     switch (role) {
