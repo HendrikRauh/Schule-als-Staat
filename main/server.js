@@ -36,7 +36,7 @@ const server = http.createServer(async (req, res) => {
         if (req.method === "POST") {
             handlePostRequests(safeUrl, req, res);
         } else {
-            handleGetRequests(safeUrl, req, res);
+            handleGetRequests(safeUrl, res);
         }
     } catch (error) {
         console.error(error);
