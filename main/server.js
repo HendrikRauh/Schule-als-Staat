@@ -27,6 +27,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     const safeUrl = result.safeUrl;
+    const pathString = result.pathString;
     console.log(`safeUrl: '${safeUrl}'`);
 
     // ---------------------------------
@@ -36,7 +37,7 @@ const server = http.createServer(async (req, res) => {
         if (req.method === "POST") {
             handlePostRequests(safeUrl, req, res);
         } else {
-            handleGetRequests(safeUrl, res);
+            handleGetRequests(safeUrl, pathString, res);
         }
     } catch (error) {
         console.error(error);
@@ -50,13 +51,13 @@ server.listen(3000, () => {
     console.log("Server on port 3000!");
 });
 
-async function handleGetRequests(safeUrl, res) {
+async function handleGetRequests(safeUrl, pathString, res) {
     // Handling resource files that are specified in allowedFileTypes
     const key = [...allowedFileTypes.keys()].find((fileType) => {
-        return safeUrl.endsWith(fileType);
+        return pathString.endsWith(fileType);
     });
     if (key) {
-        fs.readFile(safeUrl, (err, data) => {
+        fs.readFile(pathString, (err, data) => {
             if (err) {
                 res.writeHead(404, { "Content-Type": "text/plain" });
                 res.end("Not found");
@@ -111,6 +112,7 @@ function checkUrl(url) {
     let resultNotSafe = {
         isUrlSafe: false,
         safeUrl: null,
+        pathString: null,
     };
 
     // prevent null byte attack
@@ -131,5 +133,6 @@ function checkUrl(url) {
     return {
         isUrlSafe: true,
         safeUrl: safeUrl.substring(1), // remove leading slash
+        pathString: pathString,
     };
 }
