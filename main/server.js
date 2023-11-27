@@ -27,6 +27,7 @@ const server = http.createServer(async (req, res) => {
     }
 
     const safeUrl = result.safeUrl;
+    const pathString = result.pathString;
     console.log(`safeUrl: '${safeUrl}'`);
 
     // ---------------------------------
@@ -36,7 +37,7 @@ const server = http.createServer(async (req, res) => {
         if (req.method === "POST") {
             handlePostRequests(safeUrl, req, res);
         } else {
-            handleGetRequests(safeUrl, res);
+            handleGetRequests(safeUrl, pathString, res);
         }
     } catch (error) {
         console.error(error);
@@ -50,13 +51,19 @@ server.listen(3000, () => {
     console.log("Server on port 3000!");
 });
 
-async function handleGetRequests(safeUrl, res) {
+/**
+ * This function handles GET requests and responds with resource files that are listed
+ * in `allowedFileTypes` or HTML websites which are listed in `allowedPaths`.
+ * @param {string} safeUrl - The requested url which has to be checked for attacks
+ * @param {http.ServerResponse} res - The response of the GET request
+ */
+async function handleGetRequests(safeUrl, pathString, res) {
     // Handling resource files that are specified in allowedFileTypes
     const key = [...allowedFileTypes.keys()].find((fileType) => {
-        return safeUrl.endsWith(fileType);
+        return pathString.endsWith(fileType);
     });
     if (key) {
-        fs.readFile(safeUrl, (err, data) => {
+        fs.readFile(pathString, (err, data) => {
             if (err) {
                 res.writeHead(404, { "Content-Type": "text/plain" });
                 res.end("Not found");
@@ -82,6 +89,13 @@ async function handleGetRequests(safeUrl, res) {
     }
 }
 
+/**
+ * This function handles POST requests and responds by running the requested script which must be contained in `validApiList` and using this result as respond.
+ * The respond is a JSON string which includes the field `result`, the result of the executed script.
+ * @param {string} safeUrl - The requested url which has to be checked for attacks
+ * @param {http.IncomingMessage} req - The POST request
+ * @param {http.ServerResponse} res - The response of the POST request
+ */
 function handlePostRequests(safeUrl, req, res) {
     let body = "";
     req.on("data", (data) => {
@@ -105,12 +119,20 @@ function handlePostRequests(safeUrl, req, res) {
     });
 }
 
+/**
+ * This function checks if the url is safe, so there is no null byte attack or the url accesses the parent folder of the server.
+ * @param {string} url - The URL that should be checked for attacks
+ * @returns An `object` containing the boolean `isUrlSafe` which
+ * states whether the url is safe and the string `safeUrl` which is the
+ * safe URL or null if the url is not safe
+ */
 function checkUrl(url) {
     // prevent path traversal
 
     let resultNotSafe = {
         isUrlSafe: false,
         safeUrl: null,
+        pathString: null,
     };
 
     // prevent null byte attack
@@ -131,5 +153,6 @@ function checkUrl(url) {
     return {
         isUrlSafe: true,
         safeUrl: safeUrl.substring(1), // remove leading slash
+        pathString: pathString,
     };
 }
