@@ -1,0 +1,44 @@
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\cvextern.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\Schule als Staat - QR-Scanner.exe.config
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\Schule als Staat - QR-Scanner.exe.manifest
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\Schule als Staat - QR-Scanner.application
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\Schule als Staat - QR-Scanner.exe
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\Schule als Staat - QR-Scanner.pdb
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\Emgu.CV.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\Emgu.CV.Bitmap.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\opencv_videoio_ffmpeg480_64.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\concrt140.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\msvcp140.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\msvcp140_1.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\msvcp140_2.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\msvcp140_atomic_wait.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\msvcp140_codecvt_ids.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\vcruntime140.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\vcruntime140_1.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\Microsoft.Bcl.AsyncInterfaces.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.Buffers.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.Drawing.Common.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.Memory.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.Numerics.Vectors.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.Text.Encodings.Web.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.Text.Json.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.Threading.Tasks.Extensions.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.ValueTuple.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\zxing.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\zxing.presentation.dll
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\schule-als-staat-qr-scanner.csproj.AssemblyReference.cache
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\MainWindow.baml
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\MainWindow.g.cs
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\App.g.cs
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\Schule als Staat - QR-Scanner_Content.g.cs
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\Schule als Staat - QR-Scanner_MarkupCompile.cache
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\Schule als Staat - QR-Scanner.g.resources
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\schule_als_staat_qr_scanner.Properties.Resources.resources
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\schule-als-staat-qr-scanner.csproj.GenerateResource.cache
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\schule-als-staat-qr-scanner.csproj.CoreCompileInputs.cache
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\Schule als Staat - QR-Scanner.exe.manifest
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\Schule als Staat - QR-Scanner.application
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\schule-als-staat-qr-scanner.csproj.CopyComplete
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\Schule als Staat - QR-Scanner.exe
+C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\Schule als Staat - QR-Scanner.pdb
