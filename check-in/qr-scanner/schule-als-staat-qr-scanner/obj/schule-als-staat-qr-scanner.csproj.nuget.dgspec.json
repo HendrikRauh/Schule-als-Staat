@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj": {}
+    "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\check-in\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj": {}
   },
   "projects": {
-    "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj": {
+    "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\check-in\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj",
+        "projectUniqueName": "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\check-in\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj",
         "projectName": "Schule als Staat - QR-Scanner",
-        "projectPath": "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj",
+        "projectPath": "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\check-in\\qr-scanner\\schule-als-staat-qr-scanner\\schule-als-staat-qr-scanner.csproj",
         "packagesPath": "C:\\Users\\HRauh\\.nuget\\packages\\",
-        "outputPath": "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\qr-scanner\\schule-als-staat-qr-scanner\\obj\\",
+        "outputPath": "C:\\NAS\\Programmieren\\Github\\Schule-als-Staat\\check-in\\qr-scanner\\schule-als-staat-qr-scanner\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [

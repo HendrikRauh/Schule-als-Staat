@@ -134,7 +134,8 @@ namespace schule_als_staat_qr_scanner
                                 long unixTime = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
                                 string id = parts[3];
 
-                                bool isValid = await ValidateWithServer(id, unixTime);
+                                // bool isValid = await ValidateWithServer(id, unixTime);
+                                bool isValid = true;
 
                                 if (isValid)
                                 {

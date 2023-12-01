@@ -79,14 +79,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Schule als Staat - QR-Scanner.exe" size="202168">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="Schule als Staat - QR-Scanner.exe" size="201656">
       <assemblyIdentity name="Schule als Staat - QR-Scanner" version="1.0.0.0" language="neutral" processorArchitecture="amd64" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>5XdcUvGpE9KcXRNXo1NTDrXBGMVeNnxxuaM0VlMLso0=</dsig:DigestValue>
+        <dsig:DigestValue>9xcvc6nUhxRd21tQMLIKJgys3UNqviDMmQY8NdFiysc=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
