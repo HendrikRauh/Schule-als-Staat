@@ -6,14 +6,17 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Ports;
 using System.Media;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Timers;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -59,7 +62,7 @@ namespace schule_als_staat_qr_scanner
         private readonly System.Windows.Media.Brush colorOk = (System.Windows.Media.Brush)new BrushConverter().ConvertFrom("#113a1b");
 
         // Timer controlling the camera frame rate
-        private readonly Timer timer = new Timer() { Interval = 1000 / cameraFps, Enabled = true };
+        private readonly System.Timers.Timer timer = new System.Timers.Timer() { Interval = 1000 / cameraFps, Enabled = true };
 
         // Salt for Hashing in the QR Code validation
         private readonly string salt = Encoding.UTF8.GetString(Properties.Resources.salt);
@@ -79,6 +82,8 @@ namespace schule_als_staat_qr_scanner
 
         private bool Error = false;
 
+        private SerialPort _serialPort;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -87,11 +92,133 @@ namespace schule_als_staat_qr_scanner
             this.KeyDown += MainWindow_KeyDown;
         }
 
+        private async void ConnectToArduino()
+        {
+            if (_serialPort != null && !_serialPort.IsOpen)
+            {
+                CancellationTokenSource cts = new CancellationTokenSource();
+                CancellationToken token = cts.Token;
+
+                Task task = Task.Run(() =>
+                {
+                    try
+                    {
+                        _serialPort.Open();
+                        _serialPort.DataReceived += SerialPort_DataReceived;
+                        Dispatcher.Invoke(() =>
+                        {
+                            TextBlockArduinoStatus.Text = "Arduino verbunden";
+                            ComboBoxSerial.IsEnabled = false;
+                        });
+                        _serialPort.WriteLine("connected");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.ToString());
+                        Dispatcher.Invoke(() =>
+                        {
+                            TextBlockArduinoStatus.Text = "Arduino nicht verbunden";
+                            ComboBoxSerial.IsEnabled = true;
+                        });
+                        if (_serialPort.IsOpen)
+                        {
+                            _serialPort.Close();
+                        }
+                    }
+                }, token);
+
+                if (await Task.WhenAny(task, Task.Delay(500)) == task)
+                {
+                    // task completed within timeout
+                }
+                else
+                {
+                    // timeout logic
+                    cts.Cancel();
+                    TextBlockArduinoStatus.Text = "Arduino nicht verbunden";
+                    ComboBoxSerial.IsEnabled = true;
+                    if (_serialPort.IsOpen)
+                    {
+                        _serialPort.Close();
+                    }
+                }
+            }
+        }
+
+        private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
+            SerialPort sp = (SerialPort)sender;
+            string indata = sp.ReadExisting().Trim(); // Trim to remove leading/trailing white spaces
+            Console.WriteLine($"Data Received from Arduino: {indata}");
+            if (indata == "wakeUp")
+            {
+                systemWakeUp();
+            }
+            else if (indata == "sleep")
+            {
+                systemSleep();
+            }
+        }
+
+        private void systemWakeUp()
+        {
+            // Code to activate the camera and start scanning
+        }
+
+        private void systemSleep()
+        {
+            // Code to deactivate the camera and stop scanning
+        }
+
+        private void DisconnectFromArduino()
+        {
+            if (_serialPort.IsOpen)
+            {
+                try
+                {
+                    _serialPort.WriteLine("closing");
+                    _serialPort.Close();
+                }
+                catch (Exception)
+                {
+                    TextBlockArduinoStatus.Text = "Arduino nicht verbunden";
+                }
+                finally
+                {
+                    TextBlockArduinoStatus.Text = "Arduino nicht verbunden";
+                    ComboBoxSerial.IsEnabled = true;
+                }
+            }
+        }
+
+        private void ChangeArduinoConnectionState()
+        {
+            if (_serialPort != null && _serialPort.IsOpen)
+            {
+                DisconnectFromArduino();
+            }
+            else
+            {
+                ConnectToArduino();
+            }
+        }
+
         // Initialize camera and timer
         private void InitializeComponents()
         {
+            ComboBoxSerial.ItemsSource = SerialPort.GetPortNames();
             capture = new VideoCapture(cameraIndex);
             timer.Elapsed += Timer_Tick;
+        }
+
+        private void ComboBoxSerialPorts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string selectedPort = (string)ComboBoxSerial.SelectedItem;
+            if (_serialPort != null && _serialPort.IsOpen)
+            {
+                DisconnectFromArduino();
+            }
+            _serialPort = new SerialPort(selectedPort, 115200);
         }
 
         // Timer Tick event handling
@@ -139,6 +266,7 @@ namespace schule_als_staat_qr_scanner
 
                                 if (isValid)
                                 {
+                                    _serialPort.WriteLine("inout");
                                     await PlaySoundAndChangeBackground(soundPlayerOk, colorOk);
                                     if (parts.Length >= 2)
                                     {
@@ -149,6 +277,7 @@ namespace schule_als_staat_qr_scanner
                                 }
                                 else
                                 {
+                                    _serialPort.WriteLine("error");
                                     await PlaySoundAndChangeBackground(soundPlayerError, colorError);
                                 }
                             }
@@ -161,6 +290,7 @@ namespace schule_als_staat_qr_scanner
                                 }
                                 else
                                 {
+                                    _serialPort.WriteLine("error");
                                     Console.WriteLine($"Invalid QR Code: {qrcode}");
                                     await PlaySoundAndChangeBackground(soundPlayerError, colorError);
                                 }
@@ -294,6 +424,7 @@ namespace schule_als_staat_qr_scanner
             else
             {
                 DisposeResources();
+                DisconnectFromArduino();
             }
         }
 
@@ -302,6 +433,10 @@ namespace schule_als_staat_qr_scanner
             if (e.Key == Key.C && !isFullScreen)
             {
                 await SwitchCamera();
+            }
+            else if (e.Key == Key.A && !isFullScreen)
+            {
+                ChangeArduinoConnectionState();
             }
         }
 
@@ -411,6 +546,11 @@ namespace schule_als_staat_qr_scanner
                 }
             }
             return CallNextHookEx(_hookID, nCode, wParam, lParam);
+        }
+
+        private void ComboBox_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
         }
     }
 }

@@ -33,8 +33,10 @@
             <Viewbox>
                 <StackPanel>
                     <TextBlock Text="[C]: Change Camera" Foreground="#20ABD5" FontSize="12" Margin="0"/>
-                    <TextBlock Text="[B]: Black (no image)" Foreground="#20ABD5" FontSize="12" Margin="0"/>
                     <TextBlock Text='Scan "$esam öffne dich": Fullscreen' Foreground="#20ABD5" FontSize="12" Margin="0"/>
+                    <TextBlock Text="[A]: (Dis)connect Arduino" Foreground="#20ABD5" FontSize="12" Margin="0"/>
+                    <TextBlock Name="TextBlockArduinoStatus" Text="Disconnected" Foreground="#20ABD5" FontSize="12" Margin="0"/>
+                    <ComboBox Name="ComboBoxSerial" SelectionChanged="ComboBoxSerialPorts_SelectionChanged"></ComboBox>
                 </StackPanel>
             </Viewbox>
         </Border>

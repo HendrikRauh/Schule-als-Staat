@@ -1,7 +1,11 @@
-System.InvalidOperationException: Der aufrufende Thread kann nicht auf dieses Objekt zugreifen, da sich das Objekt im Besitz eines anderen Threads befindet.
-   bei System.Windows.Threading.Dispatcher.VerifyAccess()
-   bei System.Windows.DependencyObject.SetValue(DependencyProperty dp, Object value)
-   bei schule_als_staat_qr_scanner.MainWindow.<Timer_Tick>d__27.MoveNext() in C:\NAS\Programmieren\Github\Schule-als-Staat\qr-scanner\schule-als-staat-qr-scanner\MainWindow.xaml.cs:Zeile 181.
+System.Threading.Tasks.TaskCanceledException: Eine Aufgabe wurde abgebrochen.
+   bei System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   bei System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   bei System.Windows.Threading.DispatcherOperation.Wait(TimeSpan timeout)
+   bei System.Windows.Threading.Dispatcher.InvokeImpl(DispatcherOperation operation, CancellationToken cancellationToken, TimeSpan timeout)
+   bei System.Windows.Threading.Dispatcher.Invoke(Action callback, DispatcherPriority priority, CancellationToken cancellationToken, TimeSpan timeout)
+   bei System.Windows.Threading.Dispatcher.Invoke(Action callback)
+   bei schule_als_staat_qr_scanner.MainWindow.<Timer_Tick>d__37.MoveNext()
 --- Ende der Stapelüberwachung vom vorhergehenden Ort, an dem die Ausnahme ausgelöst wurde ---
    bei System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
    bei System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)
