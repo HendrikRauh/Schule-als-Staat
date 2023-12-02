@@ -145,6 +145,10 @@ namespace schule_als_staat_qr_scanner
             }
         }
 
+        private void ComboBoxSerial_DropDownOpened(object sender, EventArgs e)
+        {
+            ComboBoxSerial.ItemsSource = SerialPort.GetPortNames();
+        }
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = (SerialPort)sender;
@@ -206,7 +210,7 @@ namespace schule_als_staat_qr_scanner
         // Initialize camera and timer
         private void InitializeComponents()
         {
-            ComboBoxSerial.ItemsSource = SerialPort.GetPortNames();
+            ComboBoxSerial.DropDownOpened += ComboBoxSerial_DropDownOpened;
             capture = new VideoCapture(cameraIndex);
             timer.Elapsed += Timer_Tick;
         }
