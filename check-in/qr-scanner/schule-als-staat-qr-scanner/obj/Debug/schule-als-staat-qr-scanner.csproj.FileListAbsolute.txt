@@ -86,3 +86,4 @@ C:\NAS\Programmieren\Github\Schule-als-Staat\check-in\qr-scanner\schule-als-staa
 C:\NAS\Programmieren\Github\Schule-als-Staat\check-in\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\schule-als-staat-qr-scanner.csproj.CopyComplete
 C:\NAS\Programmieren\Github\Schule-als-Staat\check-in\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\Schule als Staat - QR-Scanner.exe
 C:\NAS\Programmieren\Github\Schule-als-Staat\check-in\qr-scanner\schule-als-staat-qr-scanner\obj\Debug\Schule als Staat - QR-Scanner.pdb
+C:\NAS\Programmieren\Github\Schule-als-Staat\check-in\qr-scanner\schule-als-staat-qr-scanner\bin\Debug\System.CodeDom.dll

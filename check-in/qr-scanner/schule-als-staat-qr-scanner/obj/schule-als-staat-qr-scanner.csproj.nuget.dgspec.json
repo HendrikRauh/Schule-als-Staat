@@ -50,6 +50,10 @@
               "target": "Package",
               "version": "[4.8.0.5324, )"
             },
+            "System.Management": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
             "ZXing.Net": {
               "target": "Package",
               "version": "[0.16.9, )"

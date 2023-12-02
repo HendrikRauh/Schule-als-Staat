@@ -37,6 +37,7 @@
                     <TextBlock Text="[A]: (Dis)connect Arduino" Foreground="#20ABD5" FontSize="12" Margin="0"/>
                     <TextBlock Name="TextBlockArduinoStatus" Text="Disconnected" Foreground="#20ABD5" FontSize="12" Margin="0"/>
                     <ComboBox Name="ComboBoxSerial" SelectionChanged="ComboBoxSerialPorts_SelectionChanged"></ComboBox>
+                    <TextBlock Text="[U]: Update Serial Ports" Foreground="#20ABD5" FontSize="12" Margin="0"/>
                 </StackPanel>
             </Viewbox>
         </Border>

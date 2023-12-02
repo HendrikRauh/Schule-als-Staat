@@ -33,7 +33,7 @@ void handleCommand(const String& data, const String& command, const String& colo
 
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
   pinMode(LED_RED_PIN, OUTPUT);
   pinMode(LED_GREEN_PIN, OUTPUT);
   pinMode(LED_YELLOW_PIN, OUTPUT);

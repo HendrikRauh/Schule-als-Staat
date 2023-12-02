@@ -7,6 +7,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.IO.Ports;
+using System.Linq;
+using System.Management;
 using System.Media;
 using System.Net.Http;
 using System.Runtime.InteropServices;
@@ -145,10 +147,37 @@ namespace schule_als_staat_qr_scanner
             }
         }
 
+        private void ComboBoxSerialPorts_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ComboBoxSerial.SelectedItem != null)
+            {
+                string selectedPort = ComboBoxSerial.SelectedItem.ToString();
+                _serialPort = new SerialPort(selectedPort);
+            }
+        }
+
+        private void UpdateComPorts()
+        {
+            var allPorts = SerialPort.GetPortNames().ToList();
+            using (var searcher = new ManagementObjectSearcher("SELECT * FROM WIN32_SerialPort"))
+            {
+                var namedPorts = searcher.Get().OfType<ManagementBaseObject>().Select(p => p["DeviceID"].ToString()).ToList();
+                var unnamedPorts = allPorts.Except(namedPorts).ToList();
+                if (unnamedPorts.Count > 0)
+                {
+                    // unnamedPorts[0] is likely the port you're looking for
+                    _serialPort = new SerialPort(unnamedPorts[0]);
+                    ComboBoxSerial.SelectedItem = unnamedPorts[0];
+                }
+                ComboBoxSerial.ItemsSource = allPorts;
+            }
+        }
+
         private void ComboBoxSerial_DropDownOpened(object sender, EventArgs e)
         {
-            ComboBoxSerial.ItemsSource = SerialPort.GetPortNames();
+
         }
+
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = (SerialPort)sender;
@@ -176,7 +205,7 @@ namespace schule_als_staat_qr_scanner
 
         private void DisconnectFromArduino()
         {
-            if (_serialPort.IsOpen)
+            if (_serialPort != null && _serialPort.IsOpen)
             {
                 try
                 {
@@ -213,16 +242,7 @@ namespace schule_als_staat_qr_scanner
             ComboBoxSerial.DropDownOpened += ComboBoxSerial_DropDownOpened;
             capture = new VideoCapture(cameraIndex);
             timer.Elapsed += Timer_Tick;
-        }
-
-        private void ComboBoxSerialPorts_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            string selectedPort = (string)ComboBoxSerial.SelectedItem;
-            if (_serialPort != null && _serialPort.IsOpen)
-            {
-                DisconnectFromArduino();
-            }
-            _serialPort = new SerialPort(selectedPort, 115200);
+            UpdateComPorts();
         }
 
         // Timer Tick event handling
@@ -441,6 +461,10 @@ namespace schule_als_staat_qr_scanner
             else if (e.Key == Key.A && !isFullScreen)
             {
                 ChangeArduinoConnectionState();
+            }
+            else if (e.Key == Key.U && !isFullScreen)
+            {
+                UpdateComPorts();
             }
         }
 
