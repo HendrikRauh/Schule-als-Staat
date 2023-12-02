@@ -6,6 +6,33 @@
     <Window.Resources>
         <SolidColorBrush x:Key="OverlayBackground" Color="#EE006D8F"/>
         <SolidColorBrush x:Key="OverlayForeground" Color="#20ABD5"/>
+        <Style TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid>
+                            <Border Background="{TemplateBinding Background}" 
+                                    BorderBrush="{TemplateBinding BorderBrush}" 
+                                    BorderThickness="1">
+                                <ContentPresenter Content="{TemplateBinding Content}" 
+                                                  Margin="4,0,0,0" 
+                                                  VerticalAlignment="Center" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Foreground" Value="{StaticResource OverlayForeground}" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="0,0,0,0" /> <!-- 0,0,10,0 -->
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+            <Setter Property="Background" Value="{x:Null}" />
+            <Style.Triggers>
+                <Trigger Property="IsChecked" Value="True">
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
     </Window.Resources>
     <Grid>
         <Image Name="ImageCamera" Opacity="0.2" Stretch="UniformToFill"/>
@@ -39,7 +66,9 @@
                     <TextBlock Text="[C]: Change Camera" Foreground="{StaticResource OverlayForeground}" FontSize="12" Margin="0"/>
                     <TextBlock Text='Scan "$esam öffne dich": Fullscreen' Foreground="{StaticResource OverlayForeground}" FontSize="12" Margin="0"/>
                     <TextBlock Name="TextBlockArduinoStatus" Text="[A]: Connect Arduino" Foreground="{StaticResource OverlayForeground}" FontSize="12" Margin="0"/>
-                    <ComboBox Name="ComboBoxSerial" SelectionChanged="ComboBoxSerialPorts_SelectionChanged" Background="Transparent" Foreground="{StaticResource OverlayForeground}" BorderThickness="0"/>
+                    <StackPanel Name="RadioButtonPanel" Orientation="Horizontal">
+                        <!-- RadioButtons will be added here dynamically -->
+                    </StackPanel>
                     <TextBlock Text="[U]: Update Serial Ports" Foreground="{StaticResource OverlayForeground}" FontSize="12" Margin="0"/>
                 </StackPanel>
             </Viewbox>

@@ -110,7 +110,7 @@ namespace schule_als_staat_qr_scanner
                         Dispatcher.Invoke(() =>
                         {
                             TextBlockArduinoStatus.Text = "[A]: Disconnect Arduino";
-                            ComboBoxSerial.IsEnabled = false;
+                            RadioButtonsLocked(true);
                         });
                         _serialPort.WriteLine("connected");
                     }
@@ -120,7 +120,7 @@ namespace schule_als_staat_qr_scanner
                         Dispatcher.Invoke(() =>
                         {
                             TextBlockArduinoStatus.Text = "[A]: Connect Arduino";
-                            ComboBoxSerial.IsEnabled = true;
+                            RadioButtonsLocked(false);
                         });
                         if (_serialPort.IsOpen)
                         {
@@ -138,7 +138,7 @@ namespace schule_als_staat_qr_scanner
                     // timeout logic
                     cts.Cancel();
                     TextBlockArduinoStatus.Text = "[A]: Connect Arduino";
-                    ComboBoxSerial.IsEnabled = true;
+                    RadioButtonsLocked(false);
                     if (_serialPort.IsOpen)
                     {
                         _serialPort.Close();
@@ -149,9 +149,9 @@ namespace schule_als_staat_qr_scanner
 
         private void ComboBoxSerialPorts_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ComboBoxSerial.SelectedItem != null)
+            if (RadioButtonPanel.Children.OfType<RadioButton>().Any(rb => rb.IsChecked == true))
             {
-                string selectedPort = ComboBoxSerial.SelectedItem.ToString();
+                string selectedPort = RadioButtonPanel.Children.OfType<RadioButton>().FirstOrDefault(rb => rb.IsChecked == true)?.Content.ToString();
                 _serialPort = new SerialPort(selectedPort);
             }
         }
@@ -167,15 +167,29 @@ namespace schule_als_staat_qr_scanner
                 {
                     // unnamedPorts[0] is likely the port you're looking for
                     _serialPort = new SerialPort(unnamedPorts[0]);
-                    ComboBoxSerial.SelectedItem = unnamedPorts[0];
                 }
-                ComboBoxSerial.ItemsSource = allPorts;
+        
+                // Clear existing RadioButtons
+                RadioButtonPanel.Children.Clear();
+        
+                // Create a RadioButton for each port
+                foreach (var port in allPorts)
+                {
+                    var radioButton = new RadioButton
+                    {
+                        Content = port,
+                        GroupName = "SerialPorts"
+                    };
+                    radioButton.Checked += RadioButtonPort_Checked;
+                    RadioButtonPanel.Children.Add(radioButton);
+        
+                    // Check the RadioButton if it corresponds to a different COM port
+                    if (unnamedPorts.Contains(port))
+                    {
+                        radioButton.IsChecked = true;
+                    }
+                }
             }
-        }
-
-        private void ComboBoxSerial_DropDownOpened(object sender, EventArgs e)
-        {
-
         }
 
         private void SerialPort_DataReceived(object sender, SerialDataReceivedEventArgs e)
@@ -219,8 +233,26 @@ namespace schule_als_staat_qr_scanner
                 finally
                 {
                     TextBlockArduinoStatus.Text = "[A]: Connect Arduino";
-                    ComboBoxSerial.IsEnabled = true;
+                    RadioButtonsLocked(false);
                 }
+            }
+        }
+
+        private void RadioButtonPort_Checked(object sender, RoutedEventArgs e)
+        {
+            RadioButton radioButton = sender as RadioButton;
+            if (radioButton != null)
+            {
+                string selectedPort = radioButton.Content.ToString();
+                _serialPort = new SerialPort(selectedPort);
+            }
+        }
+
+        private void RadioButtonsLocked(bool locked)
+        {
+            foreach (RadioButton radioButton in RadioButtonPanel.Children)
+            {
+                radioButton.IsEnabled = !locked;
             }
         }
 
@@ -239,7 +271,6 @@ namespace schule_als_staat_qr_scanner
         // Initialize camera and timer
         private void InitializeComponents()
         {
-            ComboBoxSerial.DropDownOpened += ComboBoxSerial_DropDownOpened;
             capture = new VideoCapture(cameraIndex);
             timer.Elapsed += Timer_Tick;
             UpdateComPorts();
