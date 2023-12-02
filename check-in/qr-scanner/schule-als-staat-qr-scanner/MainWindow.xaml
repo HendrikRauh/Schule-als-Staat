@@ -3,6 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" Title="QR-Scanner" Height="529" Width="579" Background="#303133">
+    <Window.Resources>
+        <SolidColorBrush x:Key="OverlayBackground" Color="#EE006D8F"/>
+        <SolidColorBrush x:Key="OverlayForeground" Color="#20ABD5"/>
+    </Window.Resources>
     <Grid>
         <Image Name="ImageCamera" Opacity="0.2" Stretch="UniformToFill"/>
 
@@ -29,19 +33,17 @@
                 </StackPanel>
             </Viewbox>
         </DockPanel>
-        <Border Name="Overlay" Background="#EE006D8F" CornerRadius="0,10,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="300" Padding="10" Margin="0,0,0,0">
+        <Border Name="Overlay" Background="{StaticResource OverlayBackground}" CornerRadius="0,10,10,0" VerticalAlignment="Center" HorizontalAlignment="Left" Width="300" Padding="10" Margin="0,0,0,0">
             <Viewbox>
                 <StackPanel>
-                    <TextBlock Text="[C]: Change Camera" Foreground="#20ABD5" FontSize="12" Margin="0"/>
-                    <TextBlock Text='Scan "$esam öffne dich": Fullscreen' Foreground="#20ABD5" FontSize="12" Margin="0"/>
-                    <TextBlock Text="[A]: (Dis)connect Arduino" Foreground="#20ABD5" FontSize="12" Margin="0"/>
-                    <TextBlock Name="TextBlockArduinoStatus" Text="Disconnected" Foreground="#20ABD5" FontSize="12" Margin="0"/>
-                    <ComboBox Name="ComboBoxSerial" SelectionChanged="ComboBoxSerialPorts_SelectionChanged"></ComboBox>
-                    <TextBlock Text="[U]: Update Serial Ports" Foreground="#20ABD5" FontSize="12" Margin="0"/>
+                    <TextBlock Text="[C]: Change Camera" Foreground="{StaticResource OverlayForeground}" FontSize="12" Margin="0"/>
+                    <TextBlock Text='Scan "$esam öffne dich": Fullscreen' Foreground="{StaticResource OverlayForeground}" FontSize="12" Margin="0"/>
+                    <TextBlock Name="TextBlockArduinoStatus" Text="[A]: Connect Arduino" Foreground="{StaticResource OverlayForeground}" FontSize="12" Margin="0"/>
+                    <ComboBox Name="ComboBoxSerial" SelectionChanged="ComboBoxSerialPorts_SelectionChanged" Background="Transparent" Foreground="{StaticResource OverlayForeground}" BorderThickness="0"/>
+                    <TextBlock Text="[U]: Update Serial Ports" Foreground="{StaticResource OverlayForeground}" FontSize="12" Margin="0"/>
                 </StackPanel>
             </Viewbox>
         </Border>
-        <!-- Add a Error circle at the top right -->
         <Ellipse Name="ErrorCircle" Fill="#450C0F" Width="10" Height="10" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0,10,10,0">
             <Ellipse.Effect>
                 <DropShadowEffect BlurRadius="50" Color="#450C0F" Direction="0" ShadowDepth="0"/>

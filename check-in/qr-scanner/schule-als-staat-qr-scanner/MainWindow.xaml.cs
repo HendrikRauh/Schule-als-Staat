@@ -109,7 +109,7 @@ namespace schule_als_staat_qr_scanner
                         _serialPort.DataReceived += SerialPort_DataReceived;
                         Dispatcher.Invoke(() =>
                         {
-                            TextBlockArduinoStatus.Text = "Arduino verbunden";
+                            TextBlockArduinoStatus.Text = "[A]: Disconnect Arduino";
                             ComboBoxSerial.IsEnabled = false;
                         });
                         _serialPort.WriteLine("connected");
@@ -119,7 +119,7 @@ namespace schule_als_staat_qr_scanner
                         Console.WriteLine(ex.ToString());
                         Dispatcher.Invoke(() =>
                         {
-                            TextBlockArduinoStatus.Text = "Arduino nicht verbunden";
+                            TextBlockArduinoStatus.Text = "[A]: Connect Arduino";
                             ComboBoxSerial.IsEnabled = true;
                         });
                         if (_serialPort.IsOpen)
@@ -137,7 +137,7 @@ namespace schule_als_staat_qr_scanner
                 {
                     // timeout logic
                     cts.Cancel();
-                    TextBlockArduinoStatus.Text = "Arduino nicht verbunden";
+                    TextBlockArduinoStatus.Text = "[A]: Connect Arduino";
                     ComboBoxSerial.IsEnabled = true;
                     if (_serialPort.IsOpen)
                     {
@@ -214,11 +214,11 @@ namespace schule_als_staat_qr_scanner
                 }
                 catch (Exception)
                 {
-                    TextBlockArduinoStatus.Text = "Arduino nicht verbunden";
+                    TextBlockArduinoStatus.Text = "[A]: Connect Arduino";
                 }
                 finally
                 {
-                    TextBlockArduinoStatus.Text = "Arduino nicht verbunden";
+                    TextBlockArduinoStatus.Text = "[A]: Connect Arduino";
                     ComboBoxSerial.IsEnabled = true;
                 }
             }
