@@ -19,6 +19,16 @@ class IdCardsHtmlBuilder extends BaseHtmlBuilder {
         return "../favicon.ico";
     }
 
+    static head(title, styleSheets, other = "") {
+        const disableCaching = `
+            <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+            <meta http-equiv="Pragma" content="no-cache" />
+            <meta http-equiv="Expires" content="0" />
+            `;
+
+        return super.head(title, styleSheets, disableCaching + other);
+    }
+
     /**
      * This method wraps the HTML of the id cards inside a container and returns the result.
      * @param {string} idCards - the HTML of the id cards
@@ -33,7 +43,7 @@ class IdCardsHtmlBuilder extends BaseHtmlBuilder {
 
     /**
      * This method builds the HTML for all id cards, which contain the person's data and the QR code and returns it.
-     * @param {Array<{firstName: string, lastName: string, className: string, colorCode: string}>} people - An Array of the people that are used to generate the id-cards 
+     * @param {Array<{firstName: string, lastName: string, className: string, colorCode: string}>} people - An Array of the people that are used to generate the id-cards
      * @param {Array<object>} qrCodes - An Array of the QR codes of the people
      * @returns The HTML for all id cards as string
      */

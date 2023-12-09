@@ -38,9 +38,10 @@ class BaseHtmlBuilder {
      * This methods builds an HTML head that contains the specified title and the stylesheets and returns it
      * @param {string} title - The title for the website. It is shown at tabs.
      * @param {Array<string>} styleSheets - A array of stylesheets for the website
+     * @param {string} other - Other HTML that belongs in the head
      * @returns A string that contains a default HTML head
      */
-    static head(title, styleSheets) {
+    static head(title, styleSheets, other = "") {
         let head = `
             <head>
                 <meta charset="UTF-8"/>
@@ -52,6 +53,7 @@ class BaseHtmlBuilder {
         for (const styleSheet of styleSheets) {
             head += `<link rel="stylesheet" href="${styleSheet}"/>`;
         }
+        head += other
         return (head += `</head>`);
     }
 
