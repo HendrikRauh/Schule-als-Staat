@@ -10,8 +10,6 @@
 | Green  | Data Matrix           |
 | Blue   | Data PIR              |
 
-> The colors should be without orange and white, but i did not have enough cables in the right colors.
-
 ---
 
 ## [Relay](https://funduinoshop.com/bauelemente/taster-und-schalter/relais/relaiskarte-1-kanal-5v/230v-fuer-arduino)
