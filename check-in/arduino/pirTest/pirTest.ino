@@ -1,6 +1,6 @@
 // This is a simple test program for the PIR
 
-#define PIR_PIN 6
+#define PIR_PIN 8
 #define LED_PIN 13
 
 void setup()

@@ -41,6 +41,6 @@ void loop()
     delay(500);
     matrix.fillScreen(matrix.Color(0, 0, 0));
     matrix.show();
-    delay(100);
+    delay(500);
   }
 }
