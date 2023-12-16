@@ -101,7 +101,7 @@ namespace schule_als_staat_qr_scanner
                 CancellationTokenSource cts = new CancellationTokenSource();
                 CancellationToken token = cts.Token;
 
-                Task task = Task.Run(() =>
+                Thread thread = new Thread(() =>
                 {
                     try
                     {
@@ -127,9 +127,11 @@ namespace schule_als_staat_qr_scanner
                             _serialPort.Close();
                         }
                     }
-                }, token);
+                });
 
-                if (await Task.WhenAny(task, Task.Delay(500)) == task)
+                thread.Start();
+
+                if (await Task.WhenAny(Task.Run(() => thread.Join()), Task.Delay(500)) == Task.Run(() => thread.Join()))
                 {
                     // task completed within timeout
                 }
@@ -143,6 +145,8 @@ namespace schule_als_staat_qr_scanner
                     {
                         _serialPort.Close();
                     }
+                    thread.Abort();
+                    throw new TimeoutException("Connection attempt timed out.");
                 }
             }
         }
@@ -168,10 +172,10 @@ namespace schule_als_staat_qr_scanner
                     // unnamedPorts[0] is likely the port you're looking for
                     _serialPort = new SerialPort(unnamedPorts[0]);
                 }
-        
+
                 // Clear existing RadioButtons
                 RadioButtonPanel.Children.Clear();
-        
+
                 // Create a RadioButton for each port
                 foreach (var port in allPorts)
                 {
@@ -182,7 +186,7 @@ namespace schule_als_staat_qr_scanner
                     };
                     radioButton.Checked += RadioButtonPort_Checked;
                     RadioButtonPanel.Children.Add(radioButton);
-        
+
                     // Check the RadioButton if it corresponds to a different COM port
                     if (unnamedPorts.Contains(port))
                     {
