@@ -1,0 +1,29 @@
+{
+  "name": "sals-server",
+  "version": "1.0.0",
+  "description": "Main management server for the SalS project.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HendrikRauh/Schule-als-Staat.git"
+  },
+  "keywords": [
+    "schule-als-staat"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HendrikRauh/Schule-als-Staat/issues"
+  },
+  "homepage": "https://github.com/HendrikRauh/Schule-als-Staat#readme",
+  "dependencies": {
+    "argon2": "^0.31.2",
+    "better-sqlite3": "^9.2.2",
+    "fast-csv": "^4.3.6",
+    "qrcode": "^1.5.3"
+  }
+}

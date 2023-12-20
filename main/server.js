@@ -23,6 +23,7 @@ const server = http.createServer(async (req, res) => {
     if (!result.isUrlSafe) {
         res.writeHead(403, { "Content-Type": "text/plain" });
         res.end("Access denied");
+        console.log(result)
         return;
     }
 
@@ -35,9 +36,9 @@ const server = http.createServer(async (req, res) => {
     // ---------------------------------
     try {
         if (req.method === "POST") {
-            handlePostRequests(safeUrl, req, res);
+            await handlePostRequests(safeUrl, req, res);
         } else {
-            handleGetRequests(safeUrl, pathString, res);
+            await handleGetRequests(safeUrl, pathString, req, res);
         }
     } catch (error) {
         console.error(error);
@@ -55,9 +56,10 @@ server.listen(3000, () => {
  * This function handles GET requests and responds with resource files that are listed
  * in `allowedFileTypes` or HTML websites which are listed in `allowedPaths`.
  * @param {string} safeUrl - The requested url which has to be checked for attacks
+ * @param {http.IncomingMessage} req - The original request
  * @param {http.ServerResponse} res - The response of the GET request
  */
-async function handleGetRequests(safeUrl, pathString, res) {
+async function handleGetRequests(safeUrl, pathString, req, res) {
     // Handling resource files that are specified in allowedFileTypes
     const key = [...allowedFileTypes.keys()].find((fileType) => {
         return pathString.endsWith(fileType);
@@ -77,7 +79,28 @@ async function handleGetRequests(safeUrl, pathString, res) {
     // Handling URLs that are listed in allowedPaths
     else if (allowedPaths.includes(safeUrl)) {
         const index = require(".\\" + safeUrl + "index");
+
+        if(index.authenticate != null) { // If an authentication method is provided by the end point, use it.
+            let fallthrough = true;
+            if(req.headers.authorization != null) {
+                let authorization = (req.headers.authorization || "").split(" "); // Parse Authorization header
+                if(authorization.length >= 2 && authorization[0] === "Basic") {
+                    try {
+                        let data = atob(authorization[1]).split(":");
+                        fallthrough = !await index.authenticate(data[0], data[1]) // If credentials are accepted, disable fallthrough. Otherwise, continue.
+                    } catch (e) {/* Bad base64 in Authorization header */}
+                }
+            }
+            if(fallthrough) { // Simplifies code flow
+                res.setHeader("WWW-Authenticate", `Basic realm="SalS Admin"`) // @todo: consider the safety of basic auth
+                res.writeHead(401, { "Content-Type": "text/plain" }); // @todo: unify server error handling
+                res.end("Unauthorized.");
+                return;
+            }
+        }
+
         const html = await index.getHtml();
+
 
         res.writeHead(200, { "Content-Type": "text/html" });
         res.end(html);
@@ -85,7 +108,7 @@ async function handleGetRequests(safeUrl, pathString, res) {
     // Handling other URLs
     else {
         res.writeHead(404, { "Content-Type": "text/plain" });
-        res.end("404 - Not Found");
+        res.end("Not Found");
     }
 }
 
@@ -96,7 +119,7 @@ async function handleGetRequests(safeUrl, pathString, res) {
  * @param {http.IncomingMessage} req - The POST request
  * @param {http.ServerResponse} res - The response of the POST request
  */
-function handlePostRequests(safeUrl, req, res) {
+async function handlePostRequests(safeUrl, req, res) {
     let body = "";
     req.on("data", (data) => {
         body += data;
@@ -139,7 +162,8 @@ function checkUrl(url) {
     if (url.indexOf("/0") !== -1) {
         return resultNotSafe;
     }
-    // prevent access of parent folder
+
+    // prevent access of parent folder or usage of any non-alphanumeric characters
     if (!/^[a-z0-9-/]+[\.]?[a-z0-9]*$/.test(url)) {
         return resultNotSafe;
     }

@@ -3,14 +3,23 @@
  */
 
 const Database = require("./database.js");
+const db = new Database("DATA.db");
 
-const peopleTable = new Database("DATA.db").People;
+const peopleTable = db.People;
+const adminTable = db.Admins;
 
-peopleTable.createPeopleTable();
+async function main() {
+    peopleTable.createPeopleTable();
+    adminTable.createAdminTable();
 
-peopleTable.insertPerson("Raffael", "Wolf", "J1", "");
-peopleTable.insertPerson("Denis", "Ortlieb", "Lehrer", "LEITUNG");
-peopleTable.insertPerson("Hendrik", "Rauh", "J1", "ERSTHELFER");
-peopleTable.insertPerson("Alexander", "Becher", "BKZ", "EXTERN");
+    peopleTable.insertPerson("Raffael", "Wolf", "J1", "");
+    peopleTable.insertPerson("Denis", "Ortlieb", "Lehrer", "LEITUNG");
+    let admin = peopleTable.insertPerson("Hendrik", "Rauh", "J1", "ERSTHELFER");
+    peopleTable.insertPerson("Alexander", "Becher", "BKZ", "EXTERN");
 
-console.log("Database created and populated successfully.");
+    await adminTable.insertAdmin("hendrik", "test2323", admin)
+
+    console.log("Database created and populated successfully.");
+
+}
+main();

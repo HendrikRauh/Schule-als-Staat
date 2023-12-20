@@ -9,11 +9,15 @@
  * - Attendance: contains methods for creating a attendance table,
  *               checking an person in and out by their Id,
  *               and retrieve by Id whether a person is checked in.
+ *
+ * - Admins: contains methods for creating the admin table,
+ *           finding them by their name, and verifying login
  */
 
 const sqlite3 = require("better-sqlite3");
 const generateHash = require("./id-cards/hashing");
 const fs = require("fs");
+const argon = require("argon2");
 
 const salt = fs.readFileSync("salt.key", "utf8").trim();
 
@@ -27,8 +31,56 @@ class Database {
 
         this.People = new TablePeople(this.db);
         this.Attendance = new TableAttendance(this.db);
+        this.Admins = new TableAdmins(this.db);
     }
 }
+
+// @todo: admin table is cursed
+/**
+ * This class represents the table `admins`.
+ * Columns: `id` | `authName` | `argonPass` | `personId`
+ */
+class TableAdmins {
+    constructor(database) {
+        this.db = database;
+    }
+
+    /**
+     * Create the table if it doesn't exist already.
+     */
+    createAdminTable() {
+        this.db
+            .prepare(
+                "CREATE TABLE IF NOT EXISTS admins (id INTEGER PRIMARY KEY AUTOINCREMENT, authName TEXT, argonPass TEXT, personId TEXT)" /* No foreign key constraint because I'm not ready to fight SQLite */
+            )
+            .run();
+    }
+
+    /**
+     * Asynchronous method that creates a new admin account.
+     * Has to be linked to an entry in the people table
+     * @param username Username
+     * @param password Their password
+     * @param person The ID of their affiliated person entry
+     */
+    async insertAdmin(username, password, person) {
+        let crypt = await argon.hash(password);
+        this.db
+            .prepare(
+                `INSERT OR REPLACE INTO admins (authName, argonPass, personId) VALUES (?, ?, ?)`
+            )
+            .run(username, crypt, person);
+    }
+
+    async verifyAdmin(username, password) {
+        const stmt = this.db.prepare("SELECT argonPass FROM admins WHERE authName = ?");
+        const admin = stmt.get(username);
+        if(admin == null)
+            return false;
+        return argon.verify(admin.argonPass, password);
+    }
+}
+
 
 /**
  * This class represents the table `people`.
@@ -57,6 +109,7 @@ class TablePeople {
      * @param {string} className - The class that the person belongs to
      * @param {string} colorCode - The person's role which will be represented by a colored border on the id card;
      *                             one of the values: `LEITUNG`, `ERSTHELFER`, `EXTERN`; can be empty
+     * @return Returns generated ID associated with database entry.
      */
     insertPerson(firstName, lastName, className, colorCode) {
         const id = generateHash(`${firstName}${salt}${lastName}${salt}${className}`);
@@ -65,6 +118,7 @@ class TablePeople {
                 `INSERT OR REPLACE INTO people (id, firstName, lastName, className, colorCode) VALUES (?, ?, ?, ?, ?)`
             )
             .run(id, firstName, lastName, className, colorCode);
+        return id;
     }
 
     /**

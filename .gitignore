@@ -1,12 +1,20 @@
-package-lock.json
-package.json
-node_modules
-DATA.db
-Backup
-*.key
+# IDEs
 .vs
 .vscode
+
+.idea
+
+# NodeJS
+node_modules
+package-lock.json
+
+# Operational data
+DATA.db
+Backup
+mbg_schuelerliste*
+*.key
 *.cache
+
+# QR-Scanner project
 qr-scanner/schule-als-staat-qr-scanner/bin
 qr-scanner/schule-als-staat-qr-scanner/obj
-mbg_schuelerliste*
