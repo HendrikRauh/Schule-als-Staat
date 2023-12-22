@@ -102,6 +102,6 @@ body {
 /* Rules for print layout */
 @media print {
     div#idCard {
-        break-inside: avoid-page;
+        page-break-inside: avoid;
     }
 }
