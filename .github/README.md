@@ -6,6 +6,7 @@
 - [better-sqlite3](https://github.com/WiseLibs/better-sqlite3), a fast and simple library for SQLite3 in Node.js
 - [fast-csv](https://github.com/C2FO/fast-csv), a library for parsing and formatting CSV-files or any other delimited value file in Node.js
 - [node-qrcode](https://github.com/soldair/node-qrcode), a library for generating QR codes
+- [argon2](https://github.com/ranisalt/node-argon2), a password hashing library that implements the cryptographic password hashing function Argon2, winner of the Password Hashing Competition.
 
 ## Task management
 
