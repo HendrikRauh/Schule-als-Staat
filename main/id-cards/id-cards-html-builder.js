@@ -64,7 +64,7 @@ class IdCardsHtmlBuilder extends BaseHtmlBuilder {
     static idCard(person, qrCode) {
         return `
             <div id="idCard" style="--border-color: ${getColor(person.colorCode)};">
-                <div id="title">Schule als Staat</div>
+                <div id="title">United States of Max Born</div>
                 <div id="content">
                 <div id="leftSection">
                     <img id="logo" src="mbg-logo-building.svg" alt="Logo of the MBG"/>

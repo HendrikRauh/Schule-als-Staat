@@ -7,7 +7,7 @@
 
 /* Body */
 body {
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: "Lato", Arial, Helvetica, sans-serif;
 }
 
 /* Container for ID cards */
@@ -22,8 +22,8 @@ body {
     flex-direction: column;
     justify-content: space-between;
     box-sizing: border-box;
-    width: 86mm;
-    height: 54mm;
+    width: 90mm;
+    height: 60mm;
     margin: 0.5mm;
     padding: 0.75mm;
     background-color: var(--background-color);
@@ -58,7 +58,7 @@ body {
 /* ID card title */
 #title {
     color: var(--font-color);
-    font-size: 7.5mm;
+    font-size: 7mm;
     text-align: center;
     text-decoration: underline;
     margin-bottom: 2.5mm;
