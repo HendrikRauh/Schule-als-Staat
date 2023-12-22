@@ -5,13 +5,14 @@ const path = require("path");
 const queryString = require("querystring");
 
 // remember to escape backslashes in paths
-const allowedPaths = ["", "id-cards\\"];
+const allowedPaths = ["", "id-cards\\", "id-cards\\resource\\font\\lato\\"];
 
 // allowed file type + MIME type
 const allowedFileTypes = new Map([
     [".css", "text/css"],
     [".svg", "image/svg+xml"],
     [".ico", "image/x-icon"],
+    [".ttf", "font/ttf"],
 ]);
 
 // JavaScript files that are APIs and are allowed to be reached from outside

@@ -34,7 +34,7 @@ module.exports.getHtml = async function () {
     );
 
     const html = IdCardsHtmlBuilder.html(
-        IdCardsHtmlBuilder.head("Ausweisgenerator", ["style.css", "https://fonts.googleapis.com/css?family=Lato&display=swap"]),
+        IdCardsHtmlBuilder.head("Ausweisgenerator", ["style.css"]),
         IdCardsHtmlBuilder.body(
             IdCardsHtmlBuilder.idCardsContainer(IdCardsHtmlBuilder.allIdCards(people, qrCodes))
         )

@@ -1,3 +1,11 @@
+/* Define font variables */
+@font-face {
+    font-family: 'Lato';
+    src: url('/id-cards/resource/font/lato/Lato-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* Define color variables */
 :root {
     --font-color: rgb(0, 0, 0);
